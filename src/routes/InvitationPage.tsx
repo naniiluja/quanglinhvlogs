@@ -8,6 +8,8 @@ import { Couple } from '@/features/invitation/Couple'
 import { Cover } from '@/features/invitation/Cover'
 import { Event } from '@/features/invitation/Event'
 import { Family } from '@/features/invitation/Family'
+import { Gallery } from '@/features/invitation/Gallery'
+import { GiftQr } from '@/features/invitation/GiftQr'
 import { InvitationMessage } from '@/features/invitation/InvitationMessage'
 import { RsvpSection } from '@/features/invitation/RsvpSection'
 import { Timeline } from '@/features/invitation/Timeline'
@@ -52,6 +54,8 @@ export function InvitationPage() {
           <Countdown />
           <Timeline />
           <Venue />
+          <Gallery />
+          <GiftQr />
           <RsvpSection code={code} invitation={invitation.data} loading={invitation.isLoading} />
         </div>
       </main>

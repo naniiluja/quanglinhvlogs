@@ -35,6 +35,21 @@ export interface Venue {
   note: string
 }
 
+export interface Photo {
+  src: string
+  width: number
+  height: number
+  alt: string
+}
+
+export interface GiftAccount {
+  label: string
+  bankBin: string
+  bankName: string
+  accountNumber: string
+  accountName: string
+}
+
 export interface WeddingConfig {
   groom: Person
   bride: Person
@@ -44,6 +59,8 @@ export interface WeddingConfig {
   countdownTarget: string
   timeline: TimelineItem[]
   venues: Venue[]
+  gallery: Photo[]
+  giftAccounts: GiftAccount[]
 }
 
 export const WEDDING: WeddingConfig = {
@@ -113,6 +130,43 @@ export const WEDDING: WeddingConfig = {
       address: 'Quận 1, TP. Hồ Chí Minh', // MOCK
       timeRange: '11:00 đến 14:00', // MOCK
       note: 'Có chỗ gửi xe miễn phí.', // MOCK
+    },
+  ],
+  gallery: [
+    {
+      src: '/images/gallery/couple.jpg',
+      width: 580,
+      height: 604,
+      alt: 'Quang Linh và Thanh Trúc cười bên nhau cùng bó hoa hồng',
+    },
+    {
+      src: '/images/gallery/bouquet.jpg',
+      width: 410,
+      height: 480,
+      alt: 'Hai bàn tay cùng giữ bó hoa hồng phấn',
+    },
+    {
+      src: '/images/gallery/flowers.jpg',
+      width: 450,
+      height: 600,
+      alt: 'Bàn hoa lễ với hoa hồng, đồng tiền và chữ song hỷ',
+    },
+  ],
+  // Số tài khoản giả, KHÔNG phải tài khoản thật (repo công khai, product.md).
+  giftAccounts: [
+    {
+      label: 'Mừng cưới chú rể',
+      bankBin: '970436', // MOCK
+      bankName: 'Vietcombank', // MOCK
+      accountNumber: '0123456789', // MOCK
+      accountName: 'PHAM QUANG LINH', // MOCK
+    },
+    {
+      label: 'Mừng cưới cô dâu',
+      bankBin: '970407', // MOCK
+      bankName: 'Techcombank', // MOCK
+      accountNumber: '9876543210', // MOCK
+      accountName: 'TRAN THANH TRUC', // MOCK
     },
   ],
 }
