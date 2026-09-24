@@ -41,7 +41,7 @@ Cột "Gate" bên dưới chỉ ghi phần **riêng** của từng task, cộng 
 | 006 | Trang admin: đăng nhập, khách, thống kê | DB + service + UI | Người không phải admin (kể cả `authenticated`) bị RLS từ chối; thêm, sửa, xóa, sao chép link chạy | 005 | blocked |
 | 007 | Sổ lưu bút | DB + service + UI | Giới hạn 3 lời chúc mỗi khách và 500 ký tự đúng; admin xóa được lời chúc | 006 | in-review |
 | 008 | Nhạc nền | UI | Nhạc phát sau khi bấm "Mở thiệp", nút bật tắt phản ánh đúng thực tế; thử trên điện thoại thật | 007 | blocked |
-| 009 | Hoàn thiện và phát hành | UI + DB + hosting | Meta chia sẻ đúng, Lighthouse mobile được ghi lại, dữ liệu `[TEST]` đã dọn, luồng đầy đủ chạy qua Zalo trên điện thoại thật | 008 | in-progress |
+| 009 | Hoàn thiện và phát hành | UI + DB + hosting | Meta chia sẻ đúng, Lighthouse mobile được ghi lại, dữ liệu `[TEST]` đã dọn, luồng đầy đủ chạy qua Zalo trên điện thoại thật | 008 | blocked |
 
 ## Rủi ro đã biết
 - **Supabase Free tạm dừng sau 7 ngày không hoạt động**: thiệp sẽ hỏng nếu project bị pause. Xử lý ở task 009.
@@ -49,3 +49,11 @@ Cột "Gate" bên dưới chỉ ghi phần **riêng** của từng task, cộng 
 - **Nhạc nền có bản quyền**: bài nhạc nổi tiếng trên trang công khai có rủi ro bản quyền; ưu tiên nhạc miễn phí bản quyền hoặc bài do chủ dự án chịu trách nhiệm (task 008).
 - **Ảnh gốc có chữ "Lễ dạm ngõ" và ngày `20.09.2026`** chồng lên người cô dâu; khi cắt có thể phải cắt sát hơn dự tính (task 002).
 - **Xem trước link trên Zalo hoặc Facebook** không thể riêng cho từng khách vì web tĩnh (task 009).
+
+## Việc chờ chủ dự án (cập nhật 2026-09-24)
+Các task `blocked` đã xong phần code và kiểm chứng tự động, chỉ còn bước Claude không tự làm được:
+- 001, 009: nối repo GitHub với Cloudflare Pages (project `quanglinh-thanhtruc`, build `npm run build`, output `dist`, thêm biến `VITE_SUPABASE_URL` và `VITE_SUPABASE_PUBLISHABLE_KEY`), rồi Claude kiểm tra bản `pages.dev`.
+- 006: tắt đăng ký công khai trong Supabase Auth (hiện `disable_signup = false`), tạo tài khoản admin trong dashboard, báo email để Claude thêm vào bảng `admins`.
+- 008, 009: thử nhạc và luồng đầy đủ trên điện thoại thật qua Zalo.
+- 009: thay dữ liệu `// MOCK` bằng dữ liệu thật; xóa dữ liệu `[TEST]` sau khi thử xong.
+
