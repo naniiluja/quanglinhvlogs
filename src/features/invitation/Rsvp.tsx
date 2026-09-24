@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { toast } from 'sonner'
 import * as z from 'zod'
-import { BlurFade } from '@/components/ui/blur-fade'
+import { Reveal } from '@/components/effects/Reveal'
 import { Button } from '@/components/ui/button'
 import {
   Field,
@@ -79,7 +79,7 @@ export function Rsvp({ code, initial }: RsvpProps) {
 
   if (!editing && saved) {
     return (
-      <BlurFade inView className="rounded-2xl border border-border bg-cream/70 px-6 py-8">
+      <Reveal inView className="rounded-2xl border border-border bg-cream/70 px-6 py-8">
         <p className="font-script text-5xl text-mauve">Cảm ơn bạn</p>
         <p className="mt-4 text-ink">
           {saved.attending
@@ -93,7 +93,7 @@ export function Rsvp({ code, initial }: RsvpProps) {
         >
           Sửa lại câu trả lời
         </Button>
-      </BlurFade>
+      </Reveal>
     )
   }
 

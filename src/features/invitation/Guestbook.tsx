@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Send } from 'lucide-react'
 import { toast } from 'sonner'
-import { BlurFade } from '@/components/ui/blur-fade'
+import { Reveal } from '@/components/effects/Reveal'
 import { Button } from '@/components/ui/button'
 import { FieldDescription } from '@/components/ui/field'
 import { Textarea } from '@/components/ui/textarea'
@@ -10,6 +10,7 @@ import { useAddGuestbookEntry, useGuestbook } from '@/hooks/useGuestbook'
 import { formatShortDate } from '@/lib/datetime'
 import { GUESTBOOK_LIMIT_PER_GUEST, GUESTBOOK_MESSAGE_MAX } from '@/services/guestbook'
 import type { Invitation } from '@/services/invitation'
+import { NextSectionButton } from '@/features/invitation/NextSectionButton'
 
 function GuestbookForm({ code, sentCount }: { code: string; sentCount: number }) {
   const [message, setMessage] = useState('')
@@ -73,10 +74,10 @@ export function Guestbook({ code, invitation }: GuestbookProps) {
   const entries = useGuestbook()
 
   return (
-    <section aria-labelledby="guestbook-title" className="px-4 py-16">
+    <section aria-labelledby="guestbook-title" className="section-screen">
       <SectionHeading id="guestbook-title" eyebrow="Sổ lưu bút" title="Lời chúc gửi hai đứa" />
 
-      <div className="mt-8">
+      <div className="mx-auto mt-8 w-full max-w-2xl">
         {code && invitation ? (
           <GuestbookForm code={code} sentCount={invitation.guestbookCount} />
         ) : (
@@ -86,7 +87,7 @@ export function Guestbook({ code, invitation }: GuestbookProps) {
         )}
       </div>
 
-      <div className="mt-8 max-h-120 space-y-3 overflow-y-auto pr-1">
+      <div className="mx-auto mt-8 max-h-120 w-full max-w-2xl space-y-3 overflow-y-auto pr-1">
         {entries.isLoading && (
           <div className="h-24 animate-pulse rounded-xl bg-muted" aria-label="Đang tải" />
         )}
@@ -99,7 +100,7 @@ export function Guestbook({ code, invitation }: GuestbookProps) {
           <p className="text-center text-sage-deep italic">Hãy là người đầu tiên gửi lời chúc.</p>
         )}
         {entries.data?.map((entry, index) => (
-          <BlurFade key={`${entry.createdAt}-${index}`} inView delay={Math.min(index, 5) * 0.05}>
+          <Reveal key={`${entry.createdAt}-${index}`} inView delay={Math.min(index, 5) * 0.05}>
             {/* Hiển thị văn bản thuần, React tự escape; không dùng dangerouslySetInnerHTML (task 007). */}
             <figure className="rounded-xl border border-border bg-cream/70 px-4 py-3">
               <blockquote className="leading-relaxed break-words whitespace-pre-line text-ink">
@@ -109,9 +110,10 @@ export function Guestbook({ code, invitation }: GuestbookProps) {
                 {entry.authorName} · {formatShortDate(entry.createdAt)}
               </figcaption>
             </figure>
-          </BlurFade>
+          </Reveal>
         ))}
       </div>
+      <NextSectionButton />
     </section>
   )
 }

@@ -19,8 +19,8 @@
 - `src/routes/`: hai trang `InvitationPage`, `AdminPage` và router.
 - `src/features/invitation/`: các section của thiệp (Cover, Couple, Event, Countdown, Venue, Gallery, GiftQr, Rsvp, Guestbook, MusicToggle).
 - `src/features/admin/`: màn hình quản trị.
-- `src/components/ui/`: file do shadcn và registry bên thứ ba sinh, không sửa tay (`blur-fade.tsx`, `noise-texture.tsx`, `button.tsx`...).
-- `src/components/effects/`: lớp bọc cấu hình hiệu ứng của thư viện (`PetalsFall.tsx` bọc tsParticles).
+- `src/components/ui/`: file do shadcn và registry bên thứ ba sinh, không sửa tay (`blur-fade.tsx`, `button.tsx`...).
+- `src/components/effects/`: lớp bọc cấu hình hiệu ứng của thư viện (`PetalsFall.tsx` bọc tsParticles, `Reveal.tsx` bọc BlurFade).
 - `src/config/wedding.ts`: toàn bộ nội dung sự kiện, tài khoản mừng cưới, đường dẫn ảnh.
 - `src/services/`: `invitation.ts`, `rsvp.ts`, `guestbook.ts`, `admin.ts`.
 - `src/hooks/`: hook react-query, tên `useXxx.ts`.

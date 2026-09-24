@@ -36,7 +36,7 @@ Nguồn thiết kế: **chưa có bản Claude Design**, giao diện do Claude t
 Khai báo biến trong `:root` ở `src/index.css`, dùng bằng `z-(--layer-...)`; không viết số `z-index` rời rạc.
 | Biến | Giá trị | Lớp |
 | --- | --- | --- |
-| `--layer-background` | 0 | Nền kem và vân giấy (`NoiseTexture`, cố định) |
+| `--layer-background` | 0 | Nền kem và vân giấy (ảnh nền lát ô trên `body`) |
 | `--layer-decor` | 10 | Hoa lá trang trí ở góc và mép section, parallax |
 | `--layer-petals` | 15 | Canvas hoa rơi (`fullScreen.zIndex` của tsParticles phải khớp số này) |
 | `--layer-content` | 20 | Chữ, ảnh, form; nền section trong suốt hoặc bán trong suốt để không che hoa |
@@ -46,12 +46,14 @@ Khai báo biến trong `:root` ở `src/index.css`, dùng bằng `z-(--layer-...
 ## Bố cục
 - Thiết kế mobile trước, kiểm ở 390px; nội dung tối đa khoảng 480px chiều ngang trên màn lớn để giữ cảm giác một tấm thiệp, phần nền trang trí có thể rộng hơn.
 - Lề hai bên 16px, không cuộn ngang. Vùng chạm tối thiểu 44x44px.
-- Mỗi section chiếm nhịp thở riêng (khoảng cách dọc rộng), một ý một section.
+- Mỗi section là một "trang": lớp `section-screen` (đủ `100svh`, nội dung giữa, `scroll-snap-align: start`; `html` có `scroll-snap-type: y proximity`). Chủ dự án góp ý 2026-09-24: hai section chung một màn hình và bị cắt trông khó chịu.
+- Responsive từ điện thoại tới máy tính: `main` rộng `max-w-120`, `md:max-w-3xl`, `lg:max-w-5xl`; bìa chia 2 cột ở `lg`, các danh sách thẻ (Couple, Event, Venue) 2 cột và Gallery 3 cột từ `md`. Kiểm ở 390px và 1280px.
+- Mỗi section (trừ bìa và Cảm ơn) có `NextSectionButton` ở đáy: lướt sang section kế. Mũi tên của nút này và nút "Mở thiệp" nảy bằng `motion-safe:animate-bounce` có sẵn của Tailwind, không tự viết keyframes.
 
 ## Chuyển động (Motion)
 - Hiệu ứng lấy từ thư viện bên thứ ba, không tự chế (xem `tech-stack.md`).
-- Chỉ animate `transform` và `opacity`; không animate `top`, `left`, `width`, `height`. Ngoại lệ: `filter: blur` trong hiệu ứng xuất hiện một lần của component bên thứ ba (`BlurFade`).
-- Hoa rơi: `PetalsFall` (tsParticles), tối đa 18 cánh cùng lúc, khác nhau về cỡ, độ mờ, tốc độ, góc xoay; `pointer-events: none`, nằm sau nội dung.
+- Chỉ animate `transform` và `opacity`; không animate `top`, `left`, `width`, `height`. Không animate hay để lại `filter` và `backdrop-filter` trên phần tử nội dung: Safari không đưa filter lên compositor (motion.dev/docs/performance), iPhone giật khi cuộn.
+- Hoa rơi: `PetalsFall` (tsParticles), tối đa 18 cánh (10 cánh dưới 768px; tắt retina khi DPR > 2, theo mẫu hiệu năng trong docs tsParticles; `fpsLimit: 120`, không hạ xuống 60 hay 30 vì bộ giới hạn bỏ nhầm khung làm hoa khựng), khác nhau về cỡ, độ mờ, tốc độ, góc xoay; `pointer-events: none`, nằm sau nội dung.
 - Hiện dần khi xuất hiện hoặc khi cuộn: `BlurFade` (thêm `inView` để chỉ chạy khi cuộn tới).
 - Parallax nhẹ bằng `useScroll` và `useTransform`, chỉ ở bìa và một hai chỗ chọn lọc.
 - **Tôn trọng giảm chuyển động**: `App` bọc `MotionConfig reducedMotion="user"`, nên mọi hiệu ứng Motion tự bỏ phần dịch chuyển; `PetalsFall` tự tắt bằng `useReducedMotion()`. Nội dung vẫn hiện đủ.

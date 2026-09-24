@@ -21,7 +21,7 @@ Tham khảo bố cục mẫu "Parallax lãng mạn" trên ngaychungdoi.com (ch�
 8. Địa điểm: bấm vào mở Google Maps (`https://www.google.com/maps/search/?api=1&query=<địa chỉ đã mã hóa>`).
 9. Album ảnh, xem phóng to.
 10. Sổ lưu bút.
-11. Mừng cưới: mã QR VietQR và số tài khoản.
+11. Mừng cưới: **một** mã QR VietQR và số tài khoản (chủ dự án chốt 2026-09-24).
 12. Xác nhận tham dự (RSVP).
 13. Lời cảm ơn.
 

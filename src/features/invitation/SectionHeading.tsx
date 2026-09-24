@@ -1,4 +1,4 @@
-import { BlurFade } from '@/components/ui/blur-fade'
+import { Reveal } from '@/components/effects/Reveal'
 
 interface SectionHeadingProps {
   id: string
@@ -10,9 +10,9 @@ interface SectionHeadingProps {
 // Tiêu đề thống nhất cho mọi section của thiệp.
 export function SectionHeading({ id, eyebrow, title, description }: SectionHeadingProps) {
   return (
-    <BlurFade inView className="text-center">
+    <Reveal inView className="text-center">
       <p className="font-serif text-sm tracking-[0.35em] text-sage-deep uppercase">{eyebrow}</p>
-      <h2 id={id} className="mt-2 font-serif text-3xl font-semibold text-ink">
+      <h2 id={id} className="mt-2 font-serif text-3xl font-semibold text-ink md:text-4xl">
         {title}
       </h2>
       <img
@@ -24,7 +24,9 @@ export function SectionHeading({ id, eyebrow, title, description }: SectionHeadi
         loading="lazy"
         className="mx-auto mt-3 opacity-80"
       />
-      {description && <p className="mx-auto mt-3 max-w-80 text-sage-deep">{description}</p>}
-    </BlurFade>
+      {description && (
+        <p className="mx-auto mt-3 max-w-80 text-sage-deep md:max-w-md">{description}</p>
+      )}
+    </Reveal>
   )
 }

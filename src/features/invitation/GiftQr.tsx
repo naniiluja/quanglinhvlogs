@@ -2,12 +2,13 @@ import { useState } from 'react'
 import { Copy } from 'lucide-react'
 import { toast } from 'sonner'
 import { LazyLightbox } from '@/components/effects/LazyLightbox'
-import { BlurFade } from '@/components/ui/blur-fade'
+import { Reveal } from '@/components/effects/Reveal'
 import { Button } from '@/components/ui/button'
 import { WEDDING, type GiftAccount } from '@/config/wedding'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
 import { log } from '@/lib/log'
 import { buildVietQrUrl } from '@/lib/vietqr'
+import { NextSectionButton } from '@/features/invitation/NextSectionButton'
 
 function AccountCard({ account, onZoom }: { account: GiftAccount; onZoom: (src: string) => void }) {
   const [qrFailed, setQrFailed] = useState(false)
@@ -71,20 +72,16 @@ export function GiftQr() {
   const [zoomSrc, setZoomSrc] = useState<string | null>(null)
 
   return (
-    <section aria-labelledby="gift-title" className="px-4 py-16">
+    <section aria-labelledby="gift-title" className="section-screen">
       <SectionHeading
         id="gift-title"
         eyebrow="Mừng cưới"
         title="Hộp mừng cưới"
         description="Sự hiện diện của bạn là món quà ý nghĩa nhất. Nếu muốn gửi lời chúc, bạn có thể quét mã bên dưới."
       />
-      <div className="mt-8 space-y-6">
-        {WEDDING.giftAccounts.map((account, i) => (
-          <BlurFade key={account.accountNumber} inView delay={i * 0.15}>
-            <AccountCard account={account} onZoom={setZoomSrc} />
-          </BlurFade>
-        ))}
-      </div>
+      <Reveal inView className="mx-auto mt-8 w-full max-w-sm">
+        <AccountCard account={WEDDING.giftAccount} onZoom={setZoomSrc} />
+      </Reveal>
 
       <LazyLightbox
         open={zoomSrc !== null}
@@ -100,6 +97,7 @@ export function GiftQr() {
           },
         }}
       />
+      <NextSectionButton />
     </section>
   )
 }

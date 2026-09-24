@@ -28,7 +28,7 @@ Triết lý: chọn stack **ổn định, phổ biến, ít lỗi nhất**; mỗ
 
 ## Hiệu ứng: chỉ dùng thư viện bên thứ ba, không tự chế
 Chủ dự án yêu cầu ngày 2026-09-24: hiệu ứng lấy từ thư viện hoặc registry có sẵn, không tự viết animation hay tự vẽ hình trang trí.
-- Hiệu ứng UI: component của registry shadcn bên thứ ba, khai báo trong `components.json` (`@magicui`, `@react-bits`, `@motion-primitives`, `@aceternity`), thêm bằng `npx shadcn@latest add @<registry>/<tên>` hoặc shadcn MCP. Đang dùng: `@magicui/blur-fade` (hiện dần), `@magicui/noise-texture` (vân giấy).
+- Hiệu ứng UI: component của registry shadcn bên thứ ba, khai báo trong `components.json` (`@magicui`, `@react-bits`, `@motion-primitives`, `@aceternity`), thêm bằng `npx shadcn@latest add @<registry>/<tên>` hoặc shadcn MCP. Đang dùng: `@magicui/blur-fade` (hiện dần), luôn gọi qua `src/components/effects/Reveal.tsx` (bỏ blur, chỉ opacity + transform). Vân giấy là ảnh nền SVG lát ô 160px trong `src/index.css`, cùng thông số `@magicui/noise-texture`; không dùng lại component SVG phủ màn hình (iPhone vẽ lại mỗi lần cuộn, giật).
 - Hoa rơi: tsParticles (`@tsparticles/react` + `basic`, `shape-image`, `updater-rotate`, `updater-tilt`, `updater-wobble`). Không dùng `@tsparticles/slim` (kèm hơn chục tương tác chuột không cần).
 - Ảnh trang trí: bộ Fluent Emoji 3D của Microsoft (MIT), ghi nguồn trong `LICENSE.txt` cạnh ảnh.
 - Chuyển động còn lại (parallax, cuộn) dùng API của Motion (`motion/react`), không tự viết vòng lặp `requestAnimationFrame` hay keyframes CSS.

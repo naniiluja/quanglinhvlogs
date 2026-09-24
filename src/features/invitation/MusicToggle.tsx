@@ -11,7 +11,7 @@ export function MusicToggle() {
       onClick={toggle}
       aria-pressed={playing}
       aria-label={playing ? 'Tắt nhạc nền' : 'Bật nhạc nền'}
-      className="fixed right-4 bottom-4 z-(--layer-floating) size-12 rounded-full border-bronze/60 bg-cream/90 text-bronze-deep shadow-md backdrop-blur"
+      className="fixed right-4 bottom-4 z-(--layer-floating) size-12 rounded-full border-bronze/60 bg-cream text-bronze-deep shadow-md"
     >
       {playing ? <Music aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
     </Button>

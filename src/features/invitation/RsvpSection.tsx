@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
 import type { Invitation } from '@/services/invitation'
+import { NextSectionButton } from '@/features/invitation/NextSectionButton'
 
 // Form (react-hook-form + zod) chỉ tải khi có khách hợp lệ.
 const Rsvp = lazy(() => import('@/features/invitation/Rsvp').then((m) => ({ default: m.Rsvp })))
@@ -14,7 +15,7 @@ interface RsvpSectionProps {
 // Chỉ khách có mã hợp lệ mới thấy form; mã sai và không mã hiện cùng một dòng nhắc (product.md).
 export function RsvpSection({ code, invitation, loading }: RsvpSectionProps) {
   return (
-    <section aria-labelledby="rsvp-title" className="px-4 py-16">
+    <section aria-labelledby="rsvp-title" className="section-screen">
       <SectionHeading
         id="rsvp-title"
         eyebrow="Hồi đáp"
@@ -22,7 +23,7 @@ export function RsvpSection({ code, invitation, loading }: RsvpSectionProps) {
         description="Bạn báo giúp hai đứa trước ngày cưới để tụi mình chuẩn bị đón tiếp chu đáo nhé."
       />
 
-      <div className="mt-8">
+      <div className="mx-auto mt-8 w-full max-w-xl">
         {loading ? (
           <div className="mx-auto h-64 animate-pulse rounded-2xl bg-muted" aria-label="Đang tải" />
         ) : code && invitation ? (
@@ -42,6 +43,7 @@ export function RsvpSection({ code, invitation, loading }: RsvpSectionProps) {
           </p>
         )}
       </div>
+      <NextSectionButton />
     </section>
   )
 }

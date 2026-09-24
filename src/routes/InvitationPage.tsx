@@ -1,6 +1,5 @@
 import { lazy, Suspense, useRef } from 'react'
 import { useSearchParams } from 'react-router'
-import { NoiseTexture } from '@/components/ui/noise-texture'
 import { WEDDING } from '@/config/wedding'
 import { Couple } from '@/features/invitation/Couple'
 import { Cover } from '@/features/invitation/Cover'
@@ -40,7 +39,6 @@ function InvitationContent() {
 
   return (
     <div className="relative min-h-svh overflow-hidden">
-      <NoiseTexture className="fixed z-(--layer-background) opacity-15" />
       {/* Khung fixed để lớp hoa rơi (tải lười) không bao giờ chiếm chỗ và đẩy nội dung (CLS). */}
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-(--layer-petals)">
         <Suspense fallback={null}>
@@ -49,7 +47,7 @@ function InvitationContent() {
       </div>
       <MusicToggle />
 
-      <main className="relative z-(--layer-content) mx-auto max-w-120">
+      <main className="relative z-(--layer-content) mx-auto max-w-120 md:max-w-3xl lg:max-w-5xl">
         <h1 className="sr-only">
           Thiệp cưới {WEDDING.groom.name} và {WEDDING.bride.name}
         </h1>

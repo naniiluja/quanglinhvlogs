@@ -30,6 +30,17 @@
   --font-script: 'Great Vibes', cursive;
 }
 
+/* Mỗi section là một trang của thiệp: đủ một màn hình, nội dung ở giữa, cuộn dừng ở đầu section. */
+@utility section-screen {
+  position: relative;
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 1rem;
+  scroll-snap-align: start;
+}
+
 /* Thang lớp chồng (design-system.md), dùng bằng z-(--layer-...). */
 :root {
   --layer-background: 0;
@@ -98,9 +109,15 @@
   }
   html {
     @apply font-sans;
+    /* Cuộn dừng mềm ở đầu mỗi section; section cao hơn màn hình vẫn cuộn tự do bên trong. */
+    scroll-snap-type: y proximity;
   }
   body {
     @apply bg-background text-foreground antialiased;
+    /* Vân giấy: bộ lọc feTurbulence cùng thông số của @magicui/noise-texture, nhưng là ảnh nền lát ô
+       160px. Trình duyệt vẽ một ô một lần rồi lặp lại; bản SVG fixed phủ màn hình cũ bị vẽ lại
+       mỗi lần cuộn và là nguyên nhân chính gây giật trên iPhone. */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='0.15'/%3E%3CfeFuncG type='linear' slope='0.15'/%3E%3CfeFuncB type='linear' slope='0.15'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
   }
   /* Cormorant mặc định dùng số old-style (cao thấp lệch nhau); ngày giờ cần số thẳng hàng. */
   .font-serif {

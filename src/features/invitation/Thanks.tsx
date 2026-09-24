@@ -1,10 +1,10 @@
-import { BlurFade } from '@/components/ui/blur-fade'
+import { Reveal } from '@/components/effects/Reveal'
 import { WEDDING } from '@/config/wedding'
 
 export function Thanks() {
   return (
-    <section aria-labelledby="thanks-title" className="px-4 pt-16 pb-28 text-center">
-      <BlurFade inView>
+    <section aria-labelledby="thanks-title" className="section-screen text-center">
+      <Reveal inView>
         <h2 id="thanks-title" className="font-script text-5xl text-mauve">
           Cảm ơn bạn
         </h2>
@@ -18,7 +18,7 @@ export function Thanks() {
         <p className="font-script text-4xl text-mauve">
           {WEDDING.groom.name} &amp; {WEDDING.bride.name}
         </p>
-      </BlurFade>
+      </Reveal>
     </section>
   )
 }

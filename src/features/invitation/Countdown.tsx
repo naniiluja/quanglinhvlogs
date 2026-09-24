@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { vi } from 'react-day-picker/locale'
-import { BlurFade } from '@/components/ui/blur-fade'
+import { Reveal } from '@/components/effects/Reveal'
 import { Calendar } from '@/components/ui/calendar'
 import { SlidingNumber } from '@/components/ui/sliding-number'
 import { WEDDING } from '@/config/wedding'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
 import { getCountdown } from '@/lib/countdown'
 import { toDateParts } from '@/lib/datetime'
+import { NextSectionButton } from '@/features/invitation/NextSectionButton'
 
 const TARGET = new Date(WEDDING.countdownTarget)
 const parts = toDateParts(WEDDING.countdownTarget)
@@ -32,17 +33,17 @@ export function Countdown() {
   const left = getCountdown(TARGET, now)
 
   return (
-    <section aria-labelledby="countdown-title" className="px-4 py-16">
+    <section aria-labelledby="countdown-title" className="section-screen">
       <SectionHeading id="countdown-title" eyebrow="Đếm ngược" title="Ngày chung vui" />
 
-      <BlurFade inView className="mt-8">
+      <Reveal inView className="mt-8">
         {left.done ? (
           <p className="text-center font-serif text-2xl text-ink italic">
             Cảm ơn bạn đã cùng hai đứa mình đi qua ngày trọng đại.
           </p>
         ) : (
           <div
-            className="grid grid-cols-4 gap-2"
+            className="mx-auto grid max-w-xl grid-cols-4 gap-2 md:gap-4"
             role="timer"
             aria-label="Thời gian còn lại tới lễ cưới"
           >
@@ -61,9 +62,9 @@ export function Countdown() {
             ))}
           </div>
         )}
-      </BlurFade>
+      </Reveal>
 
-      <BlurFade inView delay={0.15} className="mt-8 flex justify-center">
+      <Reveal inView delay={0.15} className="mt-8 flex justify-center">
         <Calendar
           mode="single"
           selected={WEDDING_DAY}
@@ -72,9 +73,10 @@ export function Countdown() {
           hideNavigation
           locale={vi}
           weekStartsOn={1}
-          className="rounded-2xl border border-border bg-cream/70 [--cell-size:--spacing(10)]"
+          className="rounded-2xl border border-border bg-cream/70 [--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
         />
-      </BlurFade>
+      </Reveal>
+      <NextSectionButton />
     </section>
   )
 }

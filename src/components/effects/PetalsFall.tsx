@@ -16,14 +16,24 @@ async function initPetalsEngine(engine: Engine): Promise<void> {
   await loadWobbleUpdater(engine)
 }
 
-// Tối đa 18 cánh cùng lúc (design-system.md). Ảnh: Fluent Emoji, MIT, xem public/images/petals/LICENSE.txt.
+// Theo mẫu hiệu năng trong tài liệu tsParticles (guides/react): canvas DPR 3 của iPhone lớn gấp
+// 9 lần điểm ảnh nên bỏ retina khi DPR > 2; màn nhỏ bớt số cánh.
+const IS_SMALL_SCREEN = window.matchMedia('(max-width: 767px)').matches
+
+// Tối đa 18 cánh cùng lúc, 10 cánh trên điện thoại (design-system.md).
+// Ảnh: Fluent Emoji, MIT, xem public/images/petals/LICENSE.txt.
 const PETALS_OPTIONS: ISourceOptions = {
   fullScreen: { enable: true, zIndex: 15 },
-  fpsLimit: 60,
-  detectRetina: true,
+  // Không giới hạn bằng đúng tần số màn hình: bộ giới hạn bỏ nhầm khung đến sớm vài phần mười ms,
+  // cánh hoa khựng. 120 để trình duyệt tự vẽ theo màn thật (60Hz, 120Hz ProMotion); tốc độ rơi
+  // tính theo thời gian nên không đổi. Chủ dự án góp ý 2026-09-24: hoa rơi khựng.
+  fpsLimit: 120,
+  detectRetina: window.devicePixelRatio <= 2,
+  pauseOnBlur: true,
+  pauseOnOutsideViewport: true,
   background: { opacity: 0 },
   particles: {
-    number: { value: 18, density: { enable: false } },
+    number: { value: IS_SMALL_SCREEN ? 10 : 18, density: { enable: false } },
     shape: {
       type: 'image',
       options: {

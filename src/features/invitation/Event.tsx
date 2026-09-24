@@ -1,18 +1,19 @@
-import { BlurFade } from '@/components/ui/blur-fade'
+import { Reveal } from '@/components/effects/Reveal'
 import { WEDDING } from '@/config/wedding'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
 import { toDateParts } from '@/lib/datetime'
+import { NextSectionButton } from '@/features/invitation/NextSectionButton'
 
 export function Event() {
   return (
-    <section aria-labelledby="event-title" className="px-4 py-16">
+    <section aria-labelledby="event-title" className="section-screen">
       <SectionHeading id="event-title" eyebrow="Hôn lễ" title="Trân trọng kính mời" />
 
-      <div className="mt-8 space-y-6">
+      <div className="mt-8 space-y-6 md:grid md:grid-cols-2 md:gap-6 md:space-y-0">
         {WEDDING.ceremonies.map((ceremony, index) => {
           const date = toDateParts(ceremony.startsAt)
           return (
-            <BlurFade
+            <Reveal
               key={ceremony.title}
               inView
               delay={index * 0.15}
@@ -33,10 +34,11 @@ export function Event() {
               </div>
               <p className="mt-2 font-serif text-2xl font-medium text-ink">{date.year}</p>
               <p className="mt-2 text-sm text-sage-deep italic">({ceremony.lunarNote})</p>
-            </BlurFade>
+            </Reveal>
           )
         })}
       </div>
+      <NextSectionButton />
     </section>
   )
 }

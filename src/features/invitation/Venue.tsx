@@ -1,14 +1,15 @@
 import { MapPin, Navigation } from 'lucide-react'
-import { BlurFade } from '@/components/ui/blur-fade'
+import { Reveal } from '@/components/effects/Reveal'
 import { buttonVariants } from '@/components/ui/button'
 import { WEDDING } from '@/config/wedding'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
 import { buildMapsUrl } from '@/lib/maps'
 import { cn } from '@/lib/utils'
+import { NextSectionButton } from '@/features/invitation/NextSectionButton'
 
 export function Venue() {
   return (
-    <section aria-labelledby="venue-title" className="px-4 py-16">
+    <section aria-labelledby="venue-title" className="section-screen">
       <SectionHeading
         id="venue-title"
         eyebrow="Địa điểm"
@@ -16,16 +17,16 @@ export function Venue() {
         description="Bấm vào địa điểm để mở chỉ đường trên Google Maps."
       />
 
-      <div className="mt-8 space-y-6">
+      <div className="mt-8 space-y-6 md:grid md:grid-cols-2 md:gap-6 md:space-y-0">
         {WEDDING.venues.map((venue, index) => {
           const mapsUrl = buildMapsUrl(venue.name, venue.address)
           return (
-            <BlurFade key={venue.title} inView delay={index * 0.15}>
+            <Reveal key={venue.title} inView delay={index * 0.15}>
               <a
                 href={mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block rounded-2xl border border-border bg-cream/70 px-6 py-6 text-center transition-colors hover:border-bronze focus-visible:border-bronze"
+                className="block h-full rounded-2xl border border-border bg-cream/70 px-6 py-6 text-center transition-colors hover:border-bronze focus-visible:border-bronze"
               >
                 <p className="font-serif text-xl font-semibold text-bronze-deep uppercase">
                   {venue.title}
@@ -45,10 +46,11 @@ export function Venue() {
                   Chỉ đường
                 </span>
               </a>
-            </BlurFade>
+            </Reveal>
           )
         })}
       </div>
+      <NextSectionButton />
     </section>
   )
 }

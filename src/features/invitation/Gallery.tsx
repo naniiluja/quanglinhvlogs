@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { LazyLightbox } from '@/components/effects/LazyLightbox'
-import { BlurFade } from '@/components/ui/blur-fade'
+import { Reveal } from '@/components/effects/Reveal'
 import { WEDDING } from '@/config/wedding'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
+import { NextSectionButton } from '@/features/invitation/NextSectionButton'
 
 // Nhãn điều khiển của lightbox bằng tiếng Việt (product.md: chữ hiển thị toàn tiếng Việt).
 const LIGHTBOX_LABELS = {
@@ -27,12 +28,17 @@ export function Gallery() {
   const [index, setIndex] = useState(-1)
 
   return (
-    <section aria-labelledby="gallery-title" className="px-4 py-16">
+    <section aria-labelledby="gallery-title" className="section-screen">
       <SectionHeading id="gallery-title" eyebrow="Khoảnh khắc" title="Album ảnh cưới" />
 
-      <div className="mt-8 grid grid-cols-2 gap-3">
+      <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
         {WEDDING.gallery.map((photo, i) => (
-          <BlurFade key={photo.src} inView delay={i * 0.1} className={i === 0 ? 'col-span-2' : ''}>
+          <Reveal
+            key={photo.src}
+            inView
+            delay={i * 0.1}
+            className={i === 0 ? 'col-span-2 md:col-span-1' : ''}
+          >
             <button
               type="button"
               onClick={() => setIndex(i)}
@@ -45,10 +51,10 @@ export function Gallery() {
                 height={photo.height}
                 alt={photo.alt}
                 loading="lazy"
-                className={`w-full object-cover transition-transform duration-500 hover:scale-105 ${i === 0 ? 'aspect-[4/3]' : 'aspect-[3/4]'}`}
+                className={`w-full object-cover transition-transform duration-500 hover:scale-105 ${i === 0 ? 'aspect-[4/3] md:aspect-[3/4]' : 'aspect-[3/4]'}`}
               />
             </button>
-          </BlurFade>
+          </Reveal>
         ))}
       </div>
 
@@ -62,6 +68,7 @@ export function Gallery() {
           root: { '--yarl__portal_zindex': 60, '--yarl__color_backdrop': 'rgba(59, 58, 54, 0.92)' },
         }}
       />
+      <NextSectionButton />
     </section>
   )
 }

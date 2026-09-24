@@ -1,18 +1,20 @@
-import { BlurFade } from '@/components/ui/blur-fade'
+import { Reveal } from '@/components/effects/Reveal'
 import { WEDDING } from '@/config/wedding'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
+import { NextSectionButton } from '@/features/invitation/NextSectionButton'
 
 export function InvitationMessage() {
   return (
-    <section aria-labelledby="invitation-title" className="px-4 py-16">
+    <section aria-labelledby="invitation-title" className="section-screen">
       <SectionHeading id="invitation-title" eyebrow="Lời ngỏ" title="Thư mời" />
-      <div className="mt-8 space-y-4 text-center">
+      <div className="mx-auto mt-8 max-w-2xl space-y-4 text-center">
         {WEDDING.invitationLines.map((line, index) => (
-          <BlurFade key={line} inView delay={index * 0.15}>
-            <p className="font-serif text-xl leading-relaxed text-ink italic">{line}</p>
-          </BlurFade>
+          <Reveal key={line} inView delay={index * 0.15}>
+            <p className="font-serif text-xl leading-relaxed text-ink italic md:text-2xl">{line}</p>
+          </Reveal>
         ))}
       </div>
+      <NextSectionButton />
     </section>
   )
 }

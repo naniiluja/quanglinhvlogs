@@ -60,7 +60,8 @@ export interface WeddingConfig {
   timeline: TimelineItem[]
   venues: Venue[]
   gallery: Photo[]
-  giftAccounts: GiftAccount[]
+  // Chủ dự án chốt 2026-09-24: hộp mừng cưới chỉ một mã QR.
+  giftAccount: GiftAccount
   music: { src: string }
 }
 
@@ -154,22 +155,13 @@ export const WEDDING: WeddingConfig = {
     },
   ],
   // Số tài khoản giả, KHÔNG phải tài khoản thật (repo công khai, product.md).
-  giftAccounts: [
-    {
-      label: 'Mừng cưới chú rể',
-      bankBin: '970436', // MOCK
-      bankName: 'Vietcombank', // MOCK
-      accountNumber: '0123456789', // MOCK
-      accountName: 'PHAM QUANG LINH', // MOCK
-    },
-    {
-      label: 'Mừng cưới cô dâu',
-      bankBin: '970407', // MOCK
-      bankName: 'Techcombank', // MOCK
-      accountNumber: '9876543210', // MOCK
-      accountName: 'TRAN THANH TRUC', // MOCK
-    },
-  ],
+  giftAccount: {
+    label: 'Mừng cưới cô dâu chú rể',
+    bankBin: '970436', // MOCK
+    bankName: 'Vietcombank', // MOCK
+    accountNumber: '0123456789', // MOCK
+    accountName: 'PHAM QUANG LINH', // MOCK
+  },
   // Nhạc giữ chỗ public domain, nguồn và giấy phép ở public/audio/LICENSE.txt. Đổi bài: thay file này.
   music: { src: '/audio/canon-in-d.m4a' }, // MOCK
 }
