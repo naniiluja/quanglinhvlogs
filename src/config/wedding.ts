@@ -169,6 +169,7 @@ export const WEDDING: WeddingConfig = {
     accountNumber: '0123456789', // MOCK
     accountName: 'PHAM QUANG LINH', // MOCK
   },
-  // Nhạc giữ chỗ public domain, nguồn và giấy phép ở public/audio/LICENSE.txt. Đổi bài: thay file này.
-  music: { src: '/audio/canon-in-d.m4a' }, // MOCK
+  // Chủ dự án chọn 2026-09-24 và tự cung cấp file; bài có bản quyền nên file bị .gitignore, chỉ có trong
+  // bản deploy từ máy chủ dự án. Máy thiếu file thì đổi lại '/audio/canon-in-d.m4a' (public domain).
+  music: { src: '/audio/noi-nay-co-anh.m4a' },
 }

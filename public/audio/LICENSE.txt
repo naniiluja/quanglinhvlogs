@@ -1,3 +1,7 @@
+noi-nay-co-anh.m4a (nhạc nền đang dùng): "Nơi Này Có Anh", Sơn Tùng M-TP. Tác phẩm có bản quyền,
+chủ dự án tự cung cấp file và chịu trách nhiệm sử dụng; file không nằm trong repo (.gitignore).
+Đã nén từ MP3 128kbps sang AAC 96kbps bằng afconvert.
+
 canon-in-d.m4a: "Canon (2004)", Strolling Strings, United States Air Force Band.
 Sáng tác: Johann Pachelbel. Phối khí: Frank Hudson.
 Giấy phép: Public domain (tác phẩm của chính phủ Hoa Kỳ).

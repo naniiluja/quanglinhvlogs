@@ -14,3 +14,7 @@ dist
 
 # Ảnh gốc chưa cắt, chỉ giữ bản đã cắt trong public/
 assets-src/
+
+# Nhạc nền có bản quyền (Nơi Này Có Anh, Sơn Tùng M-TP): chủ dự án tự cung cấp file, chỉ nằm trong bản deploy,
+# không đưa lên repo công khai. Máy khác clone về sẽ thiếu file này, xem tech-stack.md.
+public/audio/noi-nay-co-anh.m4a

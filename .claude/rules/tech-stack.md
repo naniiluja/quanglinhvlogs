@@ -37,6 +37,10 @@ Chủ dự án yêu cầu ngày 2026-09-24: hiệu ứng lấy từ thư viện 
   Ngoại lệ duy nhất: sửa tối thiểu để file vendor biên dịch được, gắn chú thích `// PATCH (quanglinhvlogs): <lý do>` để `grep -rn "PATCH (quanglinhvlogs)" src/components/ui` liệt kê được. Hiện có: `sliding-number.tsx` (`as const` cho `TRANSITION`).
 - `@tsparticles/react` bản 4 dùng `ParticlesProvider` + `Particles`; tài liệu Context7 vẫn ghi `initParticlesEngine` của bản 3, đừng làm theo.
 
+## Nhạc nền
+- Đang dùng "Nơi Này Có Anh" (Sơn Tùng M-TP), chủ dự án tự cung cấp file ngày 2026-09-24. Bài có bản quyền: Claude không tự tải nhạc có bản quyền từ mạng; file gốc để ở `assets-src/`, bản nén AAC 96kbps (`afconvert -f m4af -d aac -b 96000`) ở `public/audio/noi-nay-co-anh.m4a` và **bị `.gitignore`**, chỉ có trong bản deploy từ máy chủ dự án. Clone repo sang máy khác thì thiếu file: đổi `WEDDING.music.src` về `/audio/canon-in-d.m4a` (public domain) hoặc chép file vào.
+- Thẻ `<audio>` giữ `preload="none"`: chỉ tải khi khách bấm "Mở thiệp".
+
 ## Rules
 - Không thêm thư viện ngoài danh sách khi chưa so sánh best practice qua Context7 và cập nhật file này.
 - Khóa phiên bản bằng `package-lock.json`; nâng major phải ghi lý do. Phiên bản cụ thể lấy theo bản ổn định mới nhất lúc scaffold (task 001), không đoán từ trí nhớ.
