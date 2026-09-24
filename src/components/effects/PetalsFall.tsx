@@ -35,23 +35,24 @@ const PETALS_OPTIONS: ISourceOptions = {
     move: {
       enable: true,
       direction: 'bottom',
-      speed: { min: 0.6, max: 1.6 },
-      drift: { min: -0.4, max: 0.4 },
+      // Chậm, bồng bềnh (chủ dự án góp ý 2026-09-24: bay quá nhanh).
+      speed: { min: 0.2, max: 0.55 },
+      drift: { min: -0.15, max: 0.15 },
       straight: false,
       outModes: { default: 'out' },
     },
     rotate: {
       value: { min: 0, max: 360 },
       direction: 'random',
-      animation: { enable: true, speed: { min: 2, max: 8 } },
+      animation: { enable: true, speed: { min: 0.5, max: 2 } },
     },
     tilt: {
       enable: true,
       value: { min: 0, max: 360 },
       direction: 'random',
-      animation: { enable: true, speed: { min: 4, max: 12 } },
+      animation: { enable: true, speed: { min: 1, max: 4 } },
     },
-    wobble: { enable: true, distance: 14, speed: { min: -6, max: 6 } },
+    wobble: { enable: true, distance: 10, speed: { min: -2, max: 2 } },
   },
 }
 
