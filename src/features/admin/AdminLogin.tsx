@@ -7,9 +7,9 @@ import { Input } from '@/components/ui/input'
 import { signIn } from '@/services/admin'
 
 export function AdminLogin() {
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const login = useMutation({ mutationFn: () => signIn(email, password), retry: false })
+  const login = useMutation({ mutationFn: () => signIn(username, password), retry: false })
 
   function onSubmit(event: FormEvent) {
     event.preventDefault()
@@ -26,14 +26,16 @@ export function AdminLogin() {
         <form onSubmit={onSubmit}>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="admin-email">Email</FieldLabel>
+              <FieldLabel htmlFor="admin-username">Tên đăng nhập hoặc email</FieldLabel>
               <Input
-                id="admin-email"
-                type="email"
+                id="admin-username"
+                type="text"
                 autoComplete="username"
+                autoCapitalize="none"
+                spellCheck={false}
                 required
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
               />
             </Field>
             <Field data-invalid={login.isError}>
@@ -47,11 +49,11 @@ export function AdminLogin() {
                 onChange={(event) => setPassword(event.target.value)}
                 aria-invalid={login.isError}
               />
-              {/* Một thông báo chung, không nói rõ sai email hay sai mật khẩu. */}
+              {/* Một thông báo chung, không nói rõ sai tên đăng nhập hay sai mật khẩu. */}
               {login.isError && (
                 <FieldError>
                   {login.error.code === 'UNAUTHORIZED'
-                    ? 'Email hoặc mật khẩu không đúng.'
+                    ? 'Tên đăng nhập hoặc mật khẩu không đúng.'
                     : login.error.message}
                 </FieldError>
               )}

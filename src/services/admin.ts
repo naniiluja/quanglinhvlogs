@@ -19,11 +19,23 @@ export interface AdminGuest {
   rsvp: GuestRsvp | null
 }
 
+// Supabase Auth chỉ nhận email: tên đăng nhập không có '@' (ví dụ `admin`) được hiểu là
+// `<tên>@quanglinh-thanhtruc.pages.dev`, địa chỉ nội bộ không nhận thư.
+const USERNAME_EMAIL_DOMAIN = 'quanglinh-thanhtruc.pages.dev'
+
+function toLoginEmail(identifier: string): string {
+  const trimmed = identifier.trim()
+  return trimmed.includes('@') ? trimmed : `${trimmed}@${USERNAME_EMAIL_DOMAIN}`
+}
+
 // Không log email hay mật khẩu (logging.md).
-export async function signIn(email: string, password: string): Promise<void> {
+export async function signIn(identifier: string, password: string): Promise<void> {
   await traced('admin.signin', async () => {
     const supabase = await getAdminClient()
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { error } = await supabase.auth.signInWithPassword({
+      email: toLoginEmail(identifier),
+      password,
+    })
     // Không nói rõ sai email hay sai mật khẩu.
     if (error) throw new AppError('UNAUTHORIZED', { cause: error })
   })

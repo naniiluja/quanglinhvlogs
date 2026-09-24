@@ -41,7 +41,7 @@ Cột "Gate" bên dưới chỉ ghi phần **riêng** của từng task, cộng 
 | 006 | Trang admin: đăng nhập, khách, thống kê | DB + service + UI | Người không phải admin (kể cả `authenticated`) bị RLS từ chối; thêm, sửa, xóa, sao chép link chạy | 005 | blocked |
 | 007 | Sổ lưu bút | DB + service + UI | Giới hạn 3 lời chúc mỗi khách và 500 ký tự đúng; admin xóa được lời chúc | 006 | in-review |
 | 008 | Nhạc nền | UI | Nhạc phát sau khi bấm "Mở thiệp", nút bật tắt phản ánh đúng thực tế; thử trên điện thoại thật | 007 | blocked |
-| 009 | Hoàn thiện và phát hành | UI + DB + hosting | Meta chia sẻ đúng, Lighthouse mobile được ghi lại, dữ liệu `[TEST]` đã dọn, luồng đầy đủ chạy qua Zalo trên điện thoại thật | 008 | blocked |
+| 009 | Hoàn thiện và phát hành | UI + DB + hosting | Meta chia sẻ đúng, Lighthouse mobile được ghi lại, dữ liệu thử (2 khách, xem ID trong task-009) đã dọn, luồng đầy đủ chạy qua Zalo trên điện thoại thật | 008 | blocked |
 
 ## Rủi ro đã biết
 - **Supabase Free tạm dừng sau 7 ngày không hoạt động**: thiệp sẽ hỏng nếu project bị pause. Xử lý ở task 009.
@@ -55,5 +55,5 @@ Các task `blocked` đã xong phần code và kiểm chứng tự động, chỉ
 - 001: đã deploy ngày 2026-09-24 bằng wrangler tới https://quanglinh-thanhtruc.pages.dev (xem `tooling.md`), đã kiểm tra `/`, `/admin`, link khách.
 - 006: tắt đăng ký công khai trong Supabase Auth (hiện `disable_signup = false`), tạo tài khoản admin trong dashboard, báo email để Claude thêm vào bảng `admins`.
 - 008, 009: thử nhạc và luồng đầy đủ trên điện thoại thật qua Zalo.
-- 009: thay dữ liệu `// MOCK` bằng dữ liệu thật; xóa dữ liệu `[TEST]` sau khi thử xong.
+- 009: thay dữ liệu `// MOCK` bằng dữ liệu thật; xóa dữ liệu thử (2 khách, xem ID trong task-009) sau khi thử xong.
 

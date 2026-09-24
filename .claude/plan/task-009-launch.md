@@ -3,8 +3,8 @@
 - **Vertical slice:** UI + DB (dọn dữ liệu thử) + hosting (deploy cuối, giữ project Supabase hoạt động)
 - **Depends on:** 008
 - **Spec refs:** `product.md` (Chia sẻ link, Dữ liệu mock), `design-system.md` (Ảnh), `security.md`, `tech-stack.md` (Ghi chú tra cứu), `git-workflow.md`
-- **MCP to use:** supabase (`execute_sql` chỉ đọc rồi xóa dữ liệu `[TEST]` khi chủ dự án đồng ý, `get_advisors`), cloudflare, claude-in-chrome
-- **Gate (phải XANH trước khi sang lát kế):** cổng chung; thẻ chia sẻ đúng, điểm Lighthouse mobile được ghi lại, dữ liệu `[TEST]` đã dọn, luồng đầy đủ chạy qua Zalo trên điện thoại thật
+- **MCP to use:** supabase (`execute_sql` chỉ đọc rồi xóa dữ liệu thử khi chủ dự án đồng ý, `get_advisors`), cloudflare, claude-in-chrome
+- **Gate (phải XANH trước khi sang lát kế):** cổng chung; thẻ chia sẻ đúng, điểm Lighthouse mobile được ghi lại, dữ liệu thử đã dọn, luồng đầy đủ chạy qua Zalo trên điện thoại thật
 
 ## Goal (một câu)
 Đưa thiệp tới trạng thái sẵn sàng gửi cho khách: xem trước link đẹp, hiệu năng và khả năng truy cập được đo, dữ liệu thử đã dọn, phần còn mock được liệt kê rõ và project Supabase không bị tạm dừng.
@@ -14,7 +14,7 @@
 - [ ] Đo Lighthouse mobile cho `/` (Chrome DevTools hoặc `npx lighthouse`) và ghi điểm vào thân PR. Mục tiêu đề xuất: Performance từ 85, Accessibility từ 90; điểm thấp hơn thì ghi nguyên nhân và cách đã xử lý (ảnh, font, JavaScript) chứ không giấu.
 - [ ] Rà lại: `prefers-reduced-motion` tắt hoa rơi và parallax; tương phản chữ thân bài từ 4.5:1; điều hướng bàn phím thấy focus; mọi ảnh có `alt`.
 - [ ] Đo lại dung lượng ảnh so với chỉ tiêu trong `design-system.md` (bìa tối đa 250KB, album tối đa 150KB mỗi tấm) và nén lại nếu vượt.
-- [ ] Dọn dữ liệu thử: liệt kê các hàng có tên bắt đầu bằng `[TEST]` bằng truy vấn chỉ đọc, đưa danh sách cho chủ dự án, chỉ xóa sau khi chủ dự án đồng ý.
+- [ ] Dọn dữ liệu thử: ngày 2026-09-24 chủ dự án muốn nội dung thử dễ thương hơn nên tên đã bỏ tiền tố `[TEST]`; nhận diện bằng ID: khách `566758ab-b897-41dd-bdc7-04f7d8a7f3a1` ("Anh Nam đẹp trai", mã `6cHZQ0-8oEBwWWFU`) và `ac9485b1-8799-4f67-bdfb-9a527fecd834` ("Chị Lan xinh gái và gia đình", mã `nVB-Y2OmvgzMpO8M`), cùng RSVP và lời chúc của hai khách này (xóa khách là cascade). Liệt kê bằng truy vấn chỉ đọc, đưa cho chủ dự án, chỉ xóa sau khi chủ dự án đồng ý.
 - [ ] `grep -n "MOCK" src` liệt kê phần còn mock; đưa danh sách cho chủ dự án (ngày giờ, địa điểm, cha mẹ, lịch trình, tài khoản mừng cưới, ảnh từng người) và thay bằng dữ liệu thật nếu đã có. **Quét thử mã QR bằng ứng dụng ngân hàng** chỉ sau khi tài khoản thật được cung cấp.
 - [ ] Giữ project Supabase Free không bị tạm dừng sau 7 ngày: đưa cho chủ dự án hai phương án (một: workflow GitHub Actions gọi một RPC nhẹ mỗi ngày; hai: chủ dự án tự mở dashboard định kỳ) và **hỏi trước** khi tạo `.github/workflows/` trong repo công khai.
 - [ ] `grep -rn "service_role\|sb_secret" .` (bỏ `node_modules`) không có kết quả; không có `.env` nào nằm trong thay đổi sắp push.

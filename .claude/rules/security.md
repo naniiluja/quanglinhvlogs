@@ -17,7 +17,7 @@ Bối cảnh: mã nguồn nằm trên GitHub công khai và bundle chứa publis
 - Mã sai và mã không tồn tại trả **cùng một lỗi** `invalid_code`.
 
 ## Admin
-- Đăng nhập bằng Supabase Auth (email, mật khẩu). **Tắt đăng ký công khai** trong cài đặt Auth, nếu không ai cũng tạo được tài khoản `authenticated`.
+- Đăng nhập bằng Supabase Auth (email, mật khẩu). Ô đăng nhập nhận cả tên đăng nhập: không có `@` thì hiểu là `<tên>@quanglinh-thanhtruc.pages.dev` (`toLoginEmail` trong `src/services/admin.ts`). Tài khoản admin hiện có: `admin` (tạo 2026-09-24 theo yêu cầu chủ dự án, email xác nhận thẳng trong DB vì địa chỉ nội bộ không nhận thư). Không ghi mật khẩu vào repo. **Tắt đăng ký công khai** trong cài đặt Auth, nếu không ai cũng tạo được tài khoản `authenticated`.
 - Policy cho admin phải kiểm tra allowlist (`public.is_admin()` đọc bảng `admins`), không dừng ở `to authenticated`.
 - Route `/admin` có `noindex`; route guard chỉ là tiện ích UX, quyền thật nằm ở RLS.
 
