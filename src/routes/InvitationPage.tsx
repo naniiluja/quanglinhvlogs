@@ -12,6 +12,7 @@ import { InvitationMessage } from '@/features/invitation/InvitationMessage'
 import { MusicProvider } from '@/features/invitation/MusicProvider'
 import { MusicToggle } from '@/features/invitation/MusicToggle'
 import { RsvpSection } from '@/features/invitation/RsvpSection'
+import { ScrollToTop } from '@/features/invitation/ScrollToTop'
 import { Thanks } from '@/features/invitation/Thanks'
 import { Timeline } from '@/features/invitation/Timeline'
 import { Venue } from '@/features/invitation/Venue'
@@ -46,6 +47,7 @@ function InvitationContent() {
         </Suspense>
       </div>
       <MusicToggle />
+      <ScrollToTop />
 
       <main className="relative z-(--layer-content) mx-auto max-w-120 md:max-w-3xl lg:max-w-5xl">
         <h1 className="sr-only">

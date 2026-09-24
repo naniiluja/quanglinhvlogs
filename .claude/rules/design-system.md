@@ -46,6 +46,7 @@ Khai báo biến trong `:root` ở `src/index.css`, dùng bằng `z-(--layer-...
 ## Bố cục
 - Thiết kế mobile trước, kiểm ở 390px; nội dung tối đa khoảng 480px chiều ngang trên màn lớn để giữ cảm giác một tấm thiệp, phần nền trang trí có thể rộng hơn.
 - Lề hai bên 16px, không cuộn ngang. Vùng chạm tối thiểu 44x44px.
+- Nút nổi góc phải dưới: nút nhạc (`bottom-4`) và nút lên đầu trang `ScrollToTop` (`bottom-20`, chỉ hiện khi đã cuộn qua bìa), cùng kiểu tròn viền vàng đồng.
 - Thanh cuộn: mảnh, màu vàng đồng, khai báo một chỗ trong `src/index.css` (`scrollbar-width`/`scrollbar-color` chuẩn, `::-webkit-scrollbar` cho Safari máy tính).
 - Mỗi section là một "trang" (chủ dự án góp ý 2026-09-24: section bị cắt trên iPhone 15 Pro là không chấp nhận): lớp `section-screen` (tối thiểu `100svh`, nội dung giữa, `scroll-snap-align: start`), `html` có `scroll-snap-type: y mandatory`. **Nội dung mỗi section phải vừa `100svh`**: dùng `svh` (thanh trình duyệt mở), không thiết kế theo chiều cao màn hình vật lý. Màn thấp dùng biến thể `short:` (`max-height: 620px`). Kiểm bằng cách đo `section.height - viewport` trong iframe ở 393x659 (iPhone 15 Pro Safari), 375x553 (iPhone SE), 360x640 (Android), 1024x768, 1280x720, 1440x900; mọi section phải bằng 0 (ngoại lệ đã chấp nhận: form RSVP đang nhập dư khoảng 23px ở 375 và 360).
 - Responsive từ điện thoại tới máy tính: `main` rộng `max-w-120`, `md:max-w-3xl`, `lg:max-w-5xl`; bìa chia 2 cột ở `lg`, các danh sách thẻ (Couple, Event, Venue) 2 cột và Gallery 3 cột từ `md`. Kiểm ở 390px và 1280px.

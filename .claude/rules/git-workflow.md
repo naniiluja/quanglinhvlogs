@@ -1,7 +1,7 @@
 # Git Workflow
 
 ## Quy tắc quan trọng nhất
-- **Hỏi trước mỗi lần commit hoặc push và chờ chủ dự án đồng ý rõ ràng.** Commit hoặc push không được yêu cầu ghi lại lịch sử của người dùng theo cách không đảo ngược, nên hỏi xác nhận là cái giá rẻ hơn.
+- **Từ 2026-09-24 chủ dự án cho phép:** sửa xong, qua cổng kiểm chứng thì tự commit (nhánh ngắn, ff-merge vào `main`), push và deploy production, **không hỏi lại**. Vẫn hỏi trước với force push, viết lại lịch sử, xóa nhánh `main`, và mọi thao tác không đảo ngược ngoài quy trình này.
 - Remote `origin` là `https://github.com/naniiluja/quanglinhvlogs.git`: repo **công khai**. Trước mỗi lần push, kiểm tra không có `.env`, khóa bí mật, danh sách khách hay số tài khoản thật trong thay đổi (xem `security.md`).
 
 ## Ghi công commit (do harness cưỡng chế)
