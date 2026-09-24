@@ -3,8 +3,15 @@ import { useSearchParams } from 'react-router'
 import { PetalsFall } from '@/components/effects/PetalsFall'
 import { NoiseTexture } from '@/components/ui/noise-texture'
 import { WEDDING } from '@/config/wedding'
+import { Countdown } from '@/features/invitation/Countdown'
+import { Couple } from '@/features/invitation/Couple'
 import { Cover } from '@/features/invitation/Cover'
+import { Event } from '@/features/invitation/Event'
+import { Family } from '@/features/invitation/Family'
+import { InvitationMessage } from '@/features/invitation/InvitationMessage'
 import { RsvpSection } from '@/features/invitation/RsvpSection'
+import { Timeline } from '@/features/invitation/Timeline'
+import { Venue } from '@/features/invitation/Venue'
 import { useInvitation } from '@/hooks/useInvitation'
 
 export function InvitationPage() {
@@ -38,6 +45,13 @@ export function InvitationPage() {
               {invitation.error.message}
             </p>
           )}
+          <InvitationMessage />
+          <Family />
+          <Couple />
+          <Event />
+          <Countdown />
+          <Timeline />
+          <Venue />
           <RsvpSection code={code} invitation={invitation.data} loading={invitation.isLoading} />
         </div>
       </main>

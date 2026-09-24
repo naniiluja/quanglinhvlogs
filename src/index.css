@@ -100,4 +100,8 @@
   body {
     @apply bg-background text-foreground antialiased;
   }
+  /* Cormorant mặc định dùng số old-style (cao thấp lệch nhau); ngày giờ cần số thẳng hàng. */
+  .font-serif {
+    font-variant-numeric: lining-nums;
+  }
 }

@@ -1,4 +1,5 @@
 import { ChevronDown } from 'lucide-react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { Button } from '@/components/ui/button'
 import { WEDDING } from '@/config/wedding'
@@ -11,6 +12,11 @@ interface CoverProps {
 }
 
 export function Cover({ guestName, loading, onOpen }: CoverProps) {
+  // Parallax nhẹ cho ảnh bìa (design-system.md); tắt khi người dùng bật giảm chuyển động.
+  const reduceMotion = useReducedMotion()
+  const { scrollY } = useScroll()
+  const photoY = useTransform(scrollY, [0, 600], [0, reduceMotion ? 0 : -40])
+
   return (
     <section
       aria-label="Bìa thiệp"
@@ -33,7 +39,10 @@ export function Cover({ guestName, loading, onOpen }: CoverProps) {
       </div>
 
       <BlurFade delay={0.35}>
-        <div className="mt-8 rounded-t-full border border-bronze/60 p-2">
+        <motion.div
+          style={{ y: photoY }}
+          className="mt-8 rounded-t-full border border-bronze/60 p-2"
+        >
           <img
             src="/images/cover-couple.jpg"
             width={548}
@@ -42,7 +51,7 @@ export function Cover({ guestName, loading, onOpen }: CoverProps) {
             className="aspect-4/5 w-64 rounded-t-full object-cover sm:w-72"
             fetchPriority="high"
           />
-        </div>
+        </motion.div>
       </BlurFade>
 
       <BlurFade delay={0.55}>

@@ -32,6 +32,7 @@ Chủ dự án yêu cầu ngày 2026-09-24: hiệu ứng lấy từ thư viện 
 - Ảnh trang trí: bộ Fluent Emoji 3D của Microsoft (MIT), ghi nguồn trong `LICENSE.txt` cạnh ảnh.
 - Chuyển động còn lại (parallax, cuộn) dùng API của Motion (`motion/react`), không tự viết vòng lặp `requestAnimationFrame` hay keyframes CSS.
 - Không sửa file vendor trong `src/components/ui/`; cần khác đi thì bọc lại hoặc truyền props.
+  Ngoại lệ duy nhất: sửa tối thiểu để file vendor biên dịch được, gắn chú thích `// PATCH (quanglinhvlogs): <lý do>` để `grep -rn "PATCH (quanglinhvlogs)" src/components/ui` liệt kê được. Hiện có: `sliding-number.tsx` (`as const` cho `TRANSITION`).
 - `@tsparticles/react` bản 4 dùng `ParticlesProvider` + `Particles`; tài liệu Context7 vẫn ghi `initParticlesEngine` của bản 3, đừng làm theo.
 
 ## Rules

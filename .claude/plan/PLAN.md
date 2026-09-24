@@ -36,8 +36,8 @@ Cột "Gate" bên dưới chỉ ghi phần **riêng** của từng task, cộng 
 | 001 | Nền tảng, theme và deploy | build + UI + hosting | Trang giữ chỗ có hoa rơi chạy trên `*.pages.dev`, `/admin` mở trực tiếp không 404, "Thanh Trúc" đủ dấu ở cả ba font | không có | blocked |
 | 002 | Link riêng của khách và bìa thiệp | DB + service + UI | `/?g=<mã>` hiện đúng tên; mã sai và không mã hiện giống nhau; anon không đọc được bảng `guests` | 001 | in-review |
 | 003 | Xác nhận tham dự (RSVP) | DB + service + UI | Gửi, sửa, gửi lại vẫn một hàng; biên `party_size` 0, 1, 5, 6 và `message` 500, 501 đúng | 002 | in-review |
-| 004 | Nội dung sự kiện: cô dâu chú rể, đếm ngược, lịch, địa điểm | UI + config | Đếm ngược đúng múi giờ +07:00 và hết giờ không âm; bấm địa điểm mở đúng link Google Maps | 003 | in-progress |
-| 005 | Album ảnh và mừng cưới QR | UI + config | Lightbox chạy; ảnh QR VietQR hiện, sao chép số tài khoản, có dự phòng khi ảnh lỗi | 004 | todo |
+| 004 | Nội dung sự kiện: cô dâu chú rể, đếm ngược, lịch, địa điểm | UI + config | Đếm ngược đúng múi giờ +07:00 và hết giờ không âm; bấm địa điểm mở đúng link Google Maps | 003 | in-review |
+| 005 | Album ảnh và mừng cưới QR | UI + config | Lightbox chạy; ảnh QR VietQR hiện, sao chép số tài khoản, có dự phòng khi ảnh lỗi | 004 | in-progress |
 | 006 | Trang admin: đăng nhập, khách, thống kê | DB + service + UI | Người không phải admin (kể cả `authenticated`) bị RLS từ chối; thêm, sửa, xóa, sao chép link chạy | 005 | todo |
 | 007 | Sổ lưu bút | DB + service + UI | Giới hạn 3 lời chúc mỗi khách và 500 ký tự đúng; admin xóa được lời chúc | 006 | todo |
 | 008 | Nhạc nền | UI | Nhạc phát sau khi bấm "Mở thiệp", nút bật tắt phản ánh đúng thực tế; thử trên điện thoại thật | 007 | todo |
