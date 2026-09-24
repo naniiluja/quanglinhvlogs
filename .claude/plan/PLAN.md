@@ -33,7 +33,7 @@ Cột "Gate" bên dưới chỉ ghi phần **riêng** của từng task, cộng 
 ## Task backlog (theo thứ tự thực thi)
 | # | Slice | Layers | Gate (riêng của task) | Depends on | Status |
 |---|-------|--------|-----------------------|-----------|--------|
-| 001 | Nền tảng, theme và deploy | build + UI + hosting | Trang giữ chỗ có hoa rơi chạy trên `*.pages.dev`, `/admin` mở trực tiếp không 404, "Thanh Trúc" đủ dấu ở cả ba font | không có | blocked |
+| 001 | Nền tảng, theme và deploy | build + UI + hosting | Trang giữ chỗ có hoa rơi chạy trên `*.pages.dev`, `/admin` mở trực tiếp không 404, "Thanh Trúc" đủ dấu ở cả ba font | không có | in-review |
 | 002 | Link riêng của khách và bìa thiệp | DB + service + UI | `/?g=<mã>` hiện đúng tên; mã sai và không mã hiện giống nhau; anon không đọc được bảng `guests` | 001 | in-review |
 | 003 | Xác nhận tham dự (RSVP) | DB + service + UI | Gửi, sửa, gửi lại vẫn một hàng; biên `party_size` 0, 1, 5, 6 và `message` 500, 501 đúng | 002 | in-review |
 | 004 | Nội dung sự kiện: cô dâu chú rể, đếm ngược, lịch, địa điểm | UI + config | Đếm ngược đúng múi giờ +07:00 và hết giờ không âm; bấm địa điểm mở đúng link Google Maps | 003 | in-review |
@@ -52,7 +52,7 @@ Cột "Gate" bên dưới chỉ ghi phần **riêng** của từng task, cộng 
 
 ## Việc chờ chủ dự án (cập nhật 2026-09-24)
 Các task `blocked` đã xong phần code và kiểm chứng tự động, chỉ còn bước Claude không tự làm được:
-- 001, 009: nối repo GitHub với Cloudflare Pages (project `quanglinh-thanhtruc`, build `npm run build`, output `dist`, thêm biến `VITE_SUPABASE_URL` và `VITE_SUPABASE_PUBLISHABLE_KEY`), rồi Claude kiểm tra bản `pages.dev`.
+- 001: đã deploy ngày 2026-09-24 bằng wrangler tới https://quanglinh-thanhtruc.pages.dev (xem `tooling.md`), đã kiểm tra `/`, `/admin`, link khách.
 - 006: tắt đăng ký công khai trong Supabase Auth (hiện `disable_signup = false`), tạo tài khoản admin trong dashboard, báo email để Claude thêm vào bảng `admins`.
 - 008, 009: thử nhạc và luồng đầy đủ trên điện thoại thật qua Zalo.
 - 009: thay dữ liệu `// MOCK` bằng dữ liệu thật; xóa dữ liệu `[TEST]` sau khi thử xong.
