@@ -7,9 +7,9 @@ export function Timeline() {
   return (
     <section aria-labelledby="timeline-title" className="section-screen">
       <SectionHeading id="timeline-title" eyebrow="Lịch trình" title="Lịch trình ngày cưới" />
-      <ol className="relative mx-auto mt-8 max-w-72 border-l border-bronze/50">
+      <ol className="relative mx-auto mt-6 max-w-72 border-l border-bronze/50">
         {WEDDING.timeline.map((item, index) => (
-          <li key={item.time} className="relative mb-8 ml-6 last:mb-0">
+          <li key={item.time} className="relative mb-6 ml-6 last:mb-0 short:mb-4">
             <Reveal inView delay={index * 0.1}>
               <span
                 aria-hidden="true"

@@ -31,7 +31,7 @@ export function Gallery() {
     <section aria-labelledby="gallery-title" className="section-screen">
       <SectionHeading id="gallery-title" eyebrow="Khoảnh khắc" title="Album ảnh cưới" />
 
-      <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
         {WEDDING.gallery.map((photo, i) => (
           <Reveal
             key={photo.src}
@@ -51,7 +51,7 @@ export function Gallery() {
                 height={photo.height}
                 alt={photo.alt}
                 loading="lazy"
-                className={`w-full object-cover transition-transform duration-500 hover:scale-105 ${i === 0 ? 'aspect-[4/3] md:aspect-[3/4]' : 'aspect-[3/4]'}`}
+                className={`w-full object-cover transition-transform duration-500 hover:scale-105 ${i === 0 ? 'aspect-video md:aspect-[3/4]' : 'aspect-[4/3] md:aspect-[3/4]'}`}
               />
             </button>
           </Reveal>

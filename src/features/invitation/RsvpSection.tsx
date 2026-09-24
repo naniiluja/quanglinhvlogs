@@ -20,10 +20,10 @@ export function RsvpSection({ code, invitation, loading }: RsvpSectionProps) {
         id="rsvp-title"
         eyebrow="Hồi đáp"
         title="Xác nhận tham dự"
-        description="Bạn báo giúp hai đứa trước ngày cưới để tụi mình chuẩn bị đón tiếp chu đáo nhé."
+        description="Báo giúp hai đứa trước ngày cưới để tụi mình đón tiếp chu đáo nhé."
       />
 
-      <div className="mx-auto mt-8 w-full max-w-xl">
+      <div className="mx-auto mt-5 w-full max-w-xl">
         {loading ? (
           <div className="mx-auto h-64 animate-pulse rounded-2xl bg-muted" aria-label="Đang tải" />
         ) : code && invitation ? (

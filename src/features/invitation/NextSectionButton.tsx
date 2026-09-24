@@ -24,9 +24,10 @@ export function NextSectionButton() {
       size="icon"
       onClick={goNext}
       aria-label="Sang phần tiếp theo"
-      className="absolute inset-x-0 bottom-3 mx-auto size-11 rounded-full text-bronze-deep hover:bg-cream/70"
+      // Chỉ mũi tên, không viền tròn hay nền (chủ dự án góp ý 2026-09-24); vùng chạm vẫn 44px.
+      className="absolute inset-x-0 bottom-3 mx-auto size-11 text-bronze-deep hover:bg-transparent hover:text-mauve dark:hover:bg-transparent"
     >
-      <ChevronDown aria-hidden="true" className="size-6 motion-safe:animate-bounce" />
+      <ChevronDown aria-hidden="true" className="size-7 motion-safe:animate-bounce" />
     </Button>
   )
 }

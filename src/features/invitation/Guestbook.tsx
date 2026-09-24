@@ -41,7 +41,7 @@ function GuestbookForm({ code, sentCount }: { code: string; sentCount: number })
       <Textarea
         aria-label="Lời chúc gửi cô dâu chú rể"
         placeholder="Viết đôi lời chúc cho hai đứa nhé..."
-        rows={3}
+        rows={2}
         maxLength={GUESTBOOK_MESSAGE_MAX}
         value={message}
         onChange={(event) => setMessage(event.target.value)}
@@ -77,7 +77,7 @@ export function Guestbook({ code, invitation }: GuestbookProps) {
     <section aria-labelledby="guestbook-title" className="section-screen">
       <SectionHeading id="guestbook-title" eyebrow="Sổ lưu bút" title="Lời chúc gửi hai đứa" />
 
-      <div className="mx-auto mt-8 w-full max-w-2xl">
+      <div className="mx-auto mt-6 w-full max-w-2xl">
         {code && invitation ? (
           <GuestbookForm code={code} sentCount={invitation.guestbookCount} />
         ) : (
@@ -87,7 +87,7 @@ export function Guestbook({ code, invitation }: GuestbookProps) {
         )}
       </div>
 
-      <div className="mx-auto mt-8 max-h-120 w-full max-w-2xl space-y-3 overflow-y-auto pr-1">
+      <div className="mx-auto mt-4 max-h-[max(7rem,calc(100svh-24rem))] w-full max-w-2xl space-y-3 overflow-y-auto pr-1">
         {entries.isLoading && (
           <div className="h-24 animate-pulse rounded-xl bg-muted" aria-label="Đang tải" />
         )}

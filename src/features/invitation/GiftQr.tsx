@@ -28,8 +28,8 @@ function AccountCard({ account, onZoom }: { account: GiftAccount; onZoom: (src: 
   }
 
   return (
-    <div className="rounded-2xl border border-border bg-cream/70 px-5 py-6 text-center">
-      <p className="font-serif text-xl font-semibold text-bronze-deep uppercase">{account.label}</p>
+    <div className="rounded-2xl border border-border bg-cream/70 px-5 py-4 text-center">
+      <p className="font-serif text-lg font-semibold text-bronze-deep uppercase">{account.label}</p>
 
       {qrFailed ? (
         <p className="mx-auto mt-4 max-w-64 text-sm text-sage-deep">
@@ -40,7 +40,7 @@ function AccountCard({ account, onZoom }: { account: GiftAccount; onZoom: (src: 
           type="button"
           onClick={() => onZoom(qrUrl)}
           aria-label={`Phóng to mã QR ${account.label.toLowerCase()}`}
-          className="mx-auto mt-4 block w-fit rounded-xl bg-white p-2"
+          className="mx-auto mt-3 block w-fit rounded-xl bg-white p-2"
         >
           <img
             src={qrUrl}
@@ -49,18 +49,19 @@ function AccountCard({ account, onZoom }: { account: GiftAccount; onZoom: (src: 
             alt={`Mã QR chuyển khoản ${account.bankName} của ${account.accountName}`}
             loading="lazy"
             onError={() => setQrFailed(true)}
-            className="size-52"
+            className="size-40 short:size-32"
           />
         </button>
       )}
 
-      <p className="mt-4 text-sm text-sage-deep">{account.bankName}</p>
+      <p className="mt-2 text-sm text-sage-deep">
+        {account.bankName} · {account.accountName}
+      </p>
       <p className="font-sans text-2xl font-semibold tracking-wider text-ink select-all">
         {account.accountNumber}
       </p>
-      <p className="text-sm text-ink">{account.accountName}</p>
 
-      <Button variant="outline" className="mt-4 h-11 rounded-full" onClick={copyAccountNumber}>
+      <Button variant="outline" className="mt-2 h-11 rounded-full" onClick={copyAccountNumber}>
         <Copy aria-hidden="true" />
         Sao chép số tài khoản
       </Button>
@@ -77,9 +78,9 @@ export function GiftQr() {
         id="gift-title"
         eyebrow="Mừng cưới"
         title="Hộp mừng cưới"
-        description="Sự hiện diện của bạn là món quà ý nghĩa nhất. Nếu muốn gửi lời chúc, bạn có thể quét mã bên dưới."
+        description="Sự hiện diện của bạn là món quà ý nghĩa nhất với hai đứa mình."
       />
-      <Reveal inView className="mx-auto mt-8 w-full max-w-sm">
+      <Reveal inView className="mx-auto mt-5 w-full max-w-sm">
         <AccountCard account={WEDDING.giftAccount} onZoom={setZoomSrc} />
       </Reveal>
 

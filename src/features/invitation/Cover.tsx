@@ -21,7 +21,7 @@ export function Cover({ guestName, loading, onOpen }: CoverProps) {
     // Máy tính: ảnh bên trái, chữ bên phải; điện thoại: một cột.
     <section
       aria-label="Bìa thiệp"
-      className="flex min-h-svh snap-start flex-col items-center justify-center px-4 py-12 text-center lg:grid lg:grid-cols-2 lg:content-center lg:gap-x-16"
+      className="flex min-h-svh snap-start flex-col items-center justify-center px-4 py-8 text-center short:py-5 lg:grid lg:grid-cols-2 lg:content-center lg:gap-x-16"
     >
       <Reveal delay={0.1} className="lg:col-start-2">
         <p className="font-serif text-sm tracking-[0.35em] text-sage-deep uppercase">
@@ -45,28 +45,32 @@ export function Cover({ guestName, loading, onOpen }: CoverProps) {
       {/* Ảnh bìa là phần tử LCP: không bọc hiệu ứng mờ dần để trình duyệt vẽ ngay khi ảnh tải xong. */}
       <motion.div
         style={{ y: photoY }}
-        className="mt-8 rounded-t-full border border-bronze/60 p-2 lg:col-start-1 lg:row-span-4 lg:row-start-1 lg:mt-0 lg:justify-self-end"
+        className="mt-5 rounded-t-full border short:mt-3 border-bronze/60 p-2 lg:col-start-1 lg:row-span-4 lg:row-start-1 lg:mt-0 lg:justify-self-end"
       >
         <img
           src="/images/cover-couple.jpg"
           width={548}
           height={685}
           alt={`${WEDDING.groom.name} và ${WEDDING.bride.name} cùng bó hoa hồng`}
-          className="aspect-4/5 w-64 rounded-t-full object-cover sm:w-72 lg:w-96"
+          className="aspect-4/5 h-[clamp(9rem,36svh,22rem)] short:h-[30svh] w-auto rounded-t-full object-cover lg:h-[clamp(16rem,62svh,34rem)]"
           fetchPriority="high"
         />
       </motion.div>
 
       <Reveal delay={0.55} className="lg:col-start-2">
-        <div aria-hidden="true" className="mt-8 font-script leading-tight text-mauve">
+        <div aria-hidden="true" className="mt-5 font-script leading-tight text-mauve short:mt-3">
           <p className="text-5xl">{WEDDING.groom.name}</p>
-          <p className="my-1 font-serif text-4xl font-semibold text-bronze-deep italic">&amp;</p>
+          <p className="font-serif text-3xl font-semibold text-bronze-deep italic">&amp;</p>
           <p className="text-5xl">{WEDDING.bride.name}</p>
         </div>
       </Reveal>
 
       <Reveal delay={0.75} className="lg:col-start-2">
-        <Button onClick={onOpen} size="lg" className="mt-10 h-12 rounded-full px-8 text-base">
+        <Button
+          onClick={onOpen}
+          size="lg"
+          className="mt-6 h-12 rounded-full px-8 text-base short:mt-3 short:h-11"
+        >
           Mở thiệp
           <ChevronDown aria-hidden="true" className="motion-safe:animate-bounce" />
         </Button>

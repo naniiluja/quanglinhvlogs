@@ -7,7 +7,7 @@ export function InvitationMessage() {
   return (
     <section aria-labelledby="invitation-title" className="section-screen">
       <SectionHeading id="invitation-title" eyebrow="Lời ngỏ" title="Thư mời" />
-      <div className="mx-auto mt-8 max-w-2xl space-y-4 text-center">
+      <div className="mx-auto mt-6 max-w-2xl space-y-4 text-center">
         {WEDDING.invitationLines.map((line, index) => (
           <Reveal key={line} inView delay={index * 0.15}>
             <p className="font-serif text-xl leading-relaxed text-ink italic md:text-2xl">{line}</p>

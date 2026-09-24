@@ -79,7 +79,7 @@ export function Rsvp({ code, initial }: RsvpProps) {
 
   if (!editing && saved) {
     return (
-      <Reveal inView className="rounded-2xl border border-border bg-cream/70 px-6 py-8">
+      <Reveal inView className="rounded-2xl border border-border bg-cream/70 px-6 py-8 text-center">
         <p className="font-script text-5xl text-mauve">Cảm ơn bạn</p>
         <p className="mt-4 text-ink">
           {saved.attending
@@ -99,7 +99,7 @@ export function Rsvp({ code, initial }: RsvpProps) {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="text-left" noValidate>
-      <FieldGroup>
+      <FieldGroup className="gap-4 short:gap-3">
         <Controller
           name="attending"
           control={form.control}
@@ -111,11 +111,13 @@ export function Rsvp({ code, initial }: RsvpProps) {
                 value={field.value ?? ''}
                 onValueChange={field.onChange}
                 aria-invalid={fieldState.invalid}
+                // Hai lựa chọn cạnh nhau để form vừa một màn điện thoại.
+                className="grid-cols-2"
               >
                 <FieldLabel htmlFor="rsvp-yes">
                   <Field orientation="horizontal" data-invalid={fieldState.invalid}>
                     <FieldContent>
-                      <FieldTitle>Mình sẽ tham dự</FieldTitle>
+                      <FieldTitle>Mình sẽ đến</FieldTitle>
                     </FieldContent>
                     <RadioGroupItem value="yes" id="rsvp-yes" aria-invalid={fieldState.invalid} />
                   </Field>
@@ -123,7 +125,7 @@ export function Rsvp({ code, initial }: RsvpProps) {
                 <FieldLabel htmlFor="rsvp-no">
                   <Field orientation="horizontal" data-invalid={fieldState.invalid}>
                     <FieldContent>
-                      <FieldTitle>Rất tiếc, mình không thể đến</FieldTitle>
+                      <FieldTitle>Tiếc quá, không đến được</FieldTitle>
                     </FieldContent>
                     <RadioGroupItem value="no" id="rsvp-no" aria-invalid={fieldState.invalid} />
                   </Field>
@@ -171,13 +173,11 @@ export function Rsvp({ code, initial }: RsvpProps) {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="rsvp-message">
-                Lời nhắn cho cô dâu chú rể (không bắt buộc)
-              </FieldLabel>
+              <FieldLabel htmlFor="rsvp-message">Lời nhắn (không bắt buộc)</FieldLabel>
               <Textarea
                 {...field}
                 id="rsvp-message"
-                rows={3}
+                rows={2}
                 maxLength={MESSAGE_MAX}
                 aria-invalid={fieldState.invalid}
                 className="bg-cream/70"
@@ -193,7 +193,7 @@ export function Rsvp({ code, initial }: RsvpProps) {
         <Button
           type="submit"
           size="lg"
-          className="h-12 rounded-full text-base"
+          className="h-11 rounded-full text-base"
           disabled={submit.isPending}
         >
           {submit.isPending ? 'Đang gửi...' : 'Gửi xác nhận'}

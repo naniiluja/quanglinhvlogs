@@ -11,21 +11,25 @@ interface SectionHeadingProps {
 export function SectionHeading({ id, eyebrow, title, description }: SectionHeadingProps) {
   return (
     <Reveal inView className="text-center">
-      <p className="font-serif text-sm tracking-[0.35em] text-sage-deep uppercase">{eyebrow}</p>
-      <h2 id={id} className="mt-2 font-serif text-3xl font-semibold text-ink md:text-4xl">
+      <p className="font-serif text-sm tracking-[0.35em] text-sage-deep uppercase short:text-xs">
+        {eyebrow}
+      </p>
+      <h2 id={id} className="mt-1 font-serif text-3xl font-semibold text-ink md:text-4xl">
         {title}
       </h2>
       <img
         src="/images/petals/cherry-blossom.png"
-        width={24}
-        height={24}
+        width={20}
+        height={20}
         alt=""
         aria-hidden="true"
         loading="lazy"
-        className="mx-auto mt-3 opacity-80"
+        className="mx-auto mt-2 size-5 opacity-80 short:hidden"
       />
       {description && (
-        <p className="mx-auto mt-3 max-w-80 text-sage-deep md:max-w-md">{description}</p>
+        <p className="mx-auto mt-2 max-w-80 text-sm text-sage-deep md:max-w-md md:text-base">
+          {description}
+        </p>
       )}
     </Reveal>
   )

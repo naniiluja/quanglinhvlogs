@@ -36,7 +36,7 @@ export function Countdown() {
     <section aria-labelledby="countdown-title" className="section-screen">
       <SectionHeading id="countdown-title" eyebrow="Đếm ngược" title="Ngày chung vui" />
 
-      <Reveal inView className="mt-8">
+      <Reveal inView className="mt-5">
         {left.done ? (
           <p className="text-center font-serif text-2xl text-ink italic">
             Cảm ơn bạn đã cùng hai đứa mình đi qua ngày trọng đại.
@@ -50,7 +50,7 @@ export function Countdown() {
             {UNITS.map((unit) => (
               <div
                 key={unit.key}
-                className="rounded-xl border border-border bg-cream/70 py-3 text-center"
+                className="rounded-xl border border-border bg-cream/70 py-2 text-center"
               >
                 <div className="flex justify-center py-1 font-sans text-3xl font-semibold text-mauve tabular-nums">
                   <SlidingNumber value={left[unit.key]} padStart />
@@ -64,7 +64,7 @@ export function Countdown() {
         )}
       </Reveal>
 
-      <Reveal inView delay={0.15} className="mt-8 flex justify-center">
+      <Reveal inView delay={0.15} className="mt-5 flex justify-center">
         <Calendar
           mode="single"
           selected={WEDDING_DAY}
@@ -73,7 +73,7 @@ export function Countdown() {
           hideNavigation
           locale={vi}
           weekStartsOn={1}
-          className="rounded-2xl border border-border bg-cream/70 [--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
+          className="rounded-2xl border border-border bg-cream/70 [--cell-size:--spacing(9)] short:[--cell-size:--spacing(7)] md:[--cell-size:--spacing(11)]"
         />
       </Reveal>
       <NextSectionButton />

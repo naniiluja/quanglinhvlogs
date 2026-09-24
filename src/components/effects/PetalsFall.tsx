@@ -47,7 +47,9 @@ const PETALS_OPTIONS: ISourceOptions = {
       direction: 'bottom',
       // Chậm, bồng bềnh (chủ dự án góp ý 2026-09-24: bay quá nhanh).
       speed: { min: 0.2, max: 0.55 },
-      drift: { min: -0.15, max: 0.15 },
+      // Không dùng `drift`: tsParticles cộng nó vào vận tốc ngang mỗi khung hình (không giới hạn),
+      // hoa nhanh dần theo thời gian. Rơi hơi xiên bằng `angle`, chọn một lần cho mỗi cánh.
+      angle: { value: 30, offset: 0 },
       straight: false,
       outModes: { default: 'out' },
     },

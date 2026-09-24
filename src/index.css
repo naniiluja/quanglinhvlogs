@@ -12,6 +12,8 @@
 @import '@fontsource/great-vibes/vietnamese-400.css';
 
 @custom-variant dark (&:is(.dark *));
+/* Màn thấp (iPhone SE, Android nhỏ khi thanh trình duyệt mở): thu gọn thêm để section vừa một màn. */
+@custom-variant short (@media (max-height: 620px));
 
 /* Bảng màu của thiệp: nguồn sự thật cho màu, không viết hex trong .tsx. */
 @theme {
@@ -37,8 +39,14 @@
   min-height: 100svh;
   flex-direction: column;
   justify-content: center;
-  padding: 4rem 1rem;
+  /* Đáy chừa chỗ cho NextSectionButton (44px + 12px). */
+  padding: 2.5rem 1rem 4.5rem;
   scroll-snap-align: start;
+
+  @media (max-height: 620px) {
+    padding-top: 1.5rem;
+    padding-bottom: 4rem;
+  }
 }
 
 /* Thang lớp chồng (design-system.md), dùng bằng z-(--layer-...). */
@@ -107,10 +115,17 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* Thanh cuộn mảnh màu vàng đồng: chuẩn CSS (Chrome, Edge, Firefox); scrollbar-color kế thừa
+     xuống mọi vùng cuộn con như danh sách lời chúc. iOS và Android tự vẽ thanh nổi, không chỉnh được. */
+  * {
+    scrollbar-width: thin;
+  }
   html {
     @apply font-sans;
-    /* Cuộn dừng mềm ở đầu mỗi section; section cao hơn màn hình vẫn cuộn tự do bên trong. */
-    scroll-snap-type: y proximity;
+    scrollbar-color: color-mix(in oklab, var(--color-bronze) 70%, transparent) transparent;
+    /* Thả tay là dừng đúng đầu một section, không dừng lưng chừng giữa hai section (chủ dự án góp ý 2026-09-24).
+       Section cao hơn màn hình vẫn cuộn được bên trong theo đặc tả scroll-snap. */
+    scroll-snap-type: y mandatory;
   }
   body {
     @apply bg-background text-foreground antialiased;
@@ -118,6 +133,19 @@
        160px. Trình duyệt vẽ một ô một lần rồi lặp lại; bản SVG fixed phủ màn hình cũ bị vẽ lại
        mỗi lần cuộn và là nguyên nhân chính gây giật trên iPhone. */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='0.15'/%3E%3CfeFuncG type='linear' slope='0.15'/%3E%3CfeFuncB type='linear' slope='0.15'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
+  }
+  /* Safari trên máy tính chưa hỗ trợ scrollbar-color: dùng pseudo-element của WebKit. */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background: color-mix(in oklab, var(--color-bronze) 70%, transparent) padding-box;
   }
   /* Cormorant mặc định dùng số old-style (cao thấp lệch nhau); ngày giờ cần số thẳng hàng. */
   .font-serif {

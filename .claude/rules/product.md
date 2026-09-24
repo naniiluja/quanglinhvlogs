@@ -6,7 +6,7 @@
 
 ## Link riêng của khách
 - Dạng `/?g=<code>`. `code` là mã ngẫu nhiên lưu ở bảng `guests`, tên hiển thị lấy từ `guests.display_name` (ví dụ "Anh Nam và gia đình").
-- Không có `g`, hoặc mã sai: hiện thiệp chung ("Trân trọng kính mời quý khách"), **ẩn** form RSVP và form lời chúc, hiện một dòng nhắc mở đúng link được gửi riêng. Mã sai và không có mã hiển thị y hệt nhau, để không ai dò được mã hợp lệ.
+- Không có `g`, hoặc mã sai: hiện thiệp chung ("Trân trọng kính mời quý khách"), **ẩn** form RSVP, form lời chúc và hộp mừng cưới, hiện một dòng nhắc mở đúng link được gửi riêng. Mã sai và không có mã hiển thị y hệt nhau, để không ai dò được mã hợp lệ.
 - Đổi tên người nhận: sửa `display_name` trong `/admin`, không cần deploy lại.
 
 ## Thứ tự các phần của thiệp
@@ -21,7 +21,7 @@ Tham khảo bố cục mẫu "Parallax lãng mạn" trên ngaychungdoi.com (ch�
 8. Địa điểm: bấm vào mở Google Maps (`https://www.google.com/maps/search/?api=1&query=<địa chỉ đã mã hóa>`).
 9. Album ảnh, xem phóng to.
 10. Sổ lưu bút.
-11. Mừng cưới: **một** mã QR VietQR và số tài khoản (chủ dự án chốt 2026-09-24).
+11. Mừng cưới: **một** mã QR VietQR và số tài khoản, **chỉ hiện với link mời riêng hợp lệ** (link chung và mã sai không thấy; chủ dự án chốt 2026-09-24).
 12. Xác nhận tham dự (RSVP).
 13. Lời cảm ơn.
 

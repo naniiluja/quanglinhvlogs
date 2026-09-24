@@ -9,7 +9,7 @@ export function Family() {
     <section aria-labelledby="family-title" className="section-screen">
       <SectionHeading id="family-title" eyebrow="Hai họ" title="Thông tin lễ cưới" />
 
-      <div className="mx-auto mt-8 grid w-full max-w-2xl grid-cols-2 gap-4 text-center md:gap-12">
+      <div className="mx-auto mt-6 grid short:mt-4 w-full max-w-2xl grid-cols-2 gap-4 text-center md:gap-12">
         {WEDDING.families.map((family, index) => (
           <Reveal key={family.side} inView delay={index * 0.15}>
             <p className="font-serif text-lg font-semibold text-bronze-deep uppercase">
@@ -22,13 +22,15 @@ export function Family() {
         ))}
       </div>
 
-      <Reveal inView delay={0.3} className="mt-10 text-center">
-        <p className="font-serif text-sm tracking-[0.25em] text-sage-deep uppercase">
+      <Reveal inView delay={0.3} className="mt-6 text-center short:mt-4">
+        <p className="font-serif text-sm tracking-[0.15em] text-sage-deep uppercase">
           Trân trọng báo tin lễ thành hôn của con chúng tôi
         </p>
-        <p className="mt-4 font-script text-5xl text-mauve">{WEDDING.groom.name}</p>
+        <p className="mt-2 font-script text-5xl text-mauve">{WEDDING.groom.name}</p>
         <p className="text-sm tracking-[0.2em] text-sage-deep uppercase">{groomSide.childLabel}</p>
-        <p className="my-2 font-serif text-3xl font-semibold text-bronze-deep italic">&amp;</p>
+        <p className="my-1 font-serif text-3xl short:my-0 font-semibold text-bronze-deep italic">
+          &amp;
+        </p>
         <p className="font-script text-5xl text-mauve">{WEDDING.bride.name}</p>
         <p className="text-sm tracking-[0.2em] text-sage-deep uppercase">{brideSide.childLabel}</p>
       </Reveal>
