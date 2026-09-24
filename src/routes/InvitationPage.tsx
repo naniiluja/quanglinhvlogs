@@ -12,16 +12,20 @@ import { Gallery } from '@/features/invitation/Gallery'
 import { GiftQr } from '@/features/invitation/GiftQr'
 import { Guestbook } from '@/features/invitation/Guestbook'
 import { InvitationMessage } from '@/features/invitation/InvitationMessage'
+import { MusicProvider } from '@/features/invitation/MusicProvider'
+import { MusicToggle } from '@/features/invitation/MusicToggle'
 import { RsvpSection } from '@/features/invitation/RsvpSection'
 import { Timeline } from '@/features/invitation/Timeline'
 import { Venue } from '@/features/invitation/Venue'
 import { useInvitation } from '@/hooks/useInvitation'
+import { useMusic } from '@/hooks/useMusic'
 
-export function InvitationPage() {
+function InvitationContent() {
   const [searchParams] = useSearchParams()
   const code = searchParams.get('g')
   const invitation = useInvitation(code)
   const contentRef = useRef<HTMLDivElement>(null)
+  const music = useMusic()
 
   // Mã sai và không có mã hiển thị giống hệt nhau (product.md): chỉ khi có dữ liệu mới gọi tên.
   const guestName = invitation.data?.displayName ?? null
@@ -30,6 +34,7 @@ export function InvitationPage() {
     <div className="relative min-h-svh overflow-hidden">
       <NoiseTexture className="fixed z-(--layer-background) opacity-15" />
       <PetalsFall />
+      <MusicToggle />
 
       <main className="relative z-(--layer-content) mx-auto max-w-120">
         <h1 className="sr-only">
@@ -39,7 +44,11 @@ export function InvitationPage() {
         <Cover
           guestName={guestName}
           loading={invitation.isLoading}
-          onOpen={() => contentRef.current?.scrollIntoView({ behavior: 'smooth' })}
+          onOpen={() => {
+            // Bấm "Mở thiệp" là thao tác của người dùng nên được phép phát nhạc.
+            music.start()
+            contentRef.current?.scrollIntoView({ behavior: 'smooth' })
+          }}
         />
 
         <div ref={contentRef}>
@@ -62,5 +71,13 @@ export function InvitationPage() {
         </div>
       </main>
     </div>
+  )
+}
+
+export function InvitationPage() {
+  return (
+    <MusicProvider>
+      <InvitationContent />
+    </MusicProvider>
   )
 }

@@ -61,6 +61,7 @@ export interface WeddingConfig {
   venues: Venue[]
   gallery: Photo[]
   giftAccounts: GiftAccount[]
+  music: { src: string }
 }
 
 export const WEDDING: WeddingConfig = {
@@ -169,4 +170,6 @@ export const WEDDING: WeddingConfig = {
       accountName: 'TRAN THANH TRUC', // MOCK
     },
   ],
+  // Nhạc giữ chỗ public domain, nguồn và giấy phép ở public/audio/LICENSE.txt. Đổi bài: thay file này.
+  music: { src: '/audio/canon-in-d.m4a' }, // MOCK
 }

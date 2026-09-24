@@ -1,0 +1,6 @@
+canon-in-d.m4a: "Canon (2004)", Strolling Strings, United States Air Force Band.
+Sáng tác: Johann Pachelbel. Phối khí: Frank Hudson.
+Giấy phép: Public domain (tác phẩm của chính phủ Hoa Kỳ).
+Nguồn: https://commons.wikimedia.org/wiki/File:Canon_(2004)_-_Strolling_Strings_-_United_States_Air_Force_Band.mp3
+Gốc: https://www.music.af.mil/Multimedia/Music/Public-Domain-Music/
+Đã nén từ MP3 320kbps sang AAC 64kbps bằng afconvert.

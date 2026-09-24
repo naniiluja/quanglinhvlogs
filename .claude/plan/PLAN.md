@@ -40,8 +40,8 @@ Cột "Gate" bên dưới chỉ ghi phần **riêng** của từng task, cộng 
 | 005 | Album ảnh và mừng cưới QR | UI + config | Lightbox chạy; ảnh QR VietQR hiện, sao chép số tài khoản, có dự phòng khi ảnh lỗi | 004 | in-review |
 | 006 | Trang admin: đăng nhập, khách, thống kê | DB + service + UI | Người không phải admin (kể cả `authenticated`) bị RLS từ chối; thêm, sửa, xóa, sao chép link chạy | 005 | blocked |
 | 007 | Sổ lưu bút | DB + service + UI | Giới hạn 3 lời chúc mỗi khách và 500 ký tự đúng; admin xóa được lời chúc | 006 | in-review |
-| 008 | Nhạc nền | UI | Nhạc phát sau khi bấm "Mở thiệp", nút bật tắt phản ánh đúng thực tế; thử trên điện thoại thật | 007 | in-progress |
-| 009 | Hoàn thiện và phát hành | UI + DB + hosting | Meta chia sẻ đúng, Lighthouse mobile được ghi lại, dữ liệu `[TEST]` đã dọn, luồng đầy đủ chạy qua Zalo trên điện thoại thật | 008 | todo |
+| 008 | Nhạc nền | UI | Nhạc phát sau khi bấm "Mở thiệp", nút bật tắt phản ánh đúng thực tế; thử trên điện thoại thật | 007 | blocked |
+| 009 | Hoàn thiện và phát hành | UI + DB + hosting | Meta chia sẻ đúng, Lighthouse mobile được ghi lại, dữ liệu `[TEST]` đã dọn, luồng đầy đủ chạy qua Zalo trên điện thoại thật | 008 | in-progress |
 
 ## Rủi ro đã biết
 - **Supabase Free tạm dừng sau 7 ngày không hoạt động**: thiệp sẽ hỏng nếu project bị pause. Xử lý ở task 009.
