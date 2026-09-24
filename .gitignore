@@ -1,0 +1,16 @@
+# Repo công khai: không bao giờ commit bí mật hay ảnh gốc
+node_modules
+dist
+.env.local
+.env
+.env.*
+!.env.example
+.wrangler
+*.log
+.DS_Store
+
+# Cấu hình Claude Code cục bộ của từng máy
+.claude/settings.local.json
+
+# Ảnh gốc chưa cắt, chỉ giữ bản đã cắt trong public/
+assets-src/
