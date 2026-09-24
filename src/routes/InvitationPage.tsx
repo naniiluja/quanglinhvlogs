@@ -10,6 +10,7 @@ import { Event } from '@/features/invitation/Event'
 import { Family } from '@/features/invitation/Family'
 import { Gallery } from '@/features/invitation/Gallery'
 import { GiftQr } from '@/features/invitation/GiftQr'
+import { Guestbook } from '@/features/invitation/Guestbook'
 import { InvitationMessage } from '@/features/invitation/InvitationMessage'
 import { RsvpSection } from '@/features/invitation/RsvpSection'
 import { Timeline } from '@/features/invitation/Timeline'
@@ -55,6 +56,7 @@ export function InvitationPage() {
           <Timeline />
           <Venue />
           <Gallery />
+          <Guestbook code={code} invitation={invitation.data} />
           <GiftQr />
           <RsvpSection code={code} invitation={invitation.data} loading={invitation.isLoading} />
         </div>

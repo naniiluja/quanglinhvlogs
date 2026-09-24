@@ -1,7 +1,9 @@
 import { LogOut } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AddGuests } from '@/features/admin/AddGuests'
+import { GuestbookTab } from '@/features/admin/GuestbookTab'
 import { GuestTable } from '@/features/admin/GuestTable'
 import { Stats } from '@/features/admin/Stats'
 import { useGuests } from '@/hooks/useGuests'
@@ -35,8 +37,19 @@ export function AdminDashboard() {
       {guests.data && (
         <>
           <Stats stats={computeStats(guests.data)} />
-          <AddGuests />
-          <GuestTable guests={guests.data} />
+          <Tabs defaultValue="guests">
+            <TabsList>
+              <TabsTrigger value="guests">Khách mời</TabsTrigger>
+              <TabsTrigger value="guestbook">Lời chúc</TabsTrigger>
+            </TabsList>
+            <TabsContent value="guests" className="space-y-4">
+              <AddGuests />
+              <GuestTable guests={guests.data} />
+            </TabsContent>
+            <TabsContent value="guestbook">
+              <GuestbookTab />
+            </TabsContent>
+          </Tabs>
         </>
       )}
     </div>

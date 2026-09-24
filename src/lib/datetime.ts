@@ -23,3 +23,8 @@ export function toDateParts(iso: string): DateParts {
     time: part(date, { hour: '2-digit', minute: '2-digit', hour12: false }),
   }
 }
+
+// Ngày ngắn cho lời chúc, ví dụ 24/09/2026.
+export function formatShortDate(iso: string): string {
+  return part(new Date(iso), { day: '2-digit', month: '2-digit', year: 'numeric' })
+}

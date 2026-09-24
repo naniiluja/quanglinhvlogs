@@ -11,6 +11,7 @@ export interface RsvpAnswer {
 export interface Invitation {
   displayName: string
   rsvp: RsvpAnswer | null
+  guestbookCount: number
 }
 
 interface RsvpRow {
@@ -44,12 +45,17 @@ export function getInvitation(code: string): Promise<Invitation> {
     async () => {
       const { data, error } = await supabase.rpc('get_invitation', { p_code: code })
       if (error) throw toAppError(error)
-      if (!isRecord(data) || typeof data.display_name !== 'string') {
+      if (
+        !isRecord(data) ||
+        typeof data.display_name !== 'string' ||
+        typeof data.guestbook_count !== 'number'
+      ) {
         throw toAppError({ message: 'unexpected_shape' })
       }
       return {
         displayName: data.display_name,
         rsvp: data.rsvp === null ? null : toRsvpAnswer(data.rsvp),
+        guestbookCount: data.guestbook_count,
       }
     },
     { code: maskCode(code) },

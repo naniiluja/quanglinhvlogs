@@ -29,6 +29,35 @@ export type Database = {
         }
         Relationships: []
       }
+      guestbook_entries: {
+        Row: {
+          created_at: string
+          guest_id: string
+          id: string
+          message: string
+        }
+        Insert: {
+          created_at?: string
+          guest_id: string
+          id?: string
+          message: string
+        }
+        Update: {
+          created_at?: string
+          guest_id?: string
+          id?: string
+          message?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guestbook_entries_guest_id_fkey"
+            columns: ["guest_id"]
+            isOneToOne: false
+            referencedRelation: "guests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       guests: {
         Row: {
           code: string
@@ -87,9 +116,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_guestbook_entry: {
+        Args: { p_code: string; p_message: string }
+        Returns: Json
+      }
       generate_guest_code: { Args: never; Returns: string }
       get_invitation: { Args: { p_code: string }; Returns: Json }
       is_admin: { Args: never; Returns: boolean }
+      list_guestbook: {
+        Args: never
+        Returns: {
+          author_name: string
+          created_at: string
+          message: string
+        }[]
+      }
       submit_rsvp: {
         Args: {
           p_attending: boolean
