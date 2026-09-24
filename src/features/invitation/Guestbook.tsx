@@ -105,7 +105,7 @@ export function Guestbook({ code, invitation }: GuestbookProps) {
               <blockquote className="leading-relaxed break-words whitespace-pre-line text-ink">
                 {entry.message}
               </blockquote>
-              <figcaption className="mt-2 text-sm text-bronze">
+              <figcaption className="mt-2 text-sm text-bronze-deep">
                 {entry.authorName} · {formatShortDate(entry.createdAt)}
               </figcaption>
             </figure>

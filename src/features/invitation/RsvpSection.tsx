@@ -1,6 +1,9 @@
-import { Rsvp } from '@/features/invitation/Rsvp'
+import { lazy, Suspense } from 'react'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
 import type { Invitation } from '@/services/invitation'
+
+// Form (react-hook-form + zod) chỉ tải khi có khách hợp lệ.
+const Rsvp = lazy(() => import('@/features/invitation/Rsvp').then((m) => ({ default: m.Rsvp })))
 
 interface RsvpSectionProps {
   code: string | null
@@ -23,7 +26,16 @@ export function RsvpSection({ code, invitation, loading }: RsvpSectionProps) {
         {loading ? (
           <div className="mx-auto h-64 animate-pulse rounded-2xl bg-muted" aria-label="Đang tải" />
         ) : code && invitation ? (
-          <Rsvp code={code} initial={invitation.rsvp} />
+          <Suspense
+            fallback={
+              <div
+                className="mx-auto h-64 animate-pulse rounded-2xl bg-muted"
+                aria-label="Đang tải"
+              />
+            }
+          >
+            <Rsvp code={code} initial={invitation.rsvp} />
+          </Suspense>
         ) : (
           <p className="rounded-2xl border border-border px-6 py-8 text-ink">
             Vui lòng mở đúng link mời được gửi riêng cho bạn để xác nhận tham dự.

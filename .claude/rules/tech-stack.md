@@ -16,10 +16,11 @@ Triết lý: chọn stack **ổn định, phổ biến, ít lỗi nhất**; mỗ
 | Runtime dev | Node LTS qua `nvm`, package manager là `npm` |
 
 ## Thư viện lõi (mỗi nhu cầu đúng một lựa chọn)
+- Tải lười (`React.lazy`) mọi phần nặng nằm dưới màn hình đầu: `AdminPage`, `Countdown` (lịch), `Rsvp` (react-hook-form + zod), `PetalsFall` (tsParticles), lightbox (`LazyLightbox`). Bundle chính ngày 2026-09-24: 173KB gzip.
 - Routing: `react-router` (chế độ khai báo, `BrowserRouter`), chỉ hai nhóm route: `/` và `/admin`.
 - Dữ liệu từ server: `@tanstack/react-query`.
 - Form và kiểm tra dữ liệu: `react-hook-form` + `zod` + `@hookform/resolvers`.
-- Supabase: `@supabase/supabase-js` v2, một client duy nhất ở `src/lib/supabase.ts`.
+- Supabase: `src/lib/supabase.ts` là nơi duy nhất tạo client, gồm hai loại. `publicDb` (`@supabase/postgrest-js`, chỉ RPC công khai của khách) nằm trong bundle chính; `getAdminClient()` tải lười `@supabase/supabase-js` v2 (có Auth) cho trang admin. Lý do: supabase-js luôn kèm Auth, Realtime, Storage (khoảng 50KB gzip) mà khách không cần; postgrest-js tự khuyến nghị import độc lập cho môi trường cần bundle nhẹ.
 - Icon: `lucide-react`. Toast: `sonner`. Lịch tháng: component `calendar` của shadcn.
 - Font: `@fontsource` tự host. Mọi font phải có subset `vietnamese` (xem `design-system.md`).
 - Format: `prettier` (`.prettierrc`; bỏ qua `src/components/ui/` và `*.md`, vì Prettier biến dòng `@import` trong `CLAUDE.md` thành trích dẫn và làm mất rule). Lint: `oxlint` (mặc định của template `create-vite` 9; bỏ qua `src/components/ui/`).

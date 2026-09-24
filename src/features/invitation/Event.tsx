@@ -18,7 +18,7 @@ export function Event() {
               delay={index * 0.15}
               className="rounded-2xl border border-border bg-cream/70 px-6 py-6 text-center"
             >
-              <p className="font-serif text-xl font-semibold text-bronze uppercase">
+              <p className="font-serif text-xl font-semibold text-bronze-deep uppercase">
                 {ceremony.title}
               </p>
               <p className="mt-1 font-serif text-4xl font-semibold text-ink">{date.time}</p>

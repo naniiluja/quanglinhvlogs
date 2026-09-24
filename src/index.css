@@ -19,6 +19,8 @@
   --color-sage: #8a9a7b;
   --color-sage-deep: #4f6250;
   --color-bronze: #b08a57;
+  /* Vàng đồng đậm cho chữ và nền nút: 4.91:1 với nền kem (bronze gốc chỉ 2.92:1). */
+  --color-bronze-deep: #86653a;
   --color-blush: #e9c4c9;
   --color-mauve: #8b5e75;
   --color-ink: #3b3a36;
@@ -75,7 +77,7 @@
   --card-foreground: var(--color-ink);
   --popover: var(--color-cream);
   --popover-foreground: var(--color-ink);
-  --primary: var(--color-bronze);
+  --primary: var(--color-bronze-deep);
   --primary-foreground: var(--color-cream);
   --secondary: var(--color-sage);
   --secondary-foreground: var(--color-cream);

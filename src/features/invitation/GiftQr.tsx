@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Copy } from 'lucide-react'
 import { toast } from 'sonner'
-import Lightbox from 'yet-another-react-lightbox'
+import { LazyLightbox } from '@/components/effects/LazyLightbox'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { Button } from '@/components/ui/button'
 import { WEDDING, type GiftAccount } from '@/config/wedding'
@@ -28,7 +28,7 @@ function AccountCard({ account, onZoom }: { account: GiftAccount; onZoom: (src: 
 
   return (
     <div className="rounded-2xl border border-border bg-cream/70 px-5 py-6 text-center">
-      <p className="font-serif text-xl font-semibold text-bronze uppercase">{account.label}</p>
+      <p className="font-serif text-xl font-semibold text-bronze-deep uppercase">{account.label}</p>
 
       {qrFailed ? (
         <p className="mx-auto mt-4 max-w-64 text-sm text-sage-deep">
@@ -86,7 +86,7 @@ export function GiftQr() {
         ))}
       </div>
 
-      <Lightbox
+      <LazyLightbox
         open={zoomSrc !== null}
         close={() => setZoomSrc(null)}
         slides={zoomSrc ? [{ src: zoomSrc, alt: 'Mã QR chuyển khoản' }] : []}

@@ -11,7 +11,9 @@ export function Family() {
       <div className="mt-8 grid grid-cols-2 gap-4 text-center">
         {WEDDING.families.map((family, index) => (
           <BlurFade key={family.side} inView delay={index * 0.15}>
-            <p className="font-serif text-lg font-semibold text-bronze uppercase">{family.side}</p>
+            <p className="font-serif text-lg font-semibold text-bronze-deep uppercase">
+              {family.side}
+            </p>
             <p className="mt-2 text-ink">{family.father}</p>
             <p className="text-ink">{family.mother}</p>
             <p className="mt-2 text-sm text-sage-deep">{family.address}</p>
@@ -25,7 +27,7 @@ export function Family() {
         </p>
         <p className="mt-4 font-script text-5xl text-mauve">{WEDDING.groom.name}</p>
         <p className="text-sm tracking-[0.2em] text-sage-deep uppercase">{groomSide.childLabel}</p>
-        <p className="my-2 font-serif text-3xl font-semibold text-bronze italic">&amp;</p>
+        <p className="my-2 font-serif text-3xl font-semibold text-bronze-deep italic">&amp;</p>
         <p className="font-script text-5xl text-mauve">{WEDDING.bride.name}</p>
         <p className="text-sm tracking-[0.2em] text-sage-deep uppercase">{brideSide.childLabel}</p>
       </BlurFade>

@@ -14,7 +14,7 @@ export function Timeline() {
                 aria-hidden="true"
                 className="absolute top-1.5 -left-[1.95rem] size-3 rounded-full border-2 border-bronze bg-cream"
               />
-              <p className="font-serif text-2xl font-semibold text-bronze">{item.time}</p>
+              <p className="font-serif text-2xl font-semibold text-bronze-deep">{item.time}</p>
               <p className="text-ink">{item.title}</p>
             </BlurFade>
           </li>

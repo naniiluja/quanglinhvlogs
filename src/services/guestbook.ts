@@ -1,5 +1,5 @@
 import { maskCode, traced } from '@/lib/log'
-import { supabase } from '@/lib/supabase'
+import { getAdminClient, publicDb } from '@/lib/supabase'
 import { toAppError } from '@/services/supabaseError'
 
 export const GUESTBOOK_MESSAGE_MAX = 500
@@ -17,7 +17,7 @@ export interface AdminGuestbookEntry extends GuestbookEntry {
 
 export function listGuestbook(): Promise<GuestbookEntry[]> {
   return traced('guestbook.list', async () => {
-    const { data, error } = await supabase.rpc('list_guestbook')
+    const { data, error } = await publicDb.rpc('list_guestbook')
     if (error) throw toAppError(error)
     return data.map((row) => ({
       authorName: row.author_name,
@@ -32,7 +32,7 @@ export function addGuestbookEntry(code: string, message: string): Promise<void> 
   return traced(
     'guestbook.add',
     async () => {
-      const { error } = await supabase.rpc('add_guestbook_entry', {
+      const { error } = await publicDb.rpc('add_guestbook_entry', {
         p_code: code,
         p_message: message,
       })
@@ -44,6 +44,7 @@ export function addGuestbookEntry(code: string, message: string): Promise<void> 
 
 export function listAllGuestbookEntries(): Promise<AdminGuestbookEntry[]> {
   return traced('admin.guestbook.list', async () => {
+    const supabase = await getAdminClient()
     const { data, error } = await supabase
       .from('guestbook_entries')
       .select('id, message, created_at, guests(display_name)')
@@ -60,6 +61,7 @@ export function listAllGuestbookEntries(): Promise<AdminGuestbookEntry[]> {
 
 export function deleteGuestbookEntry(id: string): Promise<void> {
   return traced('admin.guestbook.delete', async () => {
+    const supabase = await getAdminClient()
     const { error } = await supabase.from('guestbook_entries').delete().eq('id', id)
     if (error) throw toAppError(error)
   })

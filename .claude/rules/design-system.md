@@ -12,7 +12,8 @@ Nguồn thiết kế: **chưa có bản Claude Design**, giao diện do Claude t
 | `--color-cream` | `#FAF5EA` | Nền chính, giấy thiệp |
 | `--color-sage` | `#8A9A7B` | Lá, viền, nút phụ |
 | `--color-sage-deep` | `#4F6250` | Chữ nhấn, nền tối nhẹ |
-| `--color-bronze` | `#B08A57` | Vàng đồng: đường viền, số, icon, nút chính |
+| `--color-bronze` | `#B08A57` | Vàng đồng: chỉ cho đường viền và họa tiết (2.92:1 với nền kem, không đủ cho chữ) |
+| `--color-bronze-deep` | `#86653A` | Vàng đồng đậm: chữ, icon, nền nút chính (`--primary`), đạt 4.91:1 với nền kem |
 | `--color-blush` | `#E9C4C9` | Hồng phấn nhấn, lấy từ hoa và rèm trong ảnh dạm ngõ |
 | `--color-mauve` | `#8B5E75` | Chữ tên, lấy từ chữ trên bảng dạm ngõ |
 | `--color-ink` | `#3B3A36` | Chữ thân bài |

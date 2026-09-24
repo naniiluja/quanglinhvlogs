@@ -1,7 +1,7 @@
 # Architecture
 
 ## Phân lớp và ranh giới
-`components/pages (UI)` → `hooks (react-query)` → `services` → `lib/supabase (client)` → Supabase RPC/tables.
+`components/pages (UI)` → `hooks (react-query)` → `services` → `lib/supabase` (`publicDb` cho khách, `getAdminClient()` cho admin) → Supabase RPC/tables.
 
 - UI chỉ hiển thị và bắt sự kiện. Gọi dữ liệu qua hook.
 - Hook bọc react-query, gọi service. Không chứa SQL hay tên bảng.

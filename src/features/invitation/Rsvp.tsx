@@ -155,7 +155,7 @@ export function Rsvp({ code, initial }: RsvpProps) {
                       key={size}
                       value={size}
                       aria-label={`${size} người`}
-                      className="h-11 flex-1 data-[state=on]:border-bronze data-[state=on]:bg-bronze data-[state=on]:text-cream"
+                      className="h-11 flex-1 data-[state=on]:border-bronze-deep data-[state=on]:bg-bronze-deep data-[state=on]:text-cream"
                     >
                       {size}
                     </ToggleGroupItem>

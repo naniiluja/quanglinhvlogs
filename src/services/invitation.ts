@@ -1,5 +1,5 @@
 import { maskCode, traced } from '@/lib/log'
-import { supabase } from '@/lib/supabase'
+import { publicDb } from '@/lib/supabase'
 import { toAppError } from '@/services/supabaseError'
 
 export interface RsvpAnswer {
@@ -43,7 +43,7 @@ export function getInvitation(code: string): Promise<Invitation> {
   return traced(
     'invitation.get',
     async () => {
-      const { data, error } = await supabase.rpc('get_invitation', { p_code: code })
+      const { data, error } = await publicDb.rpc('get_invitation', { p_code: code })
       if (error) throw toAppError(error)
       if (
         !isRecord(data) ||

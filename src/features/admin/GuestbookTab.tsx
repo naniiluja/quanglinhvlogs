@@ -39,7 +39,7 @@ export function GuestbookTab() {
         >
           <div className="min-w-0 flex-1">
             <p className="break-words whitespace-pre-line text-ink">{entry.message}</p>
-            <p className="mt-1 text-sm text-bronze">
+            <p className="mt-1 text-sm text-bronze-deep">
               {entry.authorName} · {formatShortDate(entry.createdAt)}
             </p>
           </div>

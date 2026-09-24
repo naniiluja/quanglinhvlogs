@@ -1,9 +1,7 @@
-import { useRef } from 'react'
+import { lazy, Suspense, useRef } from 'react'
 import { useSearchParams } from 'react-router'
-import { PetalsFall } from '@/components/effects/PetalsFall'
 import { NoiseTexture } from '@/components/ui/noise-texture'
 import { WEDDING } from '@/config/wedding'
-import { Countdown } from '@/features/invitation/Countdown'
 import { Couple } from '@/features/invitation/Couple'
 import { Cover } from '@/features/invitation/Cover'
 import { Event } from '@/features/invitation/Event'
@@ -15,10 +13,20 @@ import { InvitationMessage } from '@/features/invitation/InvitationMessage'
 import { MusicProvider } from '@/features/invitation/MusicProvider'
 import { MusicToggle } from '@/features/invitation/MusicToggle'
 import { RsvpSection } from '@/features/invitation/RsvpSection'
+import { Thanks } from '@/features/invitation/Thanks'
 import { Timeline } from '@/features/invitation/Timeline'
 import { Venue } from '@/features/invitation/Venue'
 import { useInvitation } from '@/hooks/useInvitation'
 import { useMusic } from '@/hooks/useMusic'
+
+// Lịch (react-day-picker + date-fns) nằm dưới màn hình đầu: tải riêng để bìa hiện nhanh.
+// Hoa rơi chỉ để trang trí: tải sau, không chặn lần vẽ đầu.
+const PetalsFall = lazy(() =>
+  import('@/components/effects/PetalsFall').then((m) => ({ default: m.PetalsFall })),
+)
+const Countdown = lazy(() =>
+  import('@/features/invitation/Countdown').then((m) => ({ default: m.Countdown })),
+)
 
 function InvitationContent() {
   const [searchParams] = useSearchParams()
@@ -33,7 +41,12 @@ function InvitationContent() {
   return (
     <div className="relative min-h-svh overflow-hidden">
       <NoiseTexture className="fixed z-(--layer-background) opacity-15" />
-      <PetalsFall />
+      {/* Khung fixed để lớp hoa rơi (tải lười) không bao giờ chiếm chỗ và đẩy nội dung (CLS). */}
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-(--layer-petals)">
+        <Suspense fallback={null}>
+          <PetalsFall />
+        </Suspense>
+      </div>
       <MusicToggle />
 
       <main className="relative z-(--layer-content) mx-auto max-w-120">
@@ -61,13 +74,16 @@ function InvitationContent() {
           <Family />
           <Couple />
           <Event />
-          <Countdown />
+          <Suspense fallback={<div className="min-h-[44rem]" />}>
+            <Countdown />
+          </Suspense>
           <Timeline />
           <Venue />
           <Gallery />
           <Guestbook code={code} invitation={invitation.data} />
           <GiftQr />
           <RsvpSection code={code} invitation={invitation.data} loading={invitation.isLoading} />
+          <Thanks />
         </div>
       </main>
     </div>

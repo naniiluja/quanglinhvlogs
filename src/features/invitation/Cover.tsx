@@ -38,26 +38,22 @@ export function Cover({ guestName, loading, onOpen }: CoverProps) {
         )}
       </div>
 
-      <BlurFade delay={0.35}>
-        <motion.div
-          style={{ y: photoY }}
-          className="mt-8 rounded-t-full border border-bronze/60 p-2"
-        >
-          <img
-            src="/images/cover-couple.jpg"
-            width={548}
-            height={685}
-            alt={`${WEDDING.groom.name} và ${WEDDING.bride.name} cùng bó hoa hồng`}
-            className="aspect-4/5 w-64 rounded-t-full object-cover sm:w-72"
-            fetchPriority="high"
-          />
-        </motion.div>
-      </BlurFade>
+      {/* Ảnh bìa là phần tử LCP: không bọc hiệu ứng mờ dần để trình duyệt vẽ ngay khi ảnh tải xong. */}
+      <motion.div style={{ y: photoY }} className="mt-8 rounded-t-full border border-bronze/60 p-2">
+        <img
+          src="/images/cover-couple.jpg"
+          width={548}
+          height={685}
+          alt={`${WEDDING.groom.name} và ${WEDDING.bride.name} cùng bó hoa hồng`}
+          className="aspect-4/5 w-64 rounded-t-full object-cover sm:w-72"
+          fetchPriority="high"
+        />
+      </motion.div>
 
       <BlurFade delay={0.55}>
         <div aria-hidden="true" className="mt-8 font-script leading-tight text-mauve">
           <p className="text-5xl">{WEDDING.groom.name}</p>
-          <p className="my-1 font-serif text-4xl font-semibold text-bronze italic">&amp;</p>
+          <p className="my-1 font-serif text-4xl font-semibold text-bronze-deep italic">&amp;</p>
           <p className="text-5xl">{WEDDING.bride.name}</p>
         </div>
       </BlurFade>

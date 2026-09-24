@@ -27,12 +27,12 @@ export function Venue() {
                 rel="noopener noreferrer"
                 className="block rounded-2xl border border-border bg-cream/70 px-6 py-6 text-center transition-colors hover:border-bronze focus-visible:border-bronze"
               >
-                <p className="font-serif text-xl font-semibold text-bronze uppercase">
+                <p className="font-serif text-xl font-semibold text-bronze-deep uppercase">
                   {venue.title}
                 </p>
                 <p className="mt-2 font-serif text-2xl font-medium text-ink">{venue.name}</p>
                 <p className="mt-2 flex items-start justify-center gap-1.5 text-ink">
-                  <MapPin aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-bronze" />
+                  <MapPin aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-bronze-deep" />
                   {venue.address}
                 </p>
                 <p className="mt-2 text-sm text-sage-deep">Thời gian: {venue.timeRange}</p>

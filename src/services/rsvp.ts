@@ -1,5 +1,5 @@
 import { maskCode, traced } from '@/lib/log'
-import { supabase } from '@/lib/supabase'
+import { publicDb } from '@/lib/supabase'
 import { toRsvpAnswer, type RsvpAnswer } from '@/services/invitation'
 import { toAppError } from '@/services/supabaseError'
 
@@ -8,7 +8,7 @@ export function submitRsvp(code: string, answer: RsvpAnswer): Promise<RsvpAnswer
   return traced(
     'rsvp.submit',
     async () => {
-      const { data, error } = await supabase.rpc('submit_rsvp', {
+      const { data, error } = await publicDb.rpc('submit_rsvp', {
         p_code: code,
         p_attending: answer.attending,
         // Không tham dự thì luôn gửi 1 (product.md); thống kê chỉ cộng khi attending.

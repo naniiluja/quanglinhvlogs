@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import Lightbox from 'yet-another-react-lightbox'
-import 'yet-another-react-lightbox/styles.css'
+import { LazyLightbox } from '@/components/effects/LazyLightbox'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { WEDDING } from '@/config/wedding'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
@@ -53,7 +52,7 @@ export function Gallery() {
         ))}
       </div>
 
-      <Lightbox
+      <LazyLightbox
         open={index >= 0}
         index={index}
         close={() => setIndex(-1)}
