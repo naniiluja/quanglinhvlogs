@@ -49,6 +49,12 @@
   }
 }
 
+/* DriftWall (album) mặc định nền ô gần đen cho giao diện tối: đổi sang kem nhạt để ô chưa tải ảnh
+   vẫn hợp thiệp. Ghi đè từ ngoài, không sửa file vendor. */
+.album-wall .drift-wall__inner {
+  background: var(--muted);
+}
+
 /* Thang lớp chồng (design-system.md), dùng bằng z-(--layer-...). */
 :root {
   --layer-background: 0;

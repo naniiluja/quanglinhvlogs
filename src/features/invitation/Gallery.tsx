@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
+import { useInView } from 'motion/react'
 import { LazyLightbox } from '@/components/effects/LazyLightbox'
-import { Reveal } from '@/components/effects/Reveal'
 import { WEDDING } from '@/config/wedding'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
 import { NextSectionButton } from '@/features/invitation/NextSectionButton'
@@ -17,6 +17,25 @@ const LIGHTBOX_LABELS = {
   '{index} of {total}': '{index} trên {total}',
 }
 
+// Tường ảnh nằm dưới màn hình đầu: tải riêng khi album sắp hiện (tech-stack.md, danh sách tải lười).
+const DriftWall = lazy(() => import('@/components/ui/drift-wall/DriftWall'))
+
+// Điện thoại: ô nhỏ hơn, ít cột, trôi chậm và nông hơn cho nhẹ máy.
+const IS_SMALL_SCREEN = window.matchMedia('(max-width: 767px)').matches
+const WALL = IS_SMALL_SCREEN
+  ? { columns: 4, tileWidth: 110, tileHeight: 146, gap: 10, depth: 60, speed: 18 }
+  : { columns: 5, tileWidth: 170, tileHeight: 226, gap: 16, depth: 120, speed: 26 }
+
+const WALL_ITEMS = WEDDING.gallery.map((photo) => ({ image: photo.src, title: photo.alt }))
+
+// DriftWall chia ảnh vào cột theo `i % columns` (cột trống lấy ảnh đầu) và đặt id ô là
+// `<cột>-<bản sao>-<vị trí trong cột>`: suy ngược ra ảnh nào để mở lightbox.
+function tileToPhotoIndex(tileId: string): number {
+  const [column, , position] = tileId.split('-').map(Number)
+  const photoIndex = column + position * WALL.columns
+  return photoIndex < WALL_ITEMS.length ? photoIndex : 0
+}
+
 const SLIDES = WEDDING.gallery.map((photo) => ({
   src: photo.src,
   width: photo.width,
@@ -26,37 +45,56 @@ const SLIDES = WEDDING.gallery.map((photo) => ({
 
 export function Gallery() {
   const [index, setIndex] = useState(-1)
+  const wallRef = useRef<HTMLDivElement>(null)
+  const inView = useInView(wallRef, { margin: '120px' })
+
+  function openFrom(target: EventTarget) {
+    const tile = target instanceof Element ? target.closest('[data-tile-id]') : null
+    if (tile instanceof HTMLElement && tile.dataset.tileId)
+      setIndex(tileToPhotoIndex(tile.dataset.tileId))
+  }
 
   return (
     <section aria-labelledby="gallery-title" className="section-screen">
       <SectionHeading id="gallery-title" eyebrow="Khoảnh khắc" title="Album ảnh cưới" />
 
-      <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-        {WEDDING.gallery.map((photo, i) => (
-          <Reveal
-            key={photo.src}
-            inView
-            delay={i * 0.1}
-            className={i === 0 ? 'col-span-2 md:col-span-1' : ''}
-          >
-            <button
-              type="button"
-              onClick={() => setIndex(i)}
-              aria-label={`Phóng to ảnh: ${photo.alt}`}
-              className="block w-full overflow-hidden rounded-xl border border-border"
-            >
-              <img
-                src={photo.src}
-                width={photo.width}
-                height={photo.height}
-                alt={photo.alt}
-                loading="lazy"
-                className={`w-full object-cover transition-transform duration-500 hover:scale-105 ${i === 0 ? 'aspect-video md:aspect-[3/4]' : 'aspect-[4/3] md:aspect-[3/4]'}`}
-              />
-            </button>
-          </Reveal>
-        ))}
+      {/* Tường ảnh trôi 3D (@react-bits DriftWall). Component chạy vòng requestAnimationFrame liên tục,
+          nên chỉ gắn khi album nằm trong màn hình và gỡ khi cuộn đi, để không tốn pin và không giật. */}
+      <div
+        ref={wallRef}
+        className="album-wall mt-5 h-[min(56svh,36rem)] w-full"
+        onClick={(event) => openFrom(event.target)}
+        onKeyDown={(event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return
+          event.preventDefault()
+          openFrom(event.target)
+        }}
+      >
+        {inView && (
+          <Suspense fallback={null}>
+            <DriftWall
+              items={WALL_ITEMS}
+              columns={WALL.columns}
+              tileWidth={WALL.tileWidth}
+              tileHeight={WALL.tileHeight}
+              gap={WALL.gap}
+              depth={WALL.depth}
+              speed={WALL.speed}
+              tilt={16}
+              turn={-14}
+              perspective={1200}
+              variance={0.45}
+              parallax={0.6}
+              lift={48}
+              fade={0.55}
+              dim={0.92}
+              overlayColor="var(--color-cream)"
+              radius={12}
+            />
+          </Suspense>
+        )}
       </div>
+      <p className="mt-2 text-center text-xs text-sage-deep">Bấm vào ảnh để xem lớn</p>
 
       <LazyLightbox
         open={index >= 0}

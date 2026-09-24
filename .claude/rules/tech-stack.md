@@ -16,7 +16,7 @@ Triết lý: chọn stack **ổn định, phổ biến, ít lỗi nhất**; mỗ
 | Runtime dev | Node LTS qua `nvm`, package manager là `npm` |
 
 ## Thư viện lõi (mỗi nhu cầu đúng một lựa chọn)
-- Tải lười (`React.lazy`) mọi phần nặng nằm dưới màn hình đầu: `AdminPage`, `Countdown` (lịch), `Rsvp` (react-hook-form + zod), `PetalsFall` (tsParticles), lightbox (`LazyLightbox`). Bundle chính ngày 2026-09-24: 173KB gzip.
+- Tải lười (`React.lazy`) mọi phần nặng nằm dưới màn hình đầu: `AdminPage`, `Countdown` (lịch), `Rsvp` (react-hook-form + zod), `PetalsFall` (tsParticles), lightbox (`LazyLightbox`), tường ảnh `DriftWall`. Bundle chính ngày 2026-09-24: 173KB gzip.
 - Routing: `react-router` (chế độ khai báo, `BrowserRouter`), chỉ hai nhóm route: `/` và `/admin`.
 - Dữ liệu từ server: `@tanstack/react-query`.
 - Form và kiểm tra dữ liệu: `react-hook-form` + `zod` + `@hookform/resolvers`.
@@ -28,13 +28,13 @@ Triết lý: chọn stack **ổn định, phổ biến, ít lỗi nhất**; mỗ
 
 ## Hiệu ứng: chỉ dùng thư viện bên thứ ba, không tự chế
 Chủ dự án yêu cầu ngày 2026-09-24: hiệu ứng lấy từ thư viện hoặc registry có sẵn, không tự viết animation hay tự vẽ hình trang trí.
-- Hiệu ứng UI: component của registry shadcn bên thứ ba, khai báo trong `components.json` (`@magicui`, `@react-bits`, `@motion-primitives`, `@aceternity`), thêm bằng `npx shadcn@latest add @<registry>/<tên>` hoặc shadcn MCP. Đang dùng: `@react-bits/FlipCard-TS-TW` (`src/components/ui/flip-card.tsx`, ảnh bìa lật như bưu thiếp, theo mẫu "Notes from the roadmap" của diabrowser.com; kích thước ghi đè bằng biến `--fc-w`, `--fc-h`, `--fc-radius` kèm `!`), `@magicui/blur-fade` (hiện dần), luôn gọi qua `src/components/effects/Reveal.tsx` (bỏ blur, chỉ opacity + transform). Vân giấy là ảnh nền SVG lát ô 160px trong `src/index.css`, cùng thông số `@magicui/noise-texture`; không dùng lại component SVG phủ màn hình (iPhone vẽ lại mỗi lần cuộn, giật).
+- Hiệu ứng UI: component của registry shadcn bên thứ ba, khai báo trong `components.json` (`@magicui`, `@react-bits`, `@motion-primitives`, `@aceternity`), thêm bằng `npx shadcn@latest add @<registry>/<tên>` hoặc shadcn MCP. Đang dùng: `@react-bits/DriftWall-TS-CSS` (`src/components/ui/drift-wall/`, tường ảnh trôi 3D cho album; chỉ gắn khi album trong màn hình vì chạy rAF liên tục; bấm ô mở lightbox qua ủy quyền sự kiện `data-tile-id`), `@react-bits/FlipCard-TS-TW` (`src/components/ui/flip-card.tsx`, ảnh bìa lật như bưu thiếp, theo mẫu "Notes from the roadmap" của diabrowser.com; kích thước ghi đè bằng biến `--fc-w`, `--fc-h`, `--fc-radius` kèm `!`), `@magicui/blur-fade` (hiện dần), luôn gọi qua `src/components/effects/Reveal.tsx` (bỏ blur, chỉ opacity + transform). Vân giấy là ảnh nền SVG lát ô 160px trong `src/index.css`, cùng thông số `@magicui/noise-texture`; không dùng lại component SVG phủ màn hình (iPhone vẽ lại mỗi lần cuộn, giật).
 - Hoa rơi: tsParticles (`@tsparticles/react` + `basic`, `shape-image`, `updater-rotate`, `updater-tilt`, `updater-wobble`). Không dùng `@tsparticles/slim` (kèm hơn chục tương tác chuột không cần).
 - Ảnh trang trí: bộ Fluent Emoji 3D của Microsoft (MIT), ghi nguồn trong `LICENSE.txt` cạnh ảnh.
 - Chuyển động còn lại (parallax, cuộn) dùng API của Motion (`motion/react`), không tự viết vòng lặp `requestAnimationFrame` hay keyframes CSS.
 - `npx shadcn add` có thể tự hạ `motion` về bản mà component khai báo (FlipCard khai `motion@^12` đã hạ 13 xuống 12): xem `git diff package.json` sau mỗi lần add, khôi phục nếu bị đổi.
 - Không sửa file vendor trong `src/components/ui/`; cần khác đi thì bọc lại hoặc truyền props.
-  Ngoại lệ duy nhất: sửa tối thiểu để file vendor biên dịch được, gắn chú thích `// PATCH (quanglinhvlogs): <lý do>` để `grep -rn "PATCH (quanglinhvlogs)" src/components/ui` liệt kê được. Hiện có: `sliding-number.tsx` (`as const` cho `TRANSITION`).
+  Ngoại lệ duy nhất: sửa tối thiểu để file vendor biên dịch được, gắn chú thích `// PATCH (quanglinhvlogs): <lý do>` để `grep -rn "PATCH (quanglinhvlogs)" src/components/ui` liệt kê được. Hiện có: `sliding-number.tsx` (`as const` cho `TRANSITION`), `drift-wall/DriftWall.tsx` (`type CSSProperties`).
 - `@tsparticles/react` bản 4 dùng `ParticlesProvider` + `Particles`; tài liệu Context7 vẫn ghi `initParticlesEngine` của bản 3, đừng làm theo.
 
 ## Nhạc nền
