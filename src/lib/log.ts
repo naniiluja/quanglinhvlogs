@@ -46,10 +46,27 @@ export async function traced<T>(
     write('error', `${event}.error`, {
       ...fields,
       ms: Math.round(performance.now() - startedAt),
-      error: error instanceof Error ? error.message : String(error),
+      ...describeError(error),
     })
     throw error
   }
+}
+
+// Log mã lỗi và nguyên nhân kỹ thuật (cause), không log câu thông báo dành cho người dùng.
+function describeError(error: unknown): LogFields {
+  if (!(error instanceof Error)) return { error: String(error) }
+  const code = (error as { code?: unknown }).code
+  const cause =
+    error.cause instanceof Error || isMessage(error.cause) ? error.cause.message : undefined
+  return { errorCode: code, error: cause ?? error.message }
+}
+
+function isMessage(value: unknown): value is { message: string } {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    typeof (value as { message?: unknown }).message === 'string'
+  )
 }
 
 // Chỉ log 4 ký tự đầu của mã khách (logging.md).

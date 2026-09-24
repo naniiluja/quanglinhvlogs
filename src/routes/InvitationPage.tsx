@@ -4,6 +4,7 @@ import { PetalsFall } from '@/components/effects/PetalsFall'
 import { NoiseTexture } from '@/components/ui/noise-texture'
 import { WEDDING } from '@/config/wedding'
 import { Cover } from '@/features/invitation/Cover'
+import { RsvpSection } from '@/features/invitation/RsvpSection'
 import { useInvitation } from '@/hooks/useInvitation'
 
 export function InvitationPage() {
@@ -31,13 +32,13 @@ export function InvitationPage() {
           onOpen={() => contentRef.current?.scrollIntoView({ behavior: 'smooth' })}
         />
 
-        <div ref={contentRef} className="min-h-svh px-4 py-16 text-center">
+        <div ref={contentRef}>
           {invitation.error?.code === 'NETWORK' && (
-            <p role="alert" className="text-sm text-sage-deep">
+            <p role="alert" className="px-4 pt-8 text-center text-sm text-sage-deep">
               {invitation.error.message}
             </p>
           )}
-          <p className="font-serif text-2xl font-medium text-ink">Thiệp cưới đang được chuẩn bị</p>
+          <RsvpSection code={code} invitation={invitation.data} loading={invitation.isLoading} />
         </div>
       </main>
     </div>

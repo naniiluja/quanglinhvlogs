@@ -2,20 +2,40 @@ import { maskCode, traced } from '@/lib/log'
 import { supabase } from '@/lib/supabase'
 import { toAppError } from '@/services/supabaseError'
 
+export interface RsvpAnswer {
+  attending: boolean
+  partySize: number
+  message: string | null
+}
+
 export interface Invitation {
   displayName: string
+  rsvp: RsvpAnswer | null
 }
 
-interface InvitationRow {
-  display_name: string
+interface RsvpRow {
+  attending: boolean
+  party_size: number
+  message: string | null
 }
 
-function isInvitationRow(value: unknown): value is InvitationRow {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
+}
+
+function isRsvpRow(value: unknown): value is RsvpRow {
   return (
-    typeof value === 'object' &&
-    value !== null &&
-    typeof (value as Record<string, unknown>).display_name === 'string'
+    isRecord(value) &&
+    typeof value.attending === 'boolean' &&
+    typeof value.party_size === 'number' &&
+    (value.message === null || typeof value.message === 'string')
   )
+}
+
+// Ép phản hồi RPC về kiểu ứng dụng ngay tại biên (state-management.md).
+export function toRsvpAnswer(value: unknown): RsvpAnswer {
+  if (!isRsvpRow(value)) throw toAppError({ message: 'unexpected_shape' })
+  return { attending: value.attending, partySize: value.party_size, message: value.message }
 }
 
 export function getInvitation(code: string): Promise<Invitation> {
@@ -24,8 +44,13 @@ export function getInvitation(code: string): Promise<Invitation> {
     async () => {
       const { data, error } = await supabase.rpc('get_invitation', { p_code: code })
       if (error) throw toAppError(error)
-      if (!isInvitationRow(data)) throw toAppError({ message: 'unexpected_shape' })
-      return { displayName: data.display_name }
+      if (!isRecord(data) || typeof data.display_name !== 'string') {
+        throw toAppError({ message: 'unexpected_shape' })
+      }
+      return {
+        displayName: data.display_name,
+        rsvp: data.rsvp === null ? null : toRsvpAnswer(data.rsvp),
+      }
     },
     { code: maskCode(code) },
   )

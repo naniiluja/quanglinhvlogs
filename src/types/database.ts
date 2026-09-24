@@ -35,6 +35,38 @@ export type Database = {
         }
         Relationships: []
       }
+      rsvps: {
+        Row: {
+          attending: boolean
+          guest_id: string
+          message: string | null
+          party_size: number
+          updated_at: string
+        }
+        Insert: {
+          attending: boolean
+          guest_id: string
+          message?: string | null
+          party_size: number
+          updated_at?: string
+        }
+        Update: {
+          attending?: boolean
+          guest_id?: string
+          message?: string | null
+          party_size?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rsvps_guest_id_fkey"
+            columns: ["guest_id"]
+            isOneToOne: true
+            referencedRelation: "guests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -42,6 +74,15 @@ export type Database = {
     Functions: {
       generate_guest_code: { Args: never; Returns: string }
       get_invitation: { Args: { p_code: string }; Returns: Json }
+      submit_rsvp: {
+        Args: {
+          p_attending: boolean
+          p_code: string
+          p_message: string
+          p_party_size: number
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

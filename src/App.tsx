@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MotionConfig } from 'motion/react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
+import { Toaster } from '@/components/ui/sonner'
 import { AdminPage } from '@/routes/AdminPage'
 import { InvitationPage } from '@/routes/InvitationPage'
 
@@ -18,6 +19,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
+        <Toaster theme="light" position="top-center" />
       </MotionConfig>
     </QueryClientProvider>
   )
