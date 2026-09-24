@@ -1,19 +1,18 @@
 import { lazy, Suspense } from 'react'
+import { NextSectionButton } from '@/features/invitation/NextSectionButton'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
 import type { Invitation } from '@/services/invitation'
-import { NextSectionButton } from '@/features/invitation/NextSectionButton'
 
 // Form (react-hook-form + zod) chỉ tải khi có khách hợp lệ.
 const Rsvp = lazy(() => import('@/features/invitation/Rsvp').then((m) => ({ default: m.Rsvp })))
 
 interface RsvpSectionProps {
-  code: string | null
-  invitation: Invitation | undefined
-  loading: boolean
+  code: string
+  invitation: Invitation
 }
 
-// Chỉ khách có mã hợp lệ mới thấy form; mã sai và không mã hiện cùng một dòng nhắc (product.md).
-export function RsvpSection({ code, invitation, loading }: RsvpSectionProps) {
+// Chỉ render với link mời riêng hợp lệ; trang public không có section này (product.md).
+export function RsvpSection({ code, invitation }: RsvpSectionProps) {
   return (
     <section aria-labelledby="rsvp-title" className="section-screen">
       <SectionHeading
@@ -24,24 +23,16 @@ export function RsvpSection({ code, invitation, loading }: RsvpSectionProps) {
       />
 
       <div className="mx-auto mt-5 w-full max-w-xl">
-        {loading ? (
-          <div className="mx-auto h-64 animate-pulse rounded-2xl bg-muted" aria-label="Đang tải" />
-        ) : code && invitation ? (
-          <Suspense
-            fallback={
-              <div
-                className="mx-auto h-64 animate-pulse rounded-2xl bg-muted"
-                aria-label="Đang tải"
-              />
-            }
-          >
-            <Rsvp code={code} initial={invitation.rsvp} />
-          </Suspense>
-        ) : (
-          <p className="rounded-2xl border border-border px-6 py-8 text-ink">
-            Vui lòng mở đúng link mời được gửi riêng cho bạn để xác nhận tham dự.
-          </p>
-        )}
+        <Suspense
+          fallback={
+            <div
+              className="mx-auto h-64 animate-pulse rounded-2xl bg-muted"
+              aria-label="Đang tải"
+            />
+          }
+        >
+          <Rsvp code={code} initial={invitation.rsvp} />
+        </Suspense>
       </div>
       <NextSectionButton />
     </section>

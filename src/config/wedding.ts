@@ -55,6 +55,8 @@ export interface WeddingConfig {
   bride: Person
   families: [Family, Family]
   invitationLines: string[]
+  // Mặt sau tấm bưu thiếp trên bìa (lật ảnh bìa để xem): lời tâm sự của hai người.
+  coverNote: { title: string; body: string }
   ceremonies: Ceremony[]
   countdownTarget: string
   timeline: TimelineItem[]
@@ -94,6 +96,11 @@ export const WEDDING: WeddingConfig = {
       childLabel: 'Út nữ', // MOCK
     },
   ],
+  // 14 năm là thông tin thật từ chủ dự án (2026-09-24); câu chữ là bản nháp, chờ chủ dự án duyệt.
+  coverNote: {
+    title: '14 năm thương nhau',
+    body: 'Mười bốn năm nắm tay nhau đi qua bao mùa hoa nở rồi tàn. Giờ tụi mình viết tiếp chương đẹp nhất, và mong có bạn ở đó.',
+  },
   invitationLines: [
     'Từ một cơ duyên nhỏ, hai đứa mình đã tìm thấy nhau.',
     'Và giờ đây, tụi mình muốn nắm tay nhau đi tiếp chặng đường dài phía trước.',

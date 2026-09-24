@@ -81,7 +81,8 @@ function InvitationContent() {
           <Guestbook code={code} invitation={invitation.data} />
           {/* Hộp mừng cưới chỉ hiện với link mời riêng hợp lệ, không public (chủ dự án chốt 2026-09-24). */}
           {code && invitation.data && <GiftQr />}
-          <RsvpSection code={code} invitation={invitation.data} loading={invitation.isLoading} />
+          {/* RSVP cũng chỉ hiện với link mời riêng hợp lệ, trang public ẩn hẳn (chủ dự án chốt 2026-09-24). */}
+          {code && invitation.data && <RsvpSection code={code} invitation={invitation.data} />}
           <Thanks />
         </div>
       </main>
