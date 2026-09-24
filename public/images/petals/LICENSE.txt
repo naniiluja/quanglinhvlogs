@@ -1,0 +1,4 @@
+cherry-blossom.png: Fluent Emoji "Cherry blossom" (3D), Microsoft Corporation.
+Nguồn: https://github.com/microsoft/fluentui-emoji
+Giấy phép: MIT License, Copyright (c) Microsoft Corporation.
+Đã thu nhỏ còn 96x96.

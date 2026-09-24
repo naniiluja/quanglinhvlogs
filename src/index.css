@@ -1,0 +1,103 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+/* Font tự host, chỉ subset latin + vietnamese và các độ đậm dùng thật (design-system.md). */
+@import '@fontsource/be-vietnam-pro/latin-400.css';
+@import '@fontsource/be-vietnam-pro/vietnamese-400.css';
+@import '@fontsource/be-vietnam-pro/latin-600.css';
+@import '@fontsource/be-vietnam-pro/vietnamese-600.css';
+@import '@fontsource-variable/cormorant-garamond/wght.css';
+@import '@fontsource/great-vibes/latin-400.css';
+@import '@fontsource/great-vibes/vietnamese-400.css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* Bảng màu của thiệp: nguồn sự thật cho màu, không viết hex trong .tsx. */
+@theme {
+  --color-cream: #faf5ea;
+  --color-sage: #8a9a7b;
+  --color-sage-deep: #4f6250;
+  --color-bronze: #b08a57;
+  --color-blush: #e9c4c9;
+  --color-mauve: #8b5e75;
+  --color-ink: #3b3a36;
+
+  --font-sans: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Cormorant Garamond Variable', ui-serif, Georgia, serif;
+  --font-script: 'Great Vibes', cursive;
+}
+
+/* Thang lớp chồng (design-system.md), dùng bằng z-(--layer-...). */
+:root {
+  --layer-background: 0;
+  --layer-decor: 10;
+  --layer-petals: 15;
+  --layer-content: 20;
+  --layer-floating: 50;
+  --layer-dialog: 60;
+}
+
+@theme inline {
+  --font-heading: var(--font-serif);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* Biến của shadcn nối vào bảng màu thiệp, đổi màu ở đây chứ không sửa từng component. */
+:root {
+  --background: var(--color-cream);
+  --foreground: var(--color-ink);
+  --card: var(--color-cream);
+  --card-foreground: var(--color-ink);
+  --popover: var(--color-cream);
+  --popover-foreground: var(--color-ink);
+  --primary: var(--color-bronze);
+  --primary-foreground: var(--color-cream);
+  --secondary: var(--color-sage);
+  --secondary-foreground: var(--color-cream);
+  --muted: color-mix(in oklab, var(--color-sage) 15%, var(--color-cream));
+  --muted-foreground: var(--color-sage-deep);
+  --accent: var(--color-blush);
+  --accent-foreground: var(--color-ink);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: color-mix(in oklab, var(--color-bronze) 35%, var(--color-cream));
+  --input: color-mix(in oklab, var(--color-bronze) 35%, var(--color-cream));
+  --ring: var(--color-bronze);
+  --radius: 0.625rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}

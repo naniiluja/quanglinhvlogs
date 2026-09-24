@@ -1,0 +1,7 @@
+# File do shadcn và registry bên thứ ba sinh ra: giữ nguyên để cập nhật lại được
+src/components/ui/
+dist
+node_modules
+package-lock.json
+.claude
+*.md
