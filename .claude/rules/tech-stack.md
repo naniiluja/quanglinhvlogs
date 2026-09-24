@@ -43,7 +43,7 @@ Chủ dự án yêu cầu ngày 2026-09-24: hiệu ứng lấy từ thư viện 
 
 ## Ghi chú từ tra cứu tài liệu (2026-09-24)
 - Key Supabase phía client là **publishable key** (`sb_publishable_...`), thay cho tên "anon key" cũ. Key legacy `anon` và `service_role` chạy song song đến hết 2026. Nguồn: supabase.com/docs/guides/getting-started/migrating-to-new-api-keys.
-- Project Supabase Free bị **tạm dừng sau 7 ngày không hoạt động**; khôi phục được trong 90 ngày. Nguồn: supabase.com/docs/guides/platform/free-project-pausing. Xem task 009 về cách giữ hoạt động.
+- Project Supabase Free bị **tạm dừng sau 7 ngày không hoạt động**; khôi phục được trong 90 ngày. Nguồn: supabase.com/docs/guides/platform/free-project-pausing. Đã xử lý ở task 009 theo mẫu dự án `tinhtiendien`: bảng `system_heartbeat` + RPC `keepalive_ping()` (chỉ cập nhật mốc thời gian), gọi mỗi ngày bởi routine Claude Code `quanglinhvlogs-supabase-keepalive` (`trig_0115WvpXr8VEP9jubxSjZjWQ`, cron `17 20 * * *` UTC, tức 03:17 giờ Việt Nam). Thành công là HTTP 204. Kiểm tra: `select pinged_at from public.system_heartbeat` phải trong vòng 24 giờ.
 - Cloudflare hiện khuyến nghị **Workers static assets** cho dự án mới (developers.cloudflare.com/pages/migrations/). Chủ dự án chọn Pages để có `*.pages.dev`; nếu không tạo được project Pages mới, hỏi lại chủ dự án trước khi chuyển sang Workers (tên miền sẽ là `*.workers.dev`).
 - Pages tự phục vụ `index.html` cho route không khớp (SPA) **chỉ khi không có `404.html`** trong `dist/`. Không thêm `404.html`, để `/admin` mở trực tiếp được.
 - shadcn với Vite và Tailwind v4: alias `@/` phải khai báo ở cả `vite.config.ts` và `tsconfig.app.json`. Nguồn: ui.shadcn.com/docs/installation/vite.
