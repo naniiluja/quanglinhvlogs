@@ -8,6 +8,8 @@ Quyết định của chủ dự án ngày 2026-09-24: **không viết test tự
 3. Kiểm tra tay bằng Claude in Chrome, dựa trên **hành vi nhìn thấy** chứ không dựa trên việc "code chạy":
    - Khung điện thoại 390x844 và khung máy tính 1280 rộng: không cuộn ngang, không chữ bị cắt, chữ có dấu hiển thị đúng.
    - `read_console_messages` không có lỗi hay cảnh báo mới.
+   - Cách giả lập khung điện thoại (đổi cỡ cửa sổ Chrome không ổn định): chạy `npx vite preview --port 4173`, mở `http://localhost:4173/admin`, rồi dùng `javascript_tool` thay `document.body.innerHTML` bằng các `<iframe width=390 height=844>` trỏ tới những URL cần so (cùng origin nên chạy được). Một ảnh chụp so được nhiều trường hợp cạnh nhau.
+   - Chụp màn hình qua CDP đôi khi lỗi ở tab cũ: đóng tab đó, gọi `tabs_context_mcp` với `createIfEmpty: true` để lấy tab mới.
    - Đi hết luồng của task (ví dụ mở link khách, gửi RSVP, đăng nhập admin) và đối chiếu từng tiêu chí nghiệm thu.
 4. Task chạm DB thêm: `get_advisors` (security) không có mức ERROR; gọi thử RPC bằng vai trò `anon` với mã đúng, mã sai, đầu vào biên (chuỗi rỗng, dài quá giới hạn); đọc lại dữ liệu bằng `execute_sql` (chỉ đọc) để xác nhận.
 

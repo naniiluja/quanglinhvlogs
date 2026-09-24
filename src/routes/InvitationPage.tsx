@@ -1,60 +1,44 @@
-import { BlurFade } from '@/components/ui/blur-fade'
-import { NoiseTexture } from '@/components/ui/noise-texture'
+import { useRef } from 'react'
+import { useSearchParams } from 'react-router'
 import { PetalsFall } from '@/components/effects/PetalsFall'
+import { NoiseTexture } from '@/components/ui/noise-texture'
 import { WEDDING } from '@/config/wedding'
+import { Cover } from '@/features/invitation/Cover'
+import { useInvitation } from '@/hooks/useInvitation'
 
-// Trang giữ chỗ của task 001: chứng minh theme, font, lớp chồng và hoa rơi chạy thật.
 export function InvitationPage() {
+  const [searchParams] = useSearchParams()
+  const code = searchParams.get('g')
+  const invitation = useInvitation(code)
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  // Mã sai và không có mã hiển thị giống hệt nhau (product.md): chỉ khi có dữ liệu mới gọi tên.
+  const guestName = invitation.data?.displayName ?? null
+
   return (
     <div className="relative min-h-svh overflow-hidden">
       <NoiseTexture className="fixed z-(--layer-background) opacity-15" />
       <PetalsFall />
 
-      <main className="relative z-(--layer-content) mx-auto flex min-h-svh max-w-120 flex-col items-center justify-center px-4 py-16 text-center">
+      <main className="relative z-(--layer-content) mx-auto max-w-120">
         <h1 className="sr-only">
           Thiệp cưới {WEDDING.groom.name} và {WEDDING.bride.name}
         </h1>
 
-        <BlurFade delay={0.1}>
-          <p className="font-serif text-sm tracking-[0.35em] text-sage-deep uppercase">
-            Lễ thành hôn
-          </p>
-        </BlurFade>
+        <Cover
+          guestName={guestName}
+          loading={invitation.isLoading}
+          onOpen={() => contentRef.current?.scrollIntoView({ behavior: 'smooth' })}
+        />
 
-        <BlurFade delay={0.3}>
-          <p
-            aria-hidden="true"
-            className="mt-6 font-script text-6xl leading-tight text-mauve sm:text-7xl"
-          >
-            {WEDDING.groom.name}
-          </p>
-        </BlurFade>
-
-        <BlurFade delay={0.5}>
-          <p
-            aria-hidden="true"
-            className="my-2 font-serif text-5xl font-semibold text-bronze italic"
-          >
-            &amp;
-          </p>
-        </BlurFade>
-
-        <BlurFade delay={0.7}>
-          <p
-            aria-hidden="true"
-            className="font-script text-6xl leading-tight text-mauve sm:text-7xl"
-          >
-            {WEDDING.bride.name}
-          </p>
-        </BlurFade>
-
-        <BlurFade delay={0.9}>
-          <div className="mx-auto my-8 h-px w-24 bg-bronze/60" />
+        <div ref={contentRef} className="min-h-svh px-4 py-16 text-center">
+          {invitation.error?.code === 'NETWORK' && (
+            <p role="alert" className="text-sm text-sage-deep">
+              {invitation.error.message}
+            </p>
+          )}
           <p className="font-serif text-2xl font-medium text-ink">Thiệp cưới đang được chuẩn bị</p>
-          <p className="mt-3 text-base text-sage-deep">
-            Hẹn gặp bạn trong ngày vui của hai đứa mình nhé.
-          </p>
-        </BlurFade>
+        </div>
       </main>
     </div>
   )
