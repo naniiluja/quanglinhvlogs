@@ -27,7 +27,10 @@ const WALL = IS_SMALL_SCREEN
   ? { columns: 4, tileWidth: 110, tileHeight: 146, gap: 10, depth: 60, speed: 18 }
   : { columns: 5, tileWidth: 170, tileHeight: 226, gap: 16, depth: 120, speed: 26 }
 
-const WALL_ITEMS = WEDDING.gallery.map((photo) => ({ image: photo.src, title: photo.alt }))
+const WALL_ITEMS = WEDDING.gallery.map((photo) => ({
+  image: photo.thumb ?? photo.src,
+  title: photo.alt,
+}))
 
 // DriftWall chia ảnh vào cột theo `i % columns` (cột trống lấy ảnh đầu) và đặt id ô là
 // `<cột>-<bản sao>-<vị trí trong cột>`: suy ngược ra ảnh nào để mở lightbox.

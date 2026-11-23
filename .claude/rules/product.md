@@ -28,7 +28,7 @@ Tham khảo bố cục mẫu "Parallax lãng mạn" trên ngaychungdoi.com (ch�
 6. Đếm ngược và lịch tháng khoanh ngày cưới.
 7. Lịch trình trong ngày (suy ra từ giờ lễ và tiệc của từng bên).
 8. Địa điểm: mỗi địa điểm một trang, có bản đồ đường xá nhúng (iframe `maps.google.com/maps?...&output=embed`, không cần API key, tắt thao tác để không giữ cuộn; bấm vào mở Google Maps) và nút "Chỉ đường" (`/maps/dir/?api=1&destination=`). Truy vấn ở `venue.mapsQuery`: Google chưa biết số nhà, "Thôn 2/Thôn 4" bị trỏ nhầm sang nơi khác, nên đang tạm dùng khu Buôn Cư D'Luê (nhà trai) và UBND xã Hòa Xuân (nhà gái), gắn `// MOCK` chờ chủ dự án gửi ghim Google Maps của từng nhà.
-9. Album ảnh, xem phóng to: 11 ảnh (3 ảnh cưới, 5 ảnh cận cảnh cắt từ chính 3 ảnh đó, 3 ảnh dạm ngõ). Chạm một lần là mở (cảm ứng tự nhận ở `touchend` vì Safari iOS nuốt lần chạm đầu khi DriftWall đổi trạng thái hover), lightbox tải sẵn khi album vào màn hình, bấm nền tối là đóng.
+9. Album ảnh, xem phóng to: 30 ảnh hoàn chỉnh (Drive "Album Sửa Lần 1/hinh xong", sáu bộ ảnh xếp xen kẽ) và 3 ảnh dạm ngõ. Tường ảnh dùng bản nhỏ 420px (`/images/gallery/thumb/`), lightbox dùng bản 1000px (`/full/`, mỗi ảnh ≤ 150KB). Chạm một lần là mở (cảm ứng tự nhận ở `touchend` vì Safari iOS nuốt lần chạm đầu khi DriftWall đổi trạng thái hover), lightbox tải sẵn khi album vào màn hình, bấm nền tối là đóng.
 10. Sổ lưu bút.
 11. Mừng cưới: **một** mã QR VietQR và số tài khoản, **chỉ hiện với link mời riêng hợp lệ** (link chung và mã sai không thấy; chủ dự án chốt 2026-09-24).
 12. Xác nhận tham dự (RSVP).
@@ -53,7 +53,7 @@ Tham khảo bố cục mẫu "Parallax lãng mạn" trên ngaychungdoi.com (ch�
 
 ## Ảnh
 - Ảnh gốc: `assets-src/dam-ngo-goc.jpg` (1536x2048, chú rể và cô dâu bên bảng dạm ngõ). Không commit ảnh gốc.
-- Ảnh cưới (Nikon 4024x6048) chủ dự án gửi qua Drive ngày 2026-11-23, gốc ở `assets-src/drive-2026-11-23/` (không commit): DSC_4438 làm ảnh bìa và ảnh chia sẻ `og-wedding.jpg` (đổi tên để Zalo, Facebook không dùng ảnh cũ đã lưu đệm), DSC_4705 cắt chân dung chú rể và cô dâu, cả ba vào album trước ảnh dạm ngõ.
+- Ảnh cưới (Nikon 4024x6048) chủ dự án gửi qua Drive ngày 2026-11-23 (thư mục cha "Album Sửa Lần 1": `hinh xong` là 30 ảnh hoàn chỉnh, chứa trọn `13x18 - lua` và `2 60x90 go`; `Album 24.10.26…` là trang sách ảnh đã dàn, `chỉnh tóc` là ảnh mẫu thử, không dùng), gốc ở `assets-src/drive-2026-11-23/` (không commit): DSC_4438 làm ảnh bìa và ảnh chia sẻ `og-wedding.jpg` (đổi tên để Zalo, Facebook không dùng ảnh cũ đã lưu đệm), DSC_4705 cắt chân dung chú rể và cô dâu, cả ba vào album trước ảnh dạm ngõ.
 - Bản đã cắt và nén đặt trong `public/images/`. Cắt sao cho khung ảnh không chứa chữ "Lễ dạm ngõ" hay ngày `20.09.2026`.
 
 ## Ngôn ngữ
