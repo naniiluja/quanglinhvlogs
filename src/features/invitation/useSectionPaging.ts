@@ -33,24 +33,35 @@ function handledInside(target: EventTarget | null, down: boolean): boolean {
   return false
 }
 
-// Trang cần cuộn tới theo hướng; null khi để trình duyệt cuộn thường (trang dài còn nội dung theo
-// hướng đó) hoặc đã ở trang đầu/cuối.
-// Trang hiện tại là trang chứa mép trên màn hình. Không chọn "trang có mép trên gần đỉnh nhất": sau
-// một lần cuộn thường trang bị lệch, trang nằm thấp có đáy thò khỏi màn hình bị tưởng là trang dài,
-// mọi cú vuốt sau đó đều thành cuộn thường (chủ dự án báo 2026-11-23).
-function nextPage(down: boolean): HTMLElement | null {
+// Một bước trong trang cao hơn màn hình: chừa lại một dải để khách thấy nội dung nối tiếp.
+const TALL_STEP = 0.85
+
+// Vị trí cuộn (scrollY) của bước kế theo hướng; null khi đã ở đầu/cuối thiệp.
+// Trang hiện tại là trang chứa mép trên màn hình (không chọn "trang có mép trên gần đỉnh nhất": trang
+// bị lệch sẽ bị nhận nhầm). Trang cao hơn màn hình cũng đi từng bước, không nhường cuộn thường:
+// quán tính cuộn thường kéo trôi sang trang kế, khách thấy "vẫn lướt bình thường" (chủ dự án báo
+// 2026-11-23 ở Hôn lễ, trang có hai lễ cao hơn màn điện thoại).
+function nextStop(down: boolean): number | null {
   const all = pages()
   const index = all.findIndex((page) => page.getBoundingClientRect().bottom > EDGE)
   if (index < 0) return null
+  const viewport = window.innerHeight
+  const y = window.scrollY
   const rect = all[index].getBoundingClientRect()
-  const tall = rect.height > window.innerHeight + EDGE
+  const tall = rect.height > viewport + EDGE
   if (down) {
-    if (tall && rect.bottom > window.innerHeight + EDGE) return null
-    return all[index + 1] ?? null
+    if (tall && rect.bottom > viewport + EDGE)
+      return y + Math.min(rect.bottom - viewport, viewport * TALL_STEP)
+    const next = all[index + 1]
+    return next ? y + next.getBoundingClientRect().top : null
   }
-  // Vuốt lên khi trang đang lệch: căn lại đầu trang này; trang dài thì cuộn thường.
-  if (rect.top < -EDGE) return tall ? null : all[index]
-  return all[index - 1] ?? null
+  // Trang đang lệch: về đầu trang này (trang cao thì lùi từng bước).
+  if (rect.top < -EDGE) return y + (tall ? Math.max(rect.top, -viewport * TALL_STEP) : rect.top)
+  const prev = all[index - 1]
+  if (!prev) return null
+  const prevRect = prev.getBoundingClientRect()
+  // Lùi vào trang cao: dừng ở phần cuối của nó, như vừa đọc xong.
+  return y + (prevRect.height > viewport + EDGE ? prevRect.bottom - viewport : prevRect.top)
 }
 
 export function useSectionPaging() {
@@ -71,10 +82,10 @@ export function useSectionPaging() {
       }, QUIET_MS)
     }
 
-    function goTo(page: HTMLElement) {
+    function goTo(top: number) {
       locked = true
       lockedAt = performance.now()
-      page.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' })
+      window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' })
       release()
     }
 
@@ -87,10 +98,10 @@ export function useSectionPaging() {
       }
       const down = event.deltaY > 0
       if (handledInside(event.target, down)) return
-      const next = nextPage(down)
-      if (!next) return
+      const stop = nextStop(down)
+      if (stop === null) return
       event.preventDefault()
-      goTo(next)
+      goTo(stop)
     }
 
     function onTouchStart(event: TouchEvent) {
@@ -103,7 +114,7 @@ export function useSectionPaging() {
       if (touch.mode === 'pending') {
         if (Math.abs(dy) < TOUCH_DECIDE_PX) return
         const down = dy > 0
-        touch.mode = handledInside(event.target, down) || !nextPage(down) ? 'native' : 'page'
+        touch.mode = handledInside(event.target, down) || nextStop(down) === null ? 'native' : 'page'
         if (touch.mode === 'native') return
       }
       // Giữ trang đứng yên trong lúc vuốt; thả tay mới chuyển trang.
@@ -116,8 +127,8 @@ export function useSectionPaging() {
       if (!gesture || gesture.mode !== 'page' || locked) return
       const dy = gesture.y - event.changedTouches[0].clientY
       if (Math.abs(dy) < TOUCH_SWIPE_PX) return
-      const next = nextPage(dy > 0)
-      if (next) goTo(next)
+      const stop = nextStop(dy > 0)
+      if (stop !== null) goTo(stop)
     }
 
     const active = { passive: false } as const

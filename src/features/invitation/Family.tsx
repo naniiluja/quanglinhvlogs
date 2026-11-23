@@ -17,16 +17,16 @@ export function Family({ side }: { side: GuestSide }) {
             <p className="font-serif text-lg font-semibold text-bronze-deep uppercase">
               {family.hostLabel}
             </p>
-            <p className="mt-2 text-ink">{family.father}</p>
+            <p className="mt-2 text-ink short:mt-1">{family.father}</p>
             <p className="text-ink">{family.mother}</p>
-            <p className="mt-2 text-sm text-sage-deep">{family.address}</p>
+            <p className="mt-2 text-sm text-sage-deep short:mt-1">{family.address}</p>
             <p className="text-xs text-sage-deep">({family.oldAddress})</p>
           </Reveal>
         ))}
       </div>
 
-      <Reveal inView delay={0.3} className="mt-6 text-center short:mt-4">
-        <p className="mb-2 font-serif text-sm tracking-[0.15em] text-sage-deep uppercase">
+      <Reveal inView delay={0.3} className="mt-6 text-center short:mt-3">
+        <p className="mb-2 font-serif text-sm tracking-[0.15em] text-sage-deep uppercase short:mb-1">
           {announcementFor(side)}
         </p>
         {families.map((family, index) => (

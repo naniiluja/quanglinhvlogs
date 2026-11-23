@@ -13,7 +13,7 @@
 
 @custom-variant dark (&:is(.dark *));
 /* Màn thấp (iPhone SE, Android nhỏ khi thanh trình duyệt mở): thu gọn thêm để section vừa một màn. */
-@custom-variant short (@media (max-height: 620px));
+@custom-variant short (@media (max-height: 650px));
 
 /* Bảng màu của thiệp: nguồn sự thật cho màu, không viết hex trong .tsx. */
 @theme {
@@ -45,7 +45,7 @@
   /* Vuốt nhanh cũng chỉ sang đúng một section, không trượt qua nhiều trang (chủ dự án góp ý 2026-11-23). */
   scroll-snap-stop: always;
 
-  @media (max-height: 620px) {
+  @media (max-height: 650px) {
     padding-top: 1.5rem;
     padding-bottom: 4rem;
   }
