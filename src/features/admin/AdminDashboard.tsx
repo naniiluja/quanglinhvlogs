@@ -5,6 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AddGuests } from '@/features/admin/AddGuests'
 import { GuestbookTab } from '@/features/admin/GuestbookTab'
 import { GuestTable } from '@/features/admin/GuestTable'
+import { LogisticsItemsPanel } from '@/features/admin/LogisticsItemsPanel'
+import { RegistrationsPanel } from '@/features/admin/RegistrationsPanel'
 import { Stats } from '@/features/admin/Stats'
 import { useGuests } from '@/hooks/useGuests'
 import { computeStats } from '@/lib/guests'
@@ -40,11 +42,16 @@ export function AdminDashboard() {
           <Tabs defaultValue="guests">
             <TabsList>
               <TabsTrigger value="guests">Khách mời</TabsTrigger>
+              <TabsTrigger value="logistics">Xe &amp; lưu trú</TabsTrigger>
               <TabsTrigger value="guestbook">Lời chúc</TabsTrigger>
             </TabsList>
             <TabsContent value="guests" className="space-y-4">
               <AddGuests />
               <GuestTable guests={guests.data} />
+            </TabsContent>
+            <TabsContent value="logistics" className="space-y-8">
+              <LogisticsItemsPanel />
+              <RegistrationsPanel />
             </TabsContent>
             <TabsContent value="guestbook">
               <GuestbookTab />

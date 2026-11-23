@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { TableCell, TableRow } from '@/components/ui/table'
+import { GuestAccessCells } from '@/features/admin/GuestAccessCells'
 import { useGuestMutations } from '@/hooks/useGuests'
 import { GUEST_NAME_MAX, inviteLink } from '@/lib/guests'
 import type { AdminGuest } from '@/services/admin'
@@ -32,7 +33,7 @@ function RsvpBadge({ guest }: { guest: AdminGuest }) {
 }
 
 export function GuestRow({ guest }: { guest: AdminGuest }) {
-  const { rename, remove } = useGuestMutations()
+  const { update, remove } = useGuestMutations()
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState(guest.displayName)
 
@@ -48,8 +49,8 @@ export function GuestRow({ guest }: { guest: AdminGuest }) {
   function saveName() {
     const trimmed = draft.trim()
     if (!trimmed || trimmed === guest.displayName) return setEditing(false)
-    rename.mutate(
-      { id: guest.id, displayName: trimmed },
+    update.mutate(
+      { id: guest.id, patch: { displayName: trimmed } },
       {
         onSuccess: () => setEditing(false),
         onError: (error) => toast.error(error.message),
@@ -87,6 +88,7 @@ export function GuestRow({ guest }: { guest: AdminGuest }) {
           <span className="font-medium">{guest.displayName}</span>
         )}
       </TableCell>
+      <GuestAccessCells guest={guest} />
       <TableCell>
         <RsvpBadge guest={guest} />
       </TableCell>

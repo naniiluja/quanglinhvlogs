@@ -22,9 +22,9 @@
 - `src/components/ui/`: file do shadcn và registry bên thứ ba sinh, không sửa tay (`blur-fade.tsx`, `button.tsx`...).
 - `src/components/effects/`: lớp bọc cấu hình hiệu ứng của thư viện (`PetalsFall.tsx` bọc tsParticles, `Reveal.tsx` bọc BlurFade).
 - `src/config/wedding.ts`: toàn bộ nội dung sự kiện, tài khoản mừng cưới, đường dẫn ảnh.
-- `src/services/`: `invitation.ts`, `rsvp.ts`, `guestbook.ts`, `admin.ts`.
+- `src/services/`: `invitation.ts`, `rsvp.ts`, `guestbook.ts`, `admin.ts`, `logistics.ts` (khách), `logisticsAdmin.ts`.
 - `src/hooks/`: hook react-query, tên `useXxx.ts`.
-- `src/lib/`: `supabase.ts`, `log.ts`, `errors.ts`, `maps.ts`, `vietqr.ts`, `countdown.ts`, `utils.ts`.
+- `src/lib/`: `supabase.ts`, `log.ts`, `errors.ts`, `maps.ts`, `vietqr.ts`, `countdown.ts`, `utils.ts`, `sides.ts` (nội dung theo bên mời), `logistics.ts`.
 - `src/types/database.ts`: sinh tự động từ Supabase, không sửa tay.
 - `supabase/migrations/`: SQL migration.
 

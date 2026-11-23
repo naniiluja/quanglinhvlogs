@@ -9,21 +9,31 @@
 - Không có `g`, hoặc mã sai: hiện thiệp chung ("Trân trọng kính mời quý khách"), **ẩn** form lời chúc, **ẩn hẳn** section RSVP và hộp mừng cưới, hiện một dòng nhắc mở đúng link được gửi riêng. Mã sai và không có mã hiển thị y hệt nhau, để không ai dò được mã hợp lệ.
 - Đổi tên người nhận: sửa `display_name` trong `/admin`, không cần deploy lại.
 
+## Bên mời (chủ dự án chốt 2026-11-23)
+- Thiệp in có hai bản: nhà gái mời dự lễ vu quy (09:00 thứ Sáu 11/12/2026, tiệc 11:00, tư gia nhà gái), nhà trai mời dự lễ thành hôn (09:00 thứ Bảy 12/12/2026, tiệc 11:00, tư gia nhà trai). Nguồn: bản in chủ dự án gửi 2026-11-23, nằm trong `WEDDING.sides`.
+- Mỗi khách có `guests.side` là `groom`, `bride` hoặc `both` (admin chọn). Khách một bên chỉ thấy lễ, đếm ngược, lịch, lịch trình, địa điểm của bên mình; khách nhà gái thấy tên cô dâu và nhà gái đứng trước. Link chung và mã sai thấy cả hai bên (`both`). Chọn nội dung theo bên qua `src/lib/sides.ts`.
+
+## Đăng ký xe và lưu trú (chủ dự án chốt 2026-11-23)
+- Hai quyền **riêng**: `can_register_transport`, `can_register_lodging`, admin tick từng khách. Không được tick thì khách không thấy section và RPC từ chối.
+- Mỗi loại là một section sau RSVP: lịch trình do admin nhập (`logistics_items`: giờ, tiêu đề, địa điểm mở Google Maps hoặc link dán sẵn, người liên hệ bấm gọi), rồi form đăng ký: cần hay không, số người 1 đến 10, SĐT (bắt buộc khi cần), đêm nghỉ (lưu trú, chọn từ `WEDDING.lodgingNights`), ghi chú tối đa 300 ký tự. Gửi lại thì ghi đè.
+- Mục lịch trình có `side`: khách một bên thấy mục của bên mình và mục "cả hai bên". SĐT người liên hệ chỉ nằm trong DB, không nằm trong repo công khai.
+
 ## Thứ tự các phần của thiệp
 Tham khảo bố cục mẫu "Parallax lãng mạn" trên ngaychungdoi.com (chỉ học thứ tự và nhịp, **không sao chép chữ, hình, mã**):
 1. Bìa: tên khách, tên hai người, nút "Mở thiệp". Ảnh bìa lật được: mặt sau là lời tâm sự "14 năm thương nhau" (`WEDDING.coverNote`) gửi đích danh khách.
 2. Lời mời.
-3. Gia đình hai bên (dữ liệu mock).
+3. Gia đình hai bên (theo thiệp in, thứ tự theo bên mời).
 4. Chú rể và cô dâu: tên, ảnh, vài dòng giới thiệu.
 5. Lễ cưới: ngày, giờ.
 6. Đếm ngược và lịch tháng khoanh ngày cưới.
-7. Lịch trình trong ngày (mock).
+7. Lịch trình trong ngày (suy ra từ giờ lễ và tiệc của từng bên).
 8. Địa điểm: bấm vào mở Google Maps (`https://www.google.com/maps/search/?api=1&query=<địa chỉ đã mã hóa>`).
 9. Album ảnh, xem phóng to.
 10. Sổ lưu bút.
 11. Mừng cưới: **một** mã QR VietQR và số tài khoản, **chỉ hiện với link mời riêng hợp lệ** (link chung và mã sai không thấy; chủ dự án chốt 2026-09-24).
 12. Xác nhận tham dự (RSVP).
-13. Lời cảm ơn.
+13. Xe đưa đón, rồi Lưu trú (chỉ khách được tick).
+14. Lời cảm ơn.
 
 ## RSVP
 - Trường: `attending` (có hoặc không), `party_size` từ 1 đến 5 (chỉ hỏi khi tham dự), `message` tùy chọn tối đa 500 ký tự.
@@ -36,7 +46,7 @@ Tham khảo bố cục mẫu "Parallax lãng mạn" trên ngaychungdoi.com (ch�
 - Ai mở thiệp cũng đọc được danh sách. Admin xóa được lời chúc không phù hợp.
 
 ## Dữ liệu mock và dữ liệu thật
-- Tên thật: chú rể **Quang Linh**, cô dâu **Thanh Trúc**. Ngày giờ, địa điểm, tên cha mẹ, lịch trình, tài khoản ngân hàng đều là **mock** cho đến khi chủ dự án cung cấp.
+- Tên thật: chú rể **Vũ Quang Linh** (Quý nam), cô dâu **Đào Thanh Trúc** (Trưởng nữ). Ngày giờ, địa điểm, tên cha mẹ là thật theo thiệp in (2026-11-23). Còn mock: lời giới thiệu hai người, tài khoản ngân hàng.
 - Mọi giá trị mock trong `src/config/wedding.ts` có chú thích `// MOCK` để `grep -n "MOCK" src` liệt kê hết những gì còn phải thay.
 - Ngày `20.09.2026` trên bảng "Lễ dạm ngõ" trong ảnh là ngày dạm ngõ đã qua, **không** dùng làm ngày cưới.
 - Tài khoản ngân hàng mock phải ghi rõ là mock, không dùng số thật khi chủ dự án chưa xác nhận (repo công khai).

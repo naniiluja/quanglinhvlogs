@@ -9,6 +9,7 @@ import { Gallery } from '@/features/invitation/Gallery'
 import { GiftQr } from '@/features/invitation/GiftQr'
 import { Guestbook } from '@/features/invitation/Guestbook'
 import { InvitationMessage } from '@/features/invitation/InvitationMessage'
+import { LogisticsSection } from '@/features/invitation/LogisticsSection'
 import { MusicProvider } from '@/features/invitation/MusicProvider'
 import { MusicToggle } from '@/features/invitation/MusicToggle'
 import { RsvpSection } from '@/features/invitation/RsvpSection'
@@ -18,6 +19,7 @@ import { Timeline } from '@/features/invitation/Timeline'
 import { Venue } from '@/features/invitation/Venue'
 import { useInvitation } from '@/hooks/useInvitation'
 import { useMusic } from '@/hooks/useMusic'
+import type { GuestSide } from '@/lib/sides'
 
 // Lịch (react-day-picker + date-fns) nằm dưới màn hình đầu: tải riêng để bìa hiện nhanh.
 // Hoa rơi chỉ để trang trí: tải sau, không chặn lần vẽ đầu.
@@ -37,6 +39,8 @@ function InvitationContent() {
 
   // Mã sai và không có mã hiển thị giống hệt nhau (product.md): chỉ khi có dữ liệu mới gọi tên.
   const guestName = invitation.data?.displayName ?? null
+  // Link chung và mã sai thấy cả hai bên.
+  const side: GuestSide = invitation.data?.side ?? 'both'
 
   return (
     <div className="relative min-h-svh overflow-hidden">
@@ -56,6 +60,7 @@ function InvitationContent() {
 
         <Cover
           guestName={guestName}
+          side={side}
           loading={invitation.isLoading}
           onOpen={() => {
             // Bấm "Mở thiệp" là thao tác của người dùng nên được phép phát nhạc.
@@ -71,21 +76,28 @@ function InvitationContent() {
             </p>
           )}
           <InvitationMessage />
-          <Family />
+          <Family side={side} />
           <Couple />
-          <Event />
+          <Event side={side} />
           <Suspense fallback={<div className="min-h-[44rem]" />}>
-            <Countdown />
+            <Countdown side={side} />
           </Suspense>
-          <Timeline />
-          <Venue />
+          <Timeline side={side} />
+          <Venue side={side} />
           <Gallery />
           <Guestbook code={code} invitation={invitation.data} />
           {/* Hộp mừng cưới chỉ hiện với link mời riêng hợp lệ, không public (chủ dự án chốt 2026-09-24). */}
           {code && invitation.data && <GiftQr />}
           {/* RSVP cũng chỉ hiện với link mời riêng hợp lệ, trang public ẩn hẳn (chủ dự án chốt 2026-09-24). */}
           {code && invitation.data && <RsvpSection code={code} invitation={invitation.data} />}
-          <Thanks />
+          {/* Xe và lưu trú là hai quyền riêng, admin tick cho từng khách (chủ dự án chốt 2026-11-23). */}
+          {code && invitation.data?.canRegisterTransport && (
+            <LogisticsSection code={code} kind="transport" />
+          )}
+          {code && invitation.data?.canRegisterLodging && (
+            <LogisticsSection code={code} kind="lodging" />
+          )}
+          <Thanks side={side} />
         </div>
       </main>
     </div>

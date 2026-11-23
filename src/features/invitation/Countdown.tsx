@@ -3,16 +3,17 @@ import { vi } from 'react-day-picker/locale'
 import { Reveal } from '@/components/effects/Reveal'
 import { Calendar } from '@/components/ui/calendar'
 import { SlidingNumber } from '@/components/ui/sliding-number'
-import { WEDDING } from '@/config/wedding'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
 import { getCountdown } from '@/lib/countdown'
 import { toDateParts } from '@/lib/datetime'
 import { NextSectionButton } from '@/features/invitation/NextSectionButton'
+import { eventsFor, type GuestSide } from '@/lib/sides'
 
-const TARGET = new Date(WEDDING.countdownTarget)
-const parts = toDateParts(WEDDING.countdownTarget)
-// Ngày cưới theo giờ Việt Nam, dựng lại thành Date cục bộ để lịch khoanh đúng ô.
-const WEDDING_DAY = new Date(Number(parts.year), Number(parts.month) - 1, Number(parts.day))
+// Ngày lễ theo giờ Việt Nam, dựng lại thành Date cục bộ để lịch khoanh đúng ô.
+function toLocalDay(iso: string): Date {
+  const parts = toDateParts(iso)
+  return new Date(Number(parts.year), Number(parts.month) - 1, Number(parts.day))
+}
 
 const UNITS = [
   { key: 'days', label: 'Ngày' },
@@ -21,7 +22,11 @@ const UNITS = [
   { key: 'seconds', label: 'Giây' },
 ] as const
 
-export function Countdown() {
+export function Countdown({ side }: { side: GuestSide }) {
+  const events = eventsFor(side)
+  // Đếm tới buổi lễ sớm nhất khách được mời.
+  const target = new Date(events[0].ceremony.startsAt)
+  const days = events.map((event) => toLocalDay(event.ceremony.startsAt))
   const [now, setNow] = useState(() => new Date())
 
   useEffect(() => {
@@ -30,7 +35,7 @@ export function Countdown() {
     return () => window.clearInterval(timer)
   }, [])
 
-  const left = getCountdown(TARGET, now)
+  const left = getCountdown(target, now)
 
   return (
     <section aria-labelledby="countdown-title" className="section-screen">
@@ -65,10 +70,13 @@ export function Countdown() {
       </Reveal>
 
       <Reveal inView delay={0.15} className="mt-5 flex justify-center">
+        {/* react-day-picker giữ lựa chọn đầu tiên trong state nội bộ; side đổi từ 'both' (lúc đang
+            tải lời mời) sang một bên thì phải dựng lại lịch. */}
         <Calendar
-          mode="single"
-          selected={WEDDING_DAY}
-          defaultMonth={WEDDING_DAY}
+          key={side}
+          mode="multiple"
+          selected={days}
+          defaultMonth={days[0]}
           disableNavigation
           hideNavigation
           locale={vi}

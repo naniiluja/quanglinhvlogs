@@ -60,24 +60,113 @@ export type Database = {
       }
       guests: {
         Row: {
+          can_register_lodging: boolean
+          can_register_transport: boolean
           code: string
           created_at: string
           display_name: string
           id: string
+          side: string
         }
         Insert: {
+          can_register_lodging?: boolean
+          can_register_transport?: boolean
           code?: string
           created_at?: string
           display_name: string
           id?: string
+          side?: string
         }
         Update: {
+          can_register_lodging?: boolean
+          can_register_transport?: boolean
           code?: string
           created_at?: string
           display_name?: string
           id?: string
+          side?: string
         }
         Relationships: []
+      }
+      logistics_items: {
+        Row: {
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          id: string
+          kind: string
+          location: string | null
+          note: string | null
+          side: string
+          starts_at: string | null
+          title: string
+        }
+        Insert: {
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          location?: string | null
+          note?: string | null
+          side?: string
+          starts_at?: string | null
+          title: string
+        }
+        Update: {
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          location?: string | null
+          note?: string | null
+          side?: string
+          starts_at?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      logistics_registrations: {
+        Row: {
+          guest_id: string
+          kind: string
+          needed: boolean
+          nights: string[] | null
+          note: string | null
+          party_size: number
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          guest_id: string
+          kind: string
+          needed: boolean
+          nights?: string[] | null
+          note?: string | null
+          party_size: number
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          guest_id?: string
+          kind?: string
+          needed?: boolean
+          nights?: string[] | null
+          note?: string | null
+          party_size?: number
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "logistics_registrations_guest_id_fkey"
+            columns: ["guest_id"]
+            isOneToOne: false
+            referencedRelation: "guests"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       rsvps: {
         Row: {
@@ -122,7 +211,9 @@ export type Database = {
       }
       generate_guest_code: { Args: never; Returns: string }
       get_invitation: { Args: { p_code: string }; Returns: Json }
+      get_logistics: { Args: { p_code: string }; Returns: Json }
       is_admin: { Args: never; Returns: boolean }
+      keepalive_ping: { Args: never; Returns: undefined }
       list_guestbook: {
         Args: never
         Returns: {
@@ -130,6 +221,25 @@ export type Database = {
           created_at: string
           message: string
         }[]
+      }
+      logistics_for_guest: {
+        Args: {
+          p_guest: Database["public"]["Tables"]["guests"]["Row"]
+          p_kind: string
+        }
+        Returns: Json
+      }
+      submit_logistics: {
+        Args: {
+          p_code: string
+          p_kind: string
+          p_needed: boolean
+          p_nights: string[]
+          p_note: string
+          p_party_size: number
+          p_phone: string
+        }
+        Returns: Json
       }
       submit_rsvp: {
         Args: {

@@ -1,4 +1,5 @@
 import { maskCode, traced } from '@/lib/log'
+import { isGuestSide, type GuestSide } from '@/lib/sides'
 import { publicDb } from '@/lib/supabase'
 import { toAppError } from '@/services/supabaseError'
 
@@ -10,6 +11,9 @@ export interface RsvpAnswer {
 
 export interface Invitation {
   displayName: string
+  side: GuestSide
+  canRegisterTransport: boolean
+  canRegisterLodging: boolean
   rsvp: RsvpAnswer | null
   guestbookCount: number
 }
@@ -48,12 +52,18 @@ export function getInvitation(code: string): Promise<Invitation> {
       if (
         !isRecord(data) ||
         typeof data.display_name !== 'string' ||
+        !isGuestSide(data.side) ||
+        typeof data.can_register_transport !== 'boolean' ||
+        typeof data.can_register_lodging !== 'boolean' ||
         typeof data.guestbook_count !== 'number'
       ) {
         throw toAppError({ message: 'unexpected_shape' })
       }
       return {
         displayName: data.display_name,
+        side: data.side,
+        canRegisterTransport: data.can_register_transport,
+        canRegisterLodging: data.can_register_lodging,
         rsvp: data.rsvp === null ? null : toRsvpAnswer(data.rsvp),
         guestbookCount: data.guestbook_count,
       }

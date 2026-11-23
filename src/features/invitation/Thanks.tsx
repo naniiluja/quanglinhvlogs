@@ -1,7 +1,8 @@
 import { Reveal } from '@/components/effects/Reveal'
-import { WEDDING } from '@/config/wedding'
+import { coupleFor, type GuestSide } from '@/lib/sides'
 
-export function Thanks() {
+export function Thanks({ side }: { side: GuestSide }) {
+  const [first, second] = coupleFor(side)
   return (
     <section aria-labelledby="thanks-title" className="section-screen text-center">
       <Reveal inView>
@@ -16,7 +17,7 @@ export function Thanks() {
           Thân thương
         </p>
         <p className="font-script text-4xl text-mauve">
-          {WEDDING.groom.name} &amp; {WEDDING.bride.name}
+          {first.name} &amp; {second.name}
         </p>
       </Reveal>
     </section>

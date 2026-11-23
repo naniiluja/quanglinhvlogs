@@ -1,12 +1,19 @@
 import { WEDDING } from '@/config/wedding'
 import { toDateParts } from '@/lib/datetime'
-
-const WEDDING_DATE = toDateParts(WEDDING.countdownTarget)
+import { coupleFor, eventsFor, type GuestSide } from '@/lib/sides'
 
 // Mặt sau tấm bưu thiếp trên bìa: tem hoa, lời tâm sự của hai người gửi đích danh khách,
 // dấu bưu điện ngày cưới. Thiệp co giãn theo chiều cao màn (142px đến hơn 400px bề ngang) nên
 // cỡ chữ và khoảng cách tính theo bề ngang thiệp (container query, đơn vị cqw), luôn vừa khung vòm.
-export function CoverPostcard({ guestName }: { guestName: string | null }) {
+interface CoverPostcardProps {
+  guestName: string | null
+  side: GuestSide
+}
+
+export function CoverPostcard({ guestName, side }: CoverPostcardProps) {
+  const [first, second] = coupleFor(side)
+  // Dấu bưu điện là ngày lễ đầu tiên khách được mời.
+  const date = toDateParts(eventsFor(side)[0].ceremony.startsAt)
   return (
     <div className="@container size-full rounded-t-full border border-bronze/60">
       <div className="flex size-full flex-col items-center justify-center gap-[2.5cqw] px-[9cqw] pt-[20%] pb-[7cqw] text-center">
@@ -27,10 +34,10 @@ export function CoverPostcard({ guestName }: { guestName: string | null }) {
         </p>
         <p className="text-[5.4cqw] leading-relaxed text-ink">{WEDDING.coverNote.body}</p>
         <p className="font-serif text-[6.2cqw] font-semibold text-bronze-deep italic">
-          {WEDDING.groom.name} &amp; {WEDDING.bride.name}
+          {first.name} &amp; {second.name}
         </p>
         <span className="rounded-full border border-dashed border-bronze/70 px-[3cqw] font-serif text-[4.4cqw] tracking-[0.2em] text-bronze-deep">
-          {WEDDING_DATE.day} · {WEDDING_DATE.month} · {WEDDING_DATE.year}
+          {date.day} · {date.month} · {date.year}
         </span>
       </div>
     </div>

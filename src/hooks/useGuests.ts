@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { addGuests, deleteGuest, listGuests, renameGuest } from '@/services/admin'
+import type { GuestSide } from '@/lib/sides'
+import { addGuests, deleteGuest, listGuests, updateGuest, type GuestPatch } from '@/services/admin'
 
 const GUESTS_KEY = ['admin', 'guests'] as const
 
@@ -12,10 +13,13 @@ export function useGuestMutations() {
   const queryClient = useQueryClient()
   const refresh = () => queryClient.invalidateQueries({ queryKey: GUESTS_KEY })
   return {
-    add: useMutation({ mutationFn: addGuests, retry: false, onSuccess: refresh }),
-    rename: useMutation({
-      mutationFn: ({ id, displayName }: { id: string; displayName: string }) =>
-        renameGuest(id, displayName),
+    add: useMutation({
+      mutationFn: ({ names, side }: { names: string[]; side: GuestSide }) => addGuests(names, side),
+      retry: false,
+      onSuccess: refresh,
+    }),
+    update: useMutation({
+      mutationFn: ({ id, patch }: { id: string; patch: GuestPatch }) => updateGuest(id, patch),
       retry: false,
       onSuccess: refresh,
     }),

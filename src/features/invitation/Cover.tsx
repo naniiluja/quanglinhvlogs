@@ -5,15 +5,18 @@ import { Button } from '@/components/ui/button'
 import FlipCard from '@/components/ui/flip-card'
 import { WEDDING } from '@/config/wedding'
 import { CoverPostcard } from '@/features/invitation/CoverPostcard'
+import { coupleFor, type GuestSide } from '@/lib/sides'
 
 interface CoverProps {
   // null: thiệp chung (không có mã hoặc mã sai, hiển thị y hệt nhau).
   guestName: string | null
+  side: GuestSide
   loading: boolean
   onOpen: () => void
 }
 
-export function Cover({ guestName, loading, onOpen }: CoverProps) {
+export function Cover({ guestName, side, loading, onOpen }: CoverProps) {
+  const [first, second] = coupleFor(side)
   // Parallax nhẹ cho ảnh bìa (design-system.md); tắt khi người dùng bật giảm chuyển động.
   const reduceMotion = useReducedMotion()
   const { scrollY } = useScroll()
@@ -23,7 +26,7 @@ export function Cover({ guestName, loading, onOpen }: CoverProps) {
     // Máy tính: ảnh bên trái, chữ bên phải; điện thoại: một cột.
     <section
       aria-label="Bìa thiệp"
-      className="flex min-h-svh snap-start flex-col items-center justify-center px-4 py-8 text-center short:py-5 lg:grid lg:grid-cols-2 lg:content-center lg:gap-x-16"
+      className="flex min-h-svh snap-start snap-always flex-col items-center justify-center px-4 py-8 text-center short:py-5 lg:grid lg:grid-cols-2 lg:content-center lg:gap-x-16"
     >
       <Reveal delay={0.1} className="lg:col-start-2">
         <p className="font-serif text-sm tracking-[0.35em] text-sage-deep uppercase">
@@ -66,7 +69,7 @@ export function Cover({ guestName, loading, onOpen }: CoverProps) {
               />
             </div>
           }
-          back={<CoverPostcard guestName={guestName} />}
+          back={<CoverPostcard guestName={guestName} side={side} />}
           ariaLabel="Lật ảnh bìa để xem lời tâm sự"
           tiltMax={10}
           hoverScale={1.02}
@@ -82,9 +85,9 @@ export function Cover({ guestName, loading, onOpen }: CoverProps) {
 
       <Reveal delay={0.55} className="lg:col-start-2">
         <div aria-hidden="true" className="mt-5 font-script leading-tight text-mauve short:mt-3">
-          <p className="text-5xl">{WEDDING.groom.name}</p>
+          <p className="text-5xl">{first.name}</p>
           <p className="font-serif text-3xl font-semibold text-bronze-deep italic">&amp;</p>
-          <p className="text-5xl">{WEDDING.bride.name}</p>
+          <p className="text-5xl">{second.name}</p>
         </div>
       </Reveal>
 

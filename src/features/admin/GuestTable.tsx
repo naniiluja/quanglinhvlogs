@@ -16,6 +16,9 @@ export function GuestTable({ guests }: { guests: AdminGuest[] }) {
         <TableHeader>
           <TableRow>
             <TableHead>Khách mời</TableHead>
+            <TableHead>Bên mời</TableHead>
+            <TableHead className="text-center">Xe</TableHead>
+            <TableHead className="text-center">Lưu trú</TableHead>
             <TableHead>Trạng thái</TableHead>
             <TableHead>Lời nhắn</TableHead>
             <TableHead className="text-right">Thao tác</TableHead>

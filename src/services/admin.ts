@@ -1,5 +1,6 @@
 import type { Session } from '@supabase/supabase-js'
 import { AppError } from '@/lib/errors'
+import { isGuestSide, type GuestSide } from '@/lib/sides'
 import { traced } from '@/lib/log'
 import { getAdminClient } from '@/lib/supabase'
 import { toAppError } from '@/services/supabaseError'
@@ -15,8 +16,19 @@ export interface AdminGuest {
   id: string
   code: string
   displayName: string
+  side: GuestSide
+  canRegisterTransport: boolean
+  canRegisterLodging: boolean
   createdAt: string
   rsvp: GuestRsvp | null
+}
+
+// Các trường admin sửa được trên một khách.
+export interface GuestPatch {
+  displayName?: string
+  side?: GuestSide
+  canRegisterTransport?: boolean
+  canRegisterLodging?: boolean
 }
 
 // Supabase Auth chỉ nhận email: tên đăng nhập không có '@' (ví dụ `admin`) được hiểu là
@@ -84,7 +96,7 @@ export function listGuests(): Promise<AdminGuest[]> {
     const { data, error } = await supabase
       .from('guests')
       .select(
-        'id, code, display_name, created_at, rsvps(attending, party_size, message, updated_at)',
+        'id, code, display_name, side, can_register_transport, can_register_lodging, created_at, rsvps(attending, party_size, message, updated_at)',
       )
       .order('created_at', { ascending: true })
     if (error) throw toAppError(error)
@@ -92,6 +104,10 @@ export function listGuests(): Promise<AdminGuest[]> {
       id: row.id,
       code: row.code,
       displayName: row.display_name,
+      // Cột có check constraint nên luôn hợp lệ; vẫn thu hẹp kiểu tại biên.
+      side: isGuestSide(row.side) ? row.side : 'both',
+      canRegisterTransport: row.can_register_transport,
+      canRegisterLodging: row.can_register_lodging,
       createdAt: row.created_at,
       rsvp: row.rsvps
         ? {
@@ -105,29 +121,39 @@ export function listGuests(): Promise<AdminGuest[]> {
   })
 }
 
-export function addGuests(names: string[]): Promise<void> {
+export function addGuests(names: string[], side: GuestSide): Promise<void> {
   return traced(
     'admin.guests.add',
     async () => {
       const supabase = await getAdminClient()
       const { error } = await supabase
         .from('guests')
-        .insert(names.map((display_name) => ({ display_name })))
+        .insert(names.map((display_name) => ({ display_name, side })))
       if (error) throw toAppError(error)
     },
-    { count: names.length },
+    { count: names.length, side },
   )
 }
 
-export function renameGuest(id: string, displayName: string): Promise<void> {
-  return traced('admin.guests.rename', async () => {
-    const supabase = await getAdminClient()
-    const { error } = await supabase
-      .from('guests')
-      .update({ display_name: displayName })
-      .eq('id', id)
-    if (error) throw toAppError(error)
-  })
+export function updateGuest(id: string, patch: GuestPatch): Promise<void> {
+  return traced(
+    'admin.guests.update',
+    async () => {
+      const supabase = await getAdminClient()
+      const { error } = await supabase
+        .from('guests')
+        .update({
+          display_name: patch.displayName,
+          side: patch.side,
+          can_register_transport: patch.canRegisterTransport,
+          can_register_lodging: patch.canRegisterLodging,
+        })
+        .eq('id', id)
+      if (error) throw toAppError(error)
+    },
+    // Chỉ log tên trường được sửa, không log giá trị.
+    { fields: Object.keys(patch).join(',') },
+  )
 }
 
 export function deleteGuest(id: string): Promise<void> {

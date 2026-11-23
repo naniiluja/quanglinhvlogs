@@ -14,14 +14,18 @@ import {
 import { FieldDescription, FieldError } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { SideSelect } from '@/features/admin/SideSelect'
 import { useGuestMutations } from '@/hooks/useGuests'
 import { BULK_ADD_MAX, GUEST_NAME_MAX, parseGuestNames } from '@/lib/guests'
+import type { GuestSide } from '@/lib/sides'
 
 export function AddGuests() {
   const { add } = useGuestMutations()
   const [name, setName] = useState('')
   const [bulkText, setBulkText] = useState('')
   const [bulkOpen, setBulkOpen] = useState(false)
+  // Bên mời áp cho khách sắp thêm (một hay nhiều); sửa từng khách sau ở bảng.
+  const [side, setSide] = useState<GuestSide>('both')
   const parsed = parseGuestNames(bulkText)
   const bulkInvalid = parsed.names.length === 0 || parsed.overLimit || parsed.tooLong.length > 0
 
@@ -29,28 +33,40 @@ export function AddGuests() {
     event.preventDefault()
     const trimmed = name.trim()
     if (!trimmed) return
-    add.mutate([trimmed], {
-      onSuccess: () => {
-        setName('')
-        toast.success(`Đã thêm ${trimmed}`)
+    add.mutate(
+      { names: [trimmed], side },
+      {
+        onSuccess: () => {
+          setName('')
+          toast.success(`Đã thêm ${trimmed}`)
+        },
+        onError: (error) => toast.error(error.message),
       },
-      onError: (error) => toast.error(error.message),
-    })
+    )
   }
 
   function addMany() {
-    add.mutate(parsed.names, {
-      onSuccess: () => {
-        toast.success(`Đã thêm ${parsed.names.length} khách`)
-        setBulkText('')
-        setBulkOpen(false)
+    add.mutate(
+      { names: parsed.names, side },
+      {
+        onSuccess: () => {
+          toast.success(`Đã thêm ${parsed.names.length} khách`)
+          setBulkText('')
+          setBulkOpen(false)
+        },
+        onError: (error) => toast.error(error.message),
       },
-      onError: (error) => toast.error(error.message),
-    })
+    )
   }
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
+      <SideSelect
+        value={side}
+        onChange={setSide}
+        ariaLabel="Bên mời của khách sắp thêm"
+        className="h-11! w-full sm:w-36"
+      />
       <form onSubmit={addOne} className="flex flex-1 gap-2">
         <Input
           aria-label="Tên khách mời"
