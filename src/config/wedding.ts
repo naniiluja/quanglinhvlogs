@@ -147,16 +147,46 @@ export const WEDDING: WeddingConfig = {
       alt: 'Quang Linh vest đen khoác tay Thanh Trúc váy cưới trắng giữa vòm hoa và đèn chùm',
     },
     {
+      src: '/images/gallery/detail-4438-bouquet.jpg',
+      width: 750,
+      height: 1000,
+      alt: 'Cận cảnh bó hoa loa kèn trắng trên váy cưới, tay cô dâu khoác tay chú rể',
+    },
+    {
       src: '/images/gallery/wedding-5063.jpg',
       width: 665,
       height: 1000,
       alt: 'Quang Linh vest trắng nắm tay Thanh Trúc đang giơ cao bó hoa giữa phòng hoa trắng',
     },
     {
+      src: '/images/gallery/detail-5063-cheer.jpg',
+      width: 749,
+      height: 1000,
+      alt: 'Thanh Trúc cười rạng rỡ, giơ cao bó hoa trước bức tường hoa trắng',
+    },
+    {
       src: '/images/gallery/wedding-4705.jpg',
       width: 665,
       height: 1000,
       alt: 'Quang Linh và Thanh Trúc mỉm cười trên nền xám, cô dâu cầm bó hoa loa kèn trắng',
+    },
+    {
+      src: '/images/gallery/detail-4705-bride.jpg',
+      width: 750,
+      height: 1000,
+      alt: 'Chân dung Thanh Trúc trong váy cưới, tay cầm bó hoa loa kèn',
+    },
+    {
+      src: '/images/gallery/detail-5063-hands.jpg',
+      width: 750,
+      height: 1000,
+      alt: 'Hai bàn tay Quang Linh và Thanh Trúc đan vào nhau',
+    },
+    {
+      src: '/images/gallery/detail-4705-smile.jpg',
+      width: 749,
+      height: 1000,
+      alt: 'Quang Linh và Thanh Trúc đứng cạnh nhau, khăn voan cô dâu buông nhẹ',
     },
     {
       src: '/images/gallery/couple.jpg',
