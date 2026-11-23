@@ -13,3 +13,13 @@ export function isHttpsUrl(location: string): boolean {
 export function mapsHref(location: string): string {
   return isHttpsUrl(location) ? location.trim() : buildMapsUrl(location.trim())
 }
+
+// Bản đồ nhúng (đường xá thường, không vệ tinh) cho iframe, không cần API key.
+export function buildEmbedUrl(query: string): string {
+  return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=15&hl=vi&output=embed`
+}
+
+// Mở Google Maps chỉ đường từ vị trí hiện tại của khách tới địa điểm.
+export function buildDirectionsUrl(query: string): string {
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(query)}`
+}

@@ -28,7 +28,8 @@ export interface SideInfo {
     name: string
     fullAddress: string
     fullOldAddress: string
-    // Google Maps chưa nhận đủ tên xã mới sau sáp nhập nên tìm theo địa chỉ cũ.
+    // Truy vấn Google Maps (tên nơi, hoặc tọa độ "vĩ độ,kinh độ" khi có ghim chính xác).
+    // Google chưa biết số nhà ở đây, còn "Thôn 2/Thôn 4" trùng với nơi khác nên bị trỏ nhầm (2026-11-23).
     mapsQuery: string
   }
 }
@@ -97,7 +98,7 @@ export const WEDDING: WeddingConfig = {
         name: 'Tư gia nhà trai',
         fullAddress: '158 Buôn Cư D’Luê, Xã Hòa Phú, Tỉnh Đắk Lắk',
         fullOldAddress: '158 Thôn 4, X. Hòa Xuân, TP. Buôn Ma Thuột, T. Đắk Lắk cũ',
-        mapsQuery: 'Thôn 4, Hòa Xuân, Buôn Ma Thuột, Đắk Lắk',
+        mapsQuery: 'Buôn Cư D’Luê, Hòa Xuân, Hòa Phú, Đắk Lắk', // MOCK: đúng khu buôn, chờ ghim nhà
       },
     },
     bride: {
@@ -118,7 +119,7 @@ export const WEDDING: WeddingConfig = {
         name: 'Tư gia nhà gái',
         fullAddress: '131 Thôn Hòa Xuân, Xã Hòa Phú, Tỉnh Đắk Lắk',
         fullOldAddress: '131 Thôn 2, X. Hòa Xuân, TP. Buôn Ma Thuột, T. Đắk Lắk cũ',
-        mapsQuery: 'Thôn 2, Hòa Xuân, Buôn Ma Thuột, Đắk Lắk',
+        mapsQuery: 'UBND xã Hòa Xuân, Buôn Ma Thuột, Đắk Lắk', // MOCK: chỉ đúng xã, chờ ghim nhà
       },
     },
   },

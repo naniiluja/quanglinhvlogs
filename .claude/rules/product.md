@@ -27,7 +27,7 @@ Tham khảo bố cục mẫu "Parallax lãng mạn" trên ngaychungdoi.com (ch�
 5. Lễ cưới: ngày, giờ.
 6. Đếm ngược và lịch tháng khoanh ngày cưới.
 7. Lịch trình trong ngày (suy ra từ giờ lễ và tiệc của từng bên).
-8. Địa điểm: bấm vào mở Google Maps (`https://www.google.com/maps/search/?api=1&query=<địa chỉ đã mã hóa>`).
+8. Địa điểm: mỗi địa điểm một trang, có bản đồ đường xá nhúng (iframe `maps.google.com/maps?...&output=embed`, không cần API key, tắt thao tác để không giữ cuộn; bấm vào mở Google Maps) và nút "Chỉ đường" (`/maps/dir/?api=1&destination=`). Truy vấn ở `venue.mapsQuery`: Google chưa biết số nhà, "Thôn 2/Thôn 4" bị trỏ nhầm sang nơi khác, nên đang tạm dùng khu Buôn Cư D'Luê (nhà trai) và UBND xã Hòa Xuân (nhà gái), gắn `// MOCK` chờ chủ dự án gửi ghim Google Maps của từng nhà.
 9. Album ảnh, xem phóng to.
 10. Sổ lưu bút.
 11. Mừng cưới: **một** mã QR VietQR và số tài khoản, **chỉ hiện với link mời riêng hợp lệ** (link chung và mã sai không thấy; chủ dự án chốt 2026-09-24).
