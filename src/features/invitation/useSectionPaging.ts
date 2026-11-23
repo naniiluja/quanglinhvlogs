@@ -33,22 +33,24 @@ function handledInside(target: EventTarget | null, down: boolean): boolean {
   return false
 }
 
-// Trang kế theo hướng; null khi trang hiện tại dài hơn màn hình và chưa tới mép (cuộn thường),
-// hoặc đã ở trang đầu/cuối.
+// Trang cần cuộn tới theo hướng; null khi để trình duyệt cuộn thường (trang dài còn nội dung theo
+// hướng đó) hoặc đã ở trang đầu/cuối.
+// Trang hiện tại là trang chứa mép trên màn hình. Không chọn "trang có mép trên gần đỉnh nhất": sau
+// một lần cuộn thường trang bị lệch, trang nằm thấp có đáy thò khỏi màn hình bị tưởng là trang dài,
+// mọi cú vuốt sau đó đều thành cuộn thường (chủ dự án báo 2026-11-23).
 function nextPage(down: boolean): HTMLElement | null {
   const all = pages()
-  if (all.length === 0) return null
-  // Trang hiện tại: trang có mép trên gần đỉnh màn hình nhất.
-  const index = all.reduce(
-    (best, page, i) =>
-      Math.abs(page.getBoundingClientRect().top) < Math.abs(all[best].getBoundingClientRect().top)
-        ? i
-        : best,
-    0,
-  )
+  const index = all.findIndex((page) => page.getBoundingClientRect().bottom > EDGE)
+  if (index < 0) return null
   const rect = all[index].getBoundingClientRect()
-  if (down ? rect.bottom > window.innerHeight + EDGE : rect.top < -EDGE) return null
-  return all[index + (down ? 1 : -1)] ?? null
+  const tall = rect.height > window.innerHeight + EDGE
+  if (down) {
+    if (tall && rect.bottom > window.innerHeight + EDGE) return null
+    return all[index + 1] ?? null
+  }
+  // Vuốt lên khi trang đang lệch: căn lại đầu trang này; trang dài thì cuộn thường.
+  if (rect.top < -EDGE) return tall ? null : all[index]
+  return all[index - 1] ?? null
 }
 
 export function useSectionPaging() {

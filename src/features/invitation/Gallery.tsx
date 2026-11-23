@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState, type TouchEvent } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useInView } from 'motion/react'
 import { LazyLightbox } from '@/components/effects/LazyLightbox'
 import { preloadLightbox } from '@/components/effects/lightboxLoader'
@@ -40,7 +40,7 @@ function tileToPhotoIndex(tileId: string): number {
   return photoIndex < WALL_ITEMS.length ? photoIndex : 0
 }
 
-// Ngón tay xê dịch quá ngưỡng này là vuốt cuộn trang, không phải chạm mở ảnh.
+// Ngón tay hoặc chuột xê dịch quá ngưỡng này là vuốt, không phải chạm mở ảnh.
 const TAP_SLOP_PX = 10
 
 const SLIDES = WEDDING.gallery.map((photo) => ({
@@ -54,12 +54,30 @@ export function Gallery() {
   const [index, setIndex] = useState(-1)
   const wallRef = useRef<HTMLDivElement>(null)
   const inView = useInView(wallRef, { margin: '120px' })
-  const touchStart = useRef<{ x: number; y: number } | null>(null)
+  const pointerStart = useRef<{ x: number; y: number } | null>(null)
 
   useEffect(() => {
     if (inView) preloadLightbox()
   }, [inView])
 
+  // Ô ảnh đang hiển thị dưới điểm chạm (getBoundingClientRect đã tính phép xoay 3D); nhiều ô chồng
+  // nhau ở mép thì lấy ô có tâm gần điểm chạm nhất.
+  function openAt(x: number, y: number) {
+    let best: { id: string; distance: number } | null = null
+    for (const tile of wallRef.current?.querySelectorAll<HTMLElement>('[data-tile-id]') ?? []) {
+      const rect = (tile.firstElementChild ?? tile).getBoundingClientRect()
+      if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) continue
+      const distance = Math.hypot(
+        x - (rect.left + rect.right) / 2,
+        y - (rect.top + rect.bottom) / 2,
+      )
+      if (tile.dataset.tileId && (!best || distance < best.distance))
+        best = { id: tile.dataset.tileId, distance }
+    }
+    if (best) setIndex(tileToPhotoIndex(best.id))
+  }
+
+  // Bàn phím: ô đang được focus.
   function openFrom(target: EventTarget) {
     const tile = target instanceof Element ? target.closest('[data-tile-id]') : null
     if (tile instanceof HTMLElement && tile.dataset.tileId)
@@ -75,23 +93,18 @@ export function Gallery() {
       <div
         ref={wallRef}
         className="album-wall mt-5 h-[min(56svh,36rem)] w-full"
-        onClick={(event) => openFrom(event.target)}
-        // Safari iOS nuốt lần chạm đầu vì DriftWall đổi giao diện ô (is-active) theo sự kiện con trỏ,
-        // coi đó là hover: khách phải chạm hai lần. Tự nhận cú chạm ở touchend và chặn click giả sau đó
-        // (click giả rơi vào nền lightbox vừa mở sẽ đóng nó lại).
-        onTouchStart={(event: TouchEvent) => {
-          const touch = event.touches[0]
-          touchStart.current = { x: touch.clientX, y: touch.clientY }
+        // Mở ảnh theo toạ độ ngón tay/chuột, không theo event.target: tường ảnh xoay 3D (preserve-3d)
+        // và WebKit (Safari, Zalo trên iPhone) xác định phần tử bị chạm theo vị trí trước khi xoay, nên
+        // target thường là khung nền chứ không phải ô ảnh. pointerup cũng không bị iOS nuốt như click.
+        onPointerDown={(event) => {
+          pointerStart.current = { x: event.clientX, y: event.clientY }
         }}
-        onTouchEnd={(event: TouchEvent) => {
-          const start = touchStart.current
-          const touch = event.changedTouches[0]
-          touchStart.current = null
-          if (!start || Math.hypot(touch.clientX - start.x, touch.clientY - start.y) > TAP_SLOP_PX)
+        onPointerUp={(event) => {
+          const start = pointerStart.current
+          pointerStart.current = null
+          if (!start || Math.hypot(event.clientX - start.x, event.clientY - start.y) > TAP_SLOP_PX)
             return
-          if (!(event.target instanceof Element) || !event.target.closest('[data-tile-id]')) return
-          event.preventDefault()
-          openFrom(event.target)
+          openAt(event.clientX, event.clientY)
         }}
         onKeyDown={(event) => {
           if (event.key !== 'Enter' && event.key !== ' ') return

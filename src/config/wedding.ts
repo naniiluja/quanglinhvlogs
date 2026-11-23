@@ -153,7 +153,7 @@ export const WEDDING: WeddingConfig = {
     { date: '2026-12-12', label: 'Đêm 12/12' },
   ],
   // 30 ảnh hoàn chỉnh (thư mục "hinh xong" trên Drive, chủ dự án gửi 2026-11-23), xếp xen kẽ sáu bộ
-  // ảnh để tường ảnh không liền một màu; ba ảnh dạm ngõ ở cuối.
+  // ảnh để tường ảnh không liền một màu. Chủ dự án bỏ ảnh dạm ngõ khỏi album (2026-11-23).
   gallery: [
     weddingPhoto(
       '4438',
@@ -197,24 +197,6 @@ export const WEDDING: WeddingConfig = {
     weddingPhoto('4633', 'portrait', 'Chân dung chú rể vest đen cầm bó hoa'),
     weddingPhoto('4739', 'portrait', 'Chú rể cầm hoa, cô dâu tựa vai chú rể'),
     weddingPhoto('4588', 'portrait', 'Chú rể và cô dâu tạo dáng bên vòm hoa trắng'),
-    {
-      src: '/images/gallery/couple.jpg',
-      width: 580,
-      height: 604,
-      alt: 'Quang Linh và Thanh Trúc cười bên nhau cùng bó hoa hồng',
-    },
-    {
-      src: '/images/gallery/bouquet.jpg',
-      width: 410,
-      height: 480,
-      alt: 'Hai bàn tay cùng giữ bó hoa hồng phấn',
-    },
-    {
-      src: '/images/gallery/flowers.jpg',
-      width: 450,
-      height: 600,
-      alt: 'Bàn hoa lễ với hoa hồng, đồng tiền và chữ song hỷ',
-    },
   ],
   // Số tài khoản giả, KHÔNG phải tài khoản thật (repo công khai, product.md).
   giftAccount: {
