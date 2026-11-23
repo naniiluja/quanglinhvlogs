@@ -7,7 +7,7 @@
 
 ## Đây là gì
 
-Website thiệp cưới online, làm quà tặng bạn của chủ dự án: chú rể Quang Linh, cô dâu Thanh Trúc. Khách mở link riêng `/?g=<code>`, thấy thiệp có tên mình, xem thông tin lễ cưới, bấm địa điểm để mở Google Maps, quét QR mừng cưới, viết lời chúc và xác nhận tham dự (RSVP). Admin đăng nhập ở `/admin` để quản lý danh sách khách và xem ai đã xác nhận.
+Website thiệp cưới online, làm quà tặng bạn của chủ dự án: chú rể Quang Linh, cô dâu Thanh Trúc. Khách mở link riêng `/?g=<code>`, thấy thiệp có tên mình, xem thông tin lễ cưới, bấm địa điểm để mở Google Maps, viết lời chúc và xác nhận tham dự (RSVP). Admin đăng nhập ở `/admin` để quản lý danh sách khách và xem ai đã xác nhận.
 
 Ưu tiên số một là giao diện đẹp trên điện thoại: nền kem, xanh sage, vàng đồng, nhấn hồng phấn, hoa rơi, chuyển động mượt. Chi phí 0 đồng: Cloudflare Pages (`*.pages.dev`) và Supabase Free.
 

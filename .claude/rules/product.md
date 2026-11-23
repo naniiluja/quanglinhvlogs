@@ -6,7 +6,7 @@
 
 ## Link riêng của khách
 - Dạng `/?g=<code>`. `code` là mã ngẫu nhiên lưu ở bảng `guests`, tên hiển thị lấy từ `guests.display_name` (ví dụ "Anh Nam và gia đình").
-- Không có `g`, hoặc mã sai: hiện thiệp chung ("Trân trọng kính mời quý khách"), **ẩn** form lời chúc, **ẩn hẳn** section RSVP và hộp mừng cưới, hiện một dòng nhắc mở đúng link được gửi riêng. Mã sai và không có mã hiển thị y hệt nhau, để không ai dò được mã hợp lệ.
+- Không có `g`, hoặc mã sai: hiện thiệp chung ("Trân trọng kính mời quý khách"), **ẩn** form lời chúc, **ẩn hẳn** section RSVP, hiện một dòng nhắc mở đúng link được gửi riêng. Mã sai và không có mã hiển thị y hệt nhau, để không ai dò được mã hợp lệ.
 - Đổi tên người nhận: sửa `display_name` trong `/admin`, không cần deploy lại.
 
 ## Bên mời (chủ dự án chốt 2026-11-23)
@@ -30,10 +30,9 @@ Tham khảo bố cục mẫu "Parallax lãng mạn" trên ngaychungdoi.com (ch�
 8. Địa điểm: mỗi địa điểm một trang, có bản đồ đường xá nhúng (iframe `maps.google.com/maps?...&output=embed`, không cần API key, tắt thao tác để không giữ cuộn; bấm vào mở Google Maps) và nút "Chỉ đường" (`/maps/dir/?api=1&destination=`). Truy vấn ở `venue.mapsQuery`: Google chưa biết số nhà, "Thôn 2/Thôn 4" bị trỏ nhầm sang nơi khác, nên đang tạm dùng khu Buôn Cư D'Luê (nhà trai) và UBND xã Hòa Xuân (nhà gái), gắn `// MOCK` chờ chủ dự án gửi ghim Google Maps của từng nhà.
 9. Album ảnh, xem phóng to: 30 ảnh hoàn chỉnh (Drive "Album Sửa Lần 1/hinh xong", sáu bộ ảnh xếp xen kẽ); chủ dự án bỏ ảnh dạm ngõ khỏi album (2026-11-23). Tường ảnh dùng bản nhỏ 420px (`/images/gallery/thumb/`), lightbox dùng bản 1000px (`/full/`, mỗi ảnh ≤ 150KB). Chạm một lần là mở: tự dò ô theo toạ độ `pointerup` so với `getBoundingClientRect` của từng ô (WebKit xác định phần tử bị chạm sai trên mặt phẳng 3D `preserve-3d`, và iOS nuốt click khi DriftWall đổi trạng thái hover), lightbox tải sẵn khi album vào màn hình, bấm nền tối là đóng.
 10. Sổ lưu bút.
-11. Mừng cưới: **một** mã QR VietQR và số tài khoản, **chỉ hiện với link mời riêng hợp lệ** (link chung và mã sai không thấy; chủ dự án chốt 2026-09-24).
-12. Xác nhận tham dự (RSVP).
-13. Xe đưa đón, rồi Lưu trú (chỉ khách được tick).
-14. Lời cảm ơn.
+11. Xác nhận tham dự (RSVP).
+12. Xe đưa đón, rồi Lưu trú (chỉ khách được tick).
+13. Lời cảm ơn.
 
 ## RSVP
 - Trường: `attending` (có hoặc không), `party_size` từ 1 đến 5 (chỉ hỏi khi tham dự), `message` tùy chọn tối đa 500 ký tự.
@@ -46,10 +45,10 @@ Tham khảo bố cục mẫu "Parallax lãng mạn" trên ngaychungdoi.com (ch�
 - Ai mở thiệp cũng đọc được danh sách. Admin xóa được lời chúc không phù hợp.
 
 ## Dữ liệu mock và dữ liệu thật
-- Tên thật: chú rể **Vũ Quang Linh** (Quý nam), cô dâu **Đào Thanh Trúc** (Trưởng nữ). Ngày giờ, địa điểm, tên cha mẹ là thật theo thiệp in (2026-11-23). Còn mock: lời giới thiệu hai người, tài khoản ngân hàng.
+- Tên thật: chú rể **Vũ Quang Linh** (Quý nam), cô dâu **Đào Thanh Trúc** (Trưởng nữ). Ngày giờ, địa điểm, tên cha mẹ là thật theo thiệp in (2026-11-23). Còn mock: lời giới thiệu hai người.
 - Mọi giá trị mock trong `src/config/wedding.ts` có chú thích `// MOCK` để `grep -n "MOCK" src` liệt kê hết những gì còn phải thay.
 - Ngày `20.09.2026` trên bảng "Lễ dạm ngõ" trong ảnh là ngày dạm ngõ đã qua, **không** dùng làm ngày cưới.
-- Tài khoản ngân hàng mock phải ghi rõ là mock, không dùng số thật khi chủ dự án chưa xác nhận (repo công khai).
+- Không có hộp mừng cưới (mã QR, số tài khoản): chủ dự án bỏ ngày 2026-11-23.
 
 ## Ảnh
 - Ảnh gốc: `assets-src/dam-ngo-goc.jpg` (1536x2048, chú rể và cô dâu bên bảng dạm ngõ). Không commit ảnh gốc.

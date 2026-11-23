@@ -6,7 +6,6 @@ import { Cover } from '@/features/invitation/Cover'
 import { Event } from '@/features/invitation/Event'
 import { Family } from '@/features/invitation/Family'
 import { Gallery } from '@/features/invitation/Gallery'
-import { GiftQr } from '@/features/invitation/GiftQr'
 import { Guestbook } from '@/features/invitation/Guestbook'
 import { InvitationMessage } from '@/features/invitation/InvitationMessage'
 import { LogisticsSection } from '@/features/invitation/LogisticsSection'
@@ -88,8 +87,6 @@ function InvitationContent() {
           <Venue side={side} />
           <Gallery />
           <Guestbook code={code} invitation={invitation.data} />
-          {/* Hộp mừng cưới chỉ hiện với link mời riêng hợp lệ, không public (chủ dự án chốt 2026-09-24). */}
-          {code && invitation.data && <GiftQr />}
           {/* RSVP cũng chỉ hiện với link mời riêng hợp lệ, trang public ẩn hẳn (chủ dự án chốt 2026-09-24). */}
           {code && invitation.data && <RsvpSection code={code} invitation={invitation.data} />}
           {/* Xe và lưu trú là hai quyền riêng, admin tick cho từng khách (chủ dự án chốt 2026-11-23). */}

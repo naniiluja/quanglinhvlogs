@@ -55,14 +55,6 @@ function weddingPhoto(id: string, shape: 'portrait' | 'landscape', alt: string):
   }
 }
 
-export interface GiftAccount {
-  label: string
-  bankBin: string
-  bankName: string
-  accountNumber: string
-  accountName: string
-}
-
 export interface WeddingConfig {
   groom: Person
   bride: Person
@@ -73,8 +65,6 @@ export interface WeddingConfig {
   // Các đêm khách đăng ký lưu trú chọn được (DB chỉ nhận ngày trong tháng 12/2026).
   lodgingNights: { date: string; label: string }[]
   gallery: Photo[]
-  // Chủ dự án chốt 2026-09-24: hộp mừng cưới chỉ một mã QR.
-  giftAccount: GiftAccount
   music: { src: string }
 }
 
@@ -198,14 +188,6 @@ export const WEDDING: WeddingConfig = {
     weddingPhoto('4739', 'portrait', 'Chú rể cầm hoa, cô dâu tựa vai chú rể'),
     weddingPhoto('4588', 'portrait', 'Chú rể và cô dâu tạo dáng bên vòm hoa trắng'),
   ],
-  // Số tài khoản giả, KHÔNG phải tài khoản thật (repo công khai, product.md).
-  giftAccount: {
-    label: 'Mừng cưới cô dâu chú rể',
-    bankBin: '970436', // MOCK
-    bankName: 'Vietcombank', // MOCK
-    accountNumber: '0123456789', // MOCK
-    accountName: 'PHAM QUANG LINH', // MOCK
-  },
   // Chủ dự án chọn 2026-09-24 và tự cung cấp file; bài có bản quyền nên file bị .gitignore, chỉ có trong
   // bản deploy từ máy chủ dự án. Máy thiếu file thì đổi lại '/audio/canon-in-d.m4a' (public domain).
   music: { src: '/audio/noi-nay-co-anh.m4a' },

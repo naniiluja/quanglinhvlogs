@@ -41,7 +41,7 @@ Khai báo biến trong `:root` ở `src/index.css`, dùng bằng `z-(--layer-...
 | `--layer-petals` | 15 | Canvas hoa rơi (`fullScreen.zIndex` của tsParticles phải khớp số này) |
 | `--layer-content` | 20 | Chữ, ảnh, form; nền section trong suốt hoặc bán trong suốt để không che hoa |
 | `--layer-floating` | 50 | Nút nhạc, toast |
-| `--layer-dialog` | 60 | Lightbox, phóng to QR |
+| `--layer-dialog` | 60 | Lightbox |
 
 ## Bố cục
 - Thiết kế mobile trước, kiểm ở 390px; nội dung tối đa khoảng 480px chiều ngang trên màn lớn để giữ cảm giác một tấm thiệp, phần nền trang trí có thể rộng hơn.

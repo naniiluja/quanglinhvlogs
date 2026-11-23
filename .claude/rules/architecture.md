@@ -9,7 +9,7 @@
 
 ## Hướng phụ thuộc
 - Phụ thuộc chỉ đi một chiều: UI → hook → service → client. Lớp dưới không import lớp trên.
-- Logic nghiệp vụ (tính đếm ngược, dựng link Maps, dựng URL VietQR) là hàm thuần trong `src/lib/`, không phụ thuộc React hay Supabase.
+- Logic nghiệp vụ (tính đếm ngược, dựng link Maps) là hàm thuần trong `src/lib/`, không phụ thuộc React hay Supabase.
 
 ## Design patterns
 - Backend: không có server riêng. Quyền truy cập dữ liệu nằm ở Postgres: RLS + hàm RPC `security definer` (xem `security.md`, `data-layer.md`).
@@ -17,14 +17,14 @@
 
 ## Nơi đặt file
 - `src/routes/`: hai trang `InvitationPage`, `AdminPage` và router.
-- `src/features/invitation/`: các section của thiệp (Cover, Couple, Event, Countdown, Venue, Gallery, GiftQr, Rsvp, Guestbook, MusicToggle).
+- `src/features/invitation/`: các section của thiệp (Cover, Couple, Event, Countdown, Venue, Gallery, Rsvp, Guestbook, MusicToggle).
 - `src/features/admin/`: màn hình quản trị.
 - `src/components/ui/`: file do shadcn và registry bên thứ ba sinh, không sửa tay (`blur-fade.tsx`, `button.tsx`...).
 - `src/components/effects/`: lớp bọc cấu hình hiệu ứng của thư viện (`PetalsFall.tsx` bọc tsParticles, `Reveal.tsx` bọc BlurFade).
-- `src/config/wedding.ts`: toàn bộ nội dung sự kiện, tài khoản mừng cưới, đường dẫn ảnh.
+- `src/config/wedding.ts`: toàn bộ nội dung sự kiện, đường dẫn ảnh.
 - `src/services/`: `invitation.ts`, `rsvp.ts`, `guestbook.ts`, `admin.ts`, `logistics.ts` (khách), `logisticsAdmin.ts`.
 - `src/hooks/`: hook react-query, tên `useXxx.ts`.
-- `src/lib/`: `supabase.ts`, `log.ts`, `errors.ts`, `maps.ts`, `vietqr.ts`, `countdown.ts`, `utils.ts`, `sides.ts` (nội dung theo bên mời), `logistics.ts`.
+- `src/lib/`: `supabase.ts`, `log.ts`, `errors.ts`, `maps.ts`, `countdown.ts`, `utils.ts`, `sides.ts` (nội dung theo bên mời), `logistics.ts`.
 - `src/types/database.ts`: sinh tự động từ Supabase, không sửa tay.
 - `supabase/migrations/`: SQL migration.
 
