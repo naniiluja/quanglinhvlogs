@@ -1,23 +1,26 @@
 import { useEffect } from 'react'
 import { useReducedMotion } from 'motion/react'
 
-// Máy tính: một nấc lăn chuột (hoặc một lần vuốt trackpad) sang đúng một trang (chủ dự án góp ý
-// 2026-11-23). Chỉ dùng scroll-snap thì mỗi nấc cuộn ~100px rồi bị hút về trang cũ.
-// Điện thoại không qua đây: cảm ứng đã có scroll-snap-stop: always.
+// Một nấc lăn chuột, một lần vuốt trackpad hay một cú vuốt trên điện thoại sang đúng một trang
+// (chủ dự án góp ý 2026-11-23). Chỉ dùng scroll-snap thì trang trôi theo tay rồi mới hút về,
+// trình duyệt trong Zalo hút không dứt khoát, khách thấy "vẫn từ từ".
 const EDGE = 2
-// Trackpad còn bắn sự kiện quán tính một lúc sau khi nhấc tay: chờ yên đủ lâu mới nhận lượt mới.
+// Trackpad còn bắn sự kiện quán tính sau khi nhấc tay: chờ yên đủ lâu mới nhận lượt mới.
 const QUIET_MS = 220
 const MIN_LOCK_MS = 650
+// Ngón tay dịch ít hơn mức này là chạm (mở ảnh, bấm nút), chưa phải vuốt.
+const TOUCH_DECIDE_PX = 8
+const TOUCH_SWIPE_PX = 40
 
 function pages(): HTMLElement[] {
   return [...document.querySelectorAll<HTMLElement>('main section')]
 }
 
-// Vùng con tự cuộn được theo hướng này (danh sách lời chúc, ô nhập, hộp thoại) thì để nguyên.
-function innerCanScroll(target: EventTarget | null, down: boolean): boolean {
+// Vùng tự xử lý cử chỉ: lightbox, hộp thoại, hay vùng con còn cuộn được theo hướng này.
+function handledInside(target: EventTarget | null, down: boolean): boolean {
   let el = target instanceof Element ? target : null
+  if (el?.closest('[role="dialog"], .yarl__root')) return true
   while (el && el !== document.body) {
-    if (el.closest('[role="dialog"]')) return true
     const { overflowY } = getComputedStyle(el)
     if ((overflowY === 'auto' || overflowY === 'scroll') && el.scrollHeight > el.clientHeight) {
       const atEnd = down
@@ -30,23 +33,47 @@ function innerCanScroll(target: EventTarget | null, down: boolean): boolean {
   return false
 }
 
-export function useWheelPaging() {
+// Trang kế theo hướng; null khi trang hiện tại dài hơn màn hình và chưa tới mép (cuộn thường),
+// hoặc đã ở trang đầu/cuối.
+function nextPage(down: boolean): HTMLElement | null {
+  const all = pages()
+  if (all.length === 0) return null
+  // Trang hiện tại: trang có mép trên gần đỉnh màn hình nhất.
+  const index = all.reduce(
+    (best, page, i) =>
+      Math.abs(page.getBoundingClientRect().top) < Math.abs(all[best].getBoundingClientRect().top)
+        ? i
+        : best,
+    0,
+  )
+  const rect = all[index].getBoundingClientRect()
+  if (down ? rect.bottom > window.innerHeight + EDGE : rect.top < -EDGE) return null
+  return all[index + (down ? 1 : -1)] ?? null
+}
+
+export function useSectionPaging() {
   const reduceMotion = useReducedMotion()
 
   useEffect(() => {
-    if (!window.matchMedia('(pointer: fine)').matches) return
-
     let locked = false
     let lockedAt = 0
     let quietTimer: number | undefined
+    // Cử chỉ chạm đang diễn ra: 'page' là do hook điều khiển, 'native' là để trình duyệt cuộn.
+    let touch: { y: number; mode: 'pending' | 'page' | 'native' } | null = null
 
     function release() {
       window.clearTimeout(quietTimer)
       quietTimer = window.setTimeout(() => {
-        const wait = MIN_LOCK_MS - (performance.now() - lockedAt)
-        if (wait > 0) return release()
+        if (MIN_LOCK_MS - (performance.now() - lockedAt) > 0) return release()
         locked = false
       }, QUIET_MS)
+    }
+
+    function goTo(page: HTMLElement) {
+      locked = true
+      lockedAt = performance.now()
+      page.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' })
+      release()
     }
 
     function onWheel(event: WheelEvent) {
@@ -57,34 +84,50 @@ export function useWheelPaging() {
         return
       }
       const down = event.deltaY > 0
-      if (innerCanScroll(event.target, down)) return
-
-      const all = pages()
-      // Trang hiện tại: trang có mép trên gần đỉnh màn hình nhất.
-      const index = all.reduce(
-        (best, page, i) =>
-          Math.abs(page.getBoundingClientRect().top) <
-          Math.abs(all[best].getBoundingClientRect().top)
-            ? i
-            : best,
-        0,
-      )
-      const rect = all[index].getBoundingClientRect()
-      // Trang dài hơn màn hình (form, danh sách): cuộn thường cho tới mép rồi mới sang trang.
-      if (down ? rect.bottom > window.innerHeight + EDGE : rect.top < -EDGE) return
-
-      const next = all[index + (down ? 1 : -1)]
+      if (handledInside(event.target, down)) return
+      const next = nextPage(down)
       if (!next) return
       event.preventDefault()
-      locked = true
-      lockedAt = performance.now()
-      next.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' })
-      release()
+      goTo(next)
     }
 
-    window.addEventListener('wheel', onWheel, { passive: false })
+    function onTouchStart(event: TouchEvent) {
+      touch = event.touches.length === 1 ? { y: event.touches[0].clientY, mode: 'pending' } : null
+    }
+
+    function onTouchMove(event: TouchEvent) {
+      if (!touch || touch.mode === 'native') return
+      const dy = touch.y - event.touches[0].clientY
+      if (touch.mode === 'pending') {
+        if (Math.abs(dy) < TOUCH_DECIDE_PX) return
+        const down = dy > 0
+        touch.mode = handledInside(event.target, down) || !nextPage(down) ? 'native' : 'page'
+        if (touch.mode === 'native') return
+      }
+      // Giữ trang đứng yên trong lúc vuốt; thả tay mới chuyển trang.
+      event.preventDefault()
+    }
+
+    function onTouchEnd(event: TouchEvent) {
+      const gesture = touch
+      touch = null
+      if (!gesture || gesture.mode !== 'page' || locked) return
+      const dy = gesture.y - event.changedTouches[0].clientY
+      if (Math.abs(dy) < TOUCH_SWIPE_PX) return
+      const next = nextPage(dy > 0)
+      if (next) goTo(next)
+    }
+
+    const active = { passive: false } as const
+    window.addEventListener('wheel', onWheel, active)
+    window.addEventListener('touchstart', onTouchStart, { passive: true })
+    window.addEventListener('touchmove', onTouchMove, active)
+    window.addEventListener('touchend', onTouchEnd, { passive: true })
     return () => {
       window.removeEventListener('wheel', onWheel)
+      window.removeEventListener('touchstart', onTouchStart)
+      window.removeEventListener('touchmove', onTouchMove)
+      window.removeEventListener('touchend', onTouchEnd)
       window.clearTimeout(quietTimer)
     }
   }, [reduceMotion])

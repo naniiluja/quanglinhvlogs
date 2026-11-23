@@ -16,7 +16,7 @@ import { RsvpSection } from '@/features/invitation/RsvpSection'
 import { ScrollToTop } from '@/features/invitation/ScrollToTop'
 import { Thanks } from '@/features/invitation/Thanks'
 import { Timeline } from '@/features/invitation/Timeline'
-import { useWheelPaging } from '@/features/invitation/useWheelPaging'
+import { useSectionPaging } from '@/features/invitation/useSectionPaging'
 import { Venue } from '@/features/invitation/Venue'
 import { useInvitation } from '@/hooks/useInvitation'
 import { useMusic } from '@/hooks/useMusic'
@@ -37,7 +37,7 @@ function InvitationContent() {
   const invitation = useInvitation(code)
   const contentRef = useRef<HTMLDivElement>(null)
   const music = useMusic()
-  useWheelPaging()
+  useSectionPaging()
 
   // Mã sai và không có mã hiển thị giống hệt nhau (product.md): chỉ khi có dữ liệu mới gọi tên.
   const guestName = invitation.data?.displayName ?? null
