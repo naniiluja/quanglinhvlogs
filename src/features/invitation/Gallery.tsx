@@ -96,6 +96,15 @@ export function Gallery() {
         // Mở ảnh theo toạ độ ngón tay/chuột, không theo event.target: tường ảnh xoay 3D (preserve-3d)
         // và WebKit (Safari, Zalo trên iPhone) xác định phần tử bị chạm theo vị trí trước khi xoay, nên
         // target thường là khung nền chứ không phải ô ảnh. pointerup cũng không bị iOS nuốt như click.
+        // Hiệu ứng nhấc ô của DriftWall là hover, chỉ dành cho chuột. Trên điện thoại ngón tay kích nó
+        // theo phép dò phần tử sai của WebKit, ô bị nhấc lồi lên, cột đứng yên, có lúc ô biến mất
+        // (chủ dự án báo 2026-11-23): chặn pointermove cảm ứng ở pha capture, trước khi tới DriftWall.
+        onPointerMoveCapture={(event) => {
+          if (event.pointerType !== 'mouse') event.stopPropagation()
+        }}
+        // Chạm hay bấm không cho ô nhận focus: ô đang focus giữ trạng thái nhấc và dừng cả cột tới khi
+        // mất focus. Phím Tab vẫn focus được để mở ảnh bằng bàn phím.
+        onMouseDown={(event) => event.preventDefault()}
         onPointerDown={(event) => {
           pointerStart.current = { x: event.clientX, y: event.clientY }
         }}
