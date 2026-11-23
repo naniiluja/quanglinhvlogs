@@ -62,7 +62,7 @@ export function Cover({ guestName, side, loading, onOpen }: CoverProps) {
                 src="/images/cover-couple.jpg"
                 width={548}
                 height={685}
-                alt={`${WEDDING.groom.name} và ${WEDDING.bride.name} cùng bó hoa hồng`}
+                alt={`${WEDDING.groom.name} và ${WEDDING.bride.name} trong trang phục cưới`}
                 className="size-full rounded-t-full object-cover"
                 fetchPriority="high"
                 draggable={false}

@@ -76,7 +76,7 @@ export const WEDDING: WeddingConfig = {
     name: 'Thanh Trúc',
     fullName: 'Đào Thanh Trúc',
     role: 'Cô dâu',
-    photo: { src: '/images/bride.jpg', width: 250, height: 250 },
+    photo: { src: '/images/bride.jpg', width: 300, height: 300 },
     bio: 'Dịu dàng, yêu hoa và những buổi chiều yên bình, tin rằng hạnh phúc nằm trong những điều giản dị.', // MOCK
   },
   sides: {
@@ -138,7 +138,26 @@ export const WEDDING: WeddingConfig = {
     { date: '2026-12-11', label: 'Đêm 11/12' },
     { date: '2026-12-12', label: 'Đêm 12/12' },
   ],
+  // Ảnh cưới chủ dự án gửi 2026-11-23 (Drive), đặt trước ba ảnh dạm ngõ.
   gallery: [
+    {
+      src: '/images/gallery/wedding-4438.jpg',
+      width: 665,
+      height: 1000,
+      alt: 'Quang Linh vest đen khoác tay Thanh Trúc váy cưới trắng giữa vòm hoa và đèn chùm',
+    },
+    {
+      src: '/images/gallery/wedding-5063.jpg',
+      width: 665,
+      height: 1000,
+      alt: 'Quang Linh vest trắng nắm tay Thanh Trúc đang giơ cao bó hoa giữa phòng hoa trắng',
+    },
+    {
+      src: '/images/gallery/wedding-4705.jpg',
+      width: 665,
+      height: 1000,
+      alt: 'Quang Linh và Thanh Trúc mỉm cười trên nền xám, cô dâu cầm bó hoa loa kèn trắng',
+    },
     {
       src: '/images/gallery/couple.jpg',
       width: 580,

@@ -53,6 +53,7 @@ Tham khảo bố cục mẫu "Parallax lãng mạn" trên ngaychungdoi.com (ch�
 
 ## Ảnh
 - Ảnh gốc: `assets-src/dam-ngo-goc.jpg` (1536x2048, chú rể và cô dâu bên bảng dạm ngõ). Không commit ảnh gốc.
+- Ảnh cưới (Nikon 4024x6048) chủ dự án gửi qua Drive ngày 2026-11-23, gốc ở `assets-src/drive-2026-11-23/` (không commit): DSC_4438 làm ảnh bìa và ảnh chia sẻ `og-wedding.jpg` (đổi tên để Zalo, Facebook không dùng ảnh cũ đã lưu đệm), DSC_4705 cắt chân dung chú rể và cô dâu, cả ba vào album trước ảnh dạm ngõ.
 - Bản đã cắt và nén đặt trong `public/images/`. Cắt sao cho khung ảnh không chứa chữ "Lễ dạm ngõ" hay ngày `20.09.2026`.
 
 ## Ngôn ngữ
