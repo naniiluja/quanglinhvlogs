@@ -1,6 +1,7 @@
-import { lazy, Suspense, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState, type TouchEvent } from 'react'
 import { useInView } from 'motion/react'
 import { LazyLightbox } from '@/components/effects/LazyLightbox'
+import { preloadLightbox } from '@/components/effects/lightboxLoader'
 import { WEDDING } from '@/config/wedding'
 import { SectionHeading } from '@/features/invitation/SectionHeading'
 import { NextSectionButton } from '@/features/invitation/NextSectionButton'
@@ -36,6 +37,9 @@ function tileToPhotoIndex(tileId: string): number {
   return photoIndex < WALL_ITEMS.length ? photoIndex : 0
 }
 
+// Ngón tay xê dịch quá ngưỡng này là vuốt cuộn trang, không phải chạm mở ảnh.
+const TAP_SLOP_PX = 10
+
 const SLIDES = WEDDING.gallery.map((photo) => ({
   src: photo.src,
   width: photo.width,
@@ -47,6 +51,11 @@ export function Gallery() {
   const [index, setIndex] = useState(-1)
   const wallRef = useRef<HTMLDivElement>(null)
   const inView = useInView(wallRef, { margin: '120px' })
+  const touchStart = useRef<{ x: number; y: number } | null>(null)
+
+  useEffect(() => {
+    if (inView) preloadLightbox()
+  }, [inView])
 
   function openFrom(target: EventTarget) {
     const tile = target instanceof Element ? target.closest('[data-tile-id]') : null
@@ -64,6 +73,23 @@ export function Gallery() {
         ref={wallRef}
         className="album-wall mt-5 h-[min(56svh,36rem)] w-full"
         onClick={(event) => openFrom(event.target)}
+        // Safari iOS nuốt lần chạm đầu vì DriftWall đổi giao diện ô (is-active) theo sự kiện con trỏ,
+        // coi đó là hover: khách phải chạm hai lần. Tự nhận cú chạm ở touchend và chặn click giả sau đó
+        // (click giả rơi vào nền lightbox vừa mở sẽ đóng nó lại).
+        onTouchStart={(event: TouchEvent) => {
+          const touch = event.touches[0]
+          touchStart.current = { x: touch.clientX, y: touch.clientY }
+        }}
+        onTouchEnd={(event: TouchEvent) => {
+          const start = touchStart.current
+          const touch = event.changedTouches[0]
+          touchStart.current = null
+          if (!start || Math.hypot(touch.clientX - start.x, touch.clientY - start.y) > TAP_SLOP_PX)
+            return
+          if (!(event.target instanceof Element) || !event.target.closest('[data-tile-id]')) return
+          event.preventDefault()
+          openFrom(event.target)
+        }}
         onKeyDown={(event) => {
           if (event.key !== 'Enter' && event.key !== ' ') return
           event.preventDefault()
@@ -102,6 +128,8 @@ export function Gallery() {
         close={() => setIndex(-1)}
         slides={SLIDES}
         labels={LIGHTBOX_LABELS}
+        // Bấm ra ngoài ảnh (vùng nền tối) là đóng (chủ dự án góp ý 2026-11-23).
+        controller={{ closeOnBackdropClick: true }}
         styles={{
           root: { '--yarl__portal_zindex': 60, '--yarl__color_backdrop': 'rgba(59, 58, 54, 0.92)' },
         }}

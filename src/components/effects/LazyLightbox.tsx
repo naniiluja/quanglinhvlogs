@@ -1,8 +1,8 @@
 import { lazy, Suspense, type ComponentProps } from 'react'
+import { loadLightbox } from '@/components/effects/lightboxLoader'
 import 'yet-another-react-lightbox/styles.css'
 
-// Lightbox chỉ tải khi khách bấm mở ảnh lần đầu.
-const Lightbox = lazy(() => import('yet-another-react-lightbox'))
+const Lightbox = lazy(loadLightbox)
 
 export function LazyLightbox(props: ComponentProps<typeof Lightbox>) {
   if (!props.open) return null
